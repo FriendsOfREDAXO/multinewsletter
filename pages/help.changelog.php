@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.2.7-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.2.6</p>
 	<ul>
 		<li>Bugfix: CronJob Log Erfolgsmeldung wurde mehrfach ins Log geschrieben.</li>
