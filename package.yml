@@ -13,10 +13,11 @@ page:
         groups: { title: 'translate:multinewsletter_menu_groups', icon: rex-icon rex-icon-category }
         archive: { title: 'translate:multinewsletter_menu_archive', icon: rex-icon rex-icon-backup }
         import: { title: 'translate:multinewsletter_menu_import', icon: rex-icon fa-download }
-        settings: { title: 'translate:multinewsletter_menu_config', icon: rex-icon rex-icon-system }
+        settings: { title: 'translate:multinewsletter_menu_config', icon: rex-icon rex-icon-system, itemclass: pull-right }
         help:
             icon: rex-icon rex-icon-help
             title: 'translate:multinewsletter_menu_help'
+            itemclass: pull-right
             subpages:
                 import: { title: 'translate:multinewsletter_help_chapter_import' }
                 versand: { title: 'translate:multinewsletter_help_chapter_versand' }

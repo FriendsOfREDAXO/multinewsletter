@@ -3,7 +3,7 @@
 
 	<p>3.2.7-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>Backend: Einstellungen, Setup und Hilfe Tabs rechts eingeordnet um sie vom Inhalt besser zu unterscheiden.</li>
 	</ul>
 	<p>3.2.6</p>
 	<ul>
