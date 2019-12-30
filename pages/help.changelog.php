@@ -3,6 +3,7 @@
 
 	<p>3.2.7-DEV</p>
 	<ul>
+		<li>Backend: Einstellungen enthalten jetzt eine Option die es ermöglich einzustellen wie der Artikel ausgelesen werden soll, ob Redaxo intern (ohne Output Filter Addons) oder per Socket (mit allen Addons). Dabei ist Redaxo Intern aus Gründen der Rückwärtskompatibilität Standard.</li>
 		<li>Backend: Einstellungen, Setup und Hilfe Tabs rechts eingeordnet um sie vom Inhalt besser zu unterscheiden.</li>
 	</ul>
 	<p>3.2.6</p>
