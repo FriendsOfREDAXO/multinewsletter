@@ -112,8 +112,8 @@ class MultinewsletterUser {
 			$this->id = $result->getValue("id");
 			$this->email = $result->getValue("email");
 			$this->grad = $result->getValue("grad");
-			$this->firstname = $result->getValue("firstname");
-			$this->lastname = $result->getValue("lastname");
+			$this->firstname = stripslashes($result->getValue("firstname"));
+			$this->lastname = stripslashes($result->getValue("lastname"));
 			$this->title = $result->getValue("title") == "" ? 0 : $result->getValue("title");
 			$this->clang_id = $result->getValue("clang_id");
 			$this->status = $result->getValue("status");
@@ -281,8 +281,8 @@ class MultinewsletterUser {
 					."id = ". $this->id .", "
 					."email = '". trim($this->email) ."', "
 					."grad = '". $this->grad ."', "
-					."firstname = '". $this->firstname ."', "
-					."lastname = '". $this->lastname ."', "
+					."firstname = '". addslashes($this->firstname) ."', "
+					."lastname = '". addslashes($this->lastname) ."', "
 					."title = ". ($this->title == "" ? 0 : $this->title) .", "
 					."clang_id = ". $this->clang_id .", "
 					."status = ". $this->status .", "
