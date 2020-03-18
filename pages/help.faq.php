@@ -34,6 +34,14 @@
 		Redaxo Systemeinstellungen</a> muss im Feld "URL der Webseite" die URL inklusive
 		http:// (oder https://) und am Ende / eingegeben werden.</p>
 	<br>
+	<p><strong>Frage: Wenn ich in der Aktivierungsmail auf den Aktivierungslink klicke
+		bekomme ich die Meldung, dass die Aktivierung schon durchgeführt wurde. Warum?</strong></p>
+	<p>Manche E-Mailprovider haben einen proaktiven Schutz von URLs. Kommt eine Mail an,
+		werden alle URLs ausgeführt und nach Schadprogrammen durchsucht. Dabei erfolgt
+		die Aktivierung. Ob dies zutrifft lässt sich daran erkennen, dass in den
+		Daten des Benutzers das Aktivierungsdatum nur wenige Sekunden nach dem
+		Erstellungsdatum liegt.</p>
+	<br>
 	<p><strong>Frage: Warum wird die Aktivierungsmail nicht verschickt, die anderen
 			Mails aber schon?</strong></p>
 	<p>Wenn die <a href="<?php print rex_url::backendPage('multinewsletter/config'); ?>">
