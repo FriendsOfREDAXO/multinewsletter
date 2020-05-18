@@ -360,9 +360,6 @@ class MultinewsletterNewsletter {
             $mail = new rex_mailer();
             $mail->IsHTML(TRUE);
             $mail->CharSet  = "utf-8";
-            $mail->From = "info@inotec-gmbh.de";
-            $mail->FromName = trim($this->sender_name);
-            $mail->Sender = trim($this->sender_email);
             $mail->From = trim($this->sender_email);
             $mail->FromName = trim($this->sender_name);
             $mail->Sender = trim($this->sender_email);
