@@ -62,6 +62,11 @@ class MultinewsletterNewsletter {
 	var $sender_name = "";
 
 	/**
+	 * @var string Reply to email address
+	 */
+	var $reply_to_email = "";
+
+	/**
 	 * @var string Setup date (format: Y-m-d H:i:s)
 	 */
 	var $setupdate = "";
@@ -104,6 +109,7 @@ class MultinewsletterNewsletter {
 			$this->group_ids = preg_grep('/^\s*$/s', explode("|", $result->getValue("group_ids")), PREG_GREP_INVERT);
 			$this->sender_email = $result->getValue("sender_email");
 			$this->sender_name = $result->getValue("sender_name");
+			$this->reply_to_email = $result->getValue("reply_to_email");
 			$this->setupdate = $result->getValue("setupdate");
 			$this->sentdate = $result->getValue("sentdate");
 			$this->sentby = $result->getValue("sentby");
@@ -328,6 +334,7 @@ class MultinewsletterNewsletter {
 					."group_ids = '|". implode("|", $this->group_ids) ."|', "
 					."sender_email = '". trim($this->sender_email) ."', "
 					."sender_name = '". trim($this->sender_name) ."', "
+					."reply_to_email = '". trim($this->reply_to_email) ."', "
 					."setupdate = '". ($this->setupdate == "" ? date('Y-m-d H:i:s') : $this->setupdate) ."', "
 					."sentdate = '". $this->sentdate ."', "
 					."sentby = '". $this->sentby ."' ";
@@ -363,6 +370,9 @@ class MultinewsletterNewsletter {
             $mail->From = trim($this->sender_email);
             $mail->FromName = trim($this->sender_name);
             $mail->Sender = trim($this->sender_email);
+			if($this->reply_to_email != "") {
+				$mail->addReplyTo(trim($this->reply_to_email));
+			}
             $mail->AddAddress(trim($multinewsletter_user->email), $multinewsletter_user->getName());
 
             if ($addon_multinewsletter->getConfig('use_smtp')) {

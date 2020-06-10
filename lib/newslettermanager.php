@@ -311,6 +311,11 @@ class MultinewsletterNewsletterManager {
 					$sender_email_name = $_SESSION['multinewsletter']['newsletter']['sender_name'][$clang_id];
 				}
                 $newsletter->sender_name = $sender_email_name;
+				$reply_to_email = rex_config::get('multinewsletter', 'reply_to');
+				if(session_status() !== PHP_SESSION_NONE && isset($_SESSION['multinewsletter']) && isset($_SESSION['multinewsletter']['newsletter']) && isset($_SESSION['multinewsletter']['newsletter']['reply_to_email'])) {
+					$reply_to_email = $_SESSION['multinewsletter']['newsletter']['reply_to_email'];
+				}
+                $newsletter->reply_to_email = $reply_to_email;
 				$newsletter->sentby = rex::getUser() instanceof rex_user ? rex::getUser()->getLogin() : "MultiNewsletter CronJob API Call";
                 $newsletter->save();
 

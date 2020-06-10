@@ -14,6 +14,10 @@ if ($func == 'edit' || $func == 'add') {
 	$field = $form->addTextField('default_sender_email');
 	$field->setLabel(rex_i18n::msg('multinewsletter_group_default_sender_email'));
 
+	// Reply to email address
+	$field = $form->addTextField('reply_to_email');
+	$field->setLabel(rex_i18n::msg('multinewsletter_group_reply_email'));
+
 	// Gruppenname
 	$field = $form->addTextField('default_sender_name');
 	$field->setLabel(rex_i18n::msg('multinewsletter_group_default_sender_name'));

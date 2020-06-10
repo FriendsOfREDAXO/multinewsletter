@@ -118,6 +118,14 @@ foreach(rex_clang::getAll() as $rex_clang) {
 	}
 }
 
+// Reply-to E-Mail
+if(filter_input(INPUT_POST, 'reply_to_email') != "") {
+	$_SESSION['multinewsletter']['newsletter']['reply_to_email'] = filter_input(INPUT_POST, 'reply_to_email', FILTER_VALIDATE_EMAIL);
+}
+else if(!isset($_SESSION['multinewsletter']['newsletter']['reply_to_email'])) {
+	$_SESSION['multinewsletter']['newsletter']['reply_to_email'] = $this->getConfig('reply_to');
+}
+
 // Testmail Empfäger E-Mail
 if(filter_input(INPUT_POST, 'testemail') != "") {
 	$_SESSION['multinewsletter']['newsletter']['testemail'] = filter_input(INPUT_POST, 'testemail', FILTER_VALIDATE_EMAIL);
@@ -237,6 +245,7 @@ if(filter_input(INPUT_POST, 'sendtestmail') != "") {
 
 		$testnewsletter->sender_email = $_SESSION['multinewsletter']['newsletter']['sender_email'];
 		$testnewsletter->sender_name = $_SESSION['multinewsletter']['newsletter']['sender_name'][$_SESSION['multinewsletter']['newsletter']['testlanguage']];
+		$testnewsletter->reply_to_email = $_SESSION['multinewsletter']['newsletter']['reply_to_email'];
 		$sendresult = $testnewsletter->sendTestmail($testuser, $_SESSION['multinewsletter']['newsletter']['article_id']);
 
 		if(!$sendresult) {
@@ -356,6 +365,7 @@ if(class_exists("rex_mailer")) {
 									'id' => '0',
 									'name' => rex_i18n::msg('multinewsletter_newsletter_aus_einstellungen'),
 									'default_sender_email' => $this->getConfig('sender'),
+									'reply_to_email' => $this->getConfig('reply_to'),
 									'default_article_id' => $this->getConfig('default_test_article'),
 									'default_article_name' => $this->getConfig('default_test_article_name'),
 								];
@@ -371,6 +381,7 @@ if(class_exists("rex_mailer")) {
 										$('#REX_LINK_1').val(groupPresets[group_id]['default_article_id']);
 										$('#REX_LINK_1_NAME').val(groupPresets[group_id]['default_article_name']);
 										$('[name="sender_email"]').val(groupPresets[group_id]['default_sender_email']);
+										$('[name="reply_to_email"]').val(groupPresets[group_id]['reply_to_email']);
 										var index;
 										for (index in langs) {
 											if(group_id === "0") {
@@ -388,6 +399,7 @@ if(class_exists("rex_mailer")) {
 					<?php
 							d2u_addon_backend_helper::form_linkfield('multinewsletter_newsletter_article', 1, $_SESSION['multinewsletter']['newsletter']['article_id'], $_SESSION['multinewsletter']['newsletter']['testlanguage']);
 							d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', 'sender_email', $_SESSION['multinewsletter']['newsletter']['sender_email'], TRUE, FALSE, 'email');
+							d2u_addon_backend_helper::form_input('multinewsletter_config_reply_to', 'reply_to_email', $_SESSION['multinewsletter']['newsletter']['reply_to_email'], FALSE, FALSE, 'email');
 							foreach(rex_clang::getAll() as $rex_clang) {
 								print '<dl class="rex-form-group form-group">';
 								print '<dt><label>'. rex_i18n::msg('multinewsletter_group_default_sender_name') .' '. $rex_clang->getName() .'</label></dt>';

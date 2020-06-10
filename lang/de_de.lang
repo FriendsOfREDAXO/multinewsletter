@@ -23,6 +23,7 @@ multinewsletter_group_default_sender_email = Absender E-Mail
 multinewsletter_group_default_sender_name = Absender 
 multinewsletter_group_default_article_id = Newsletter Artikel
 multinewsletter_group_not_found = Es wurden keine Gruppen gefunden.
+multinewsletter_group_reply_email = Antwort An E-Mail
 
 multinewsletter_newsletter_load_group = Voreinstellungen
 multinewsletter_attachments = Email-Anhänge
@@ -85,7 +86,8 @@ multinewsletter_config_default_test_email = E-Mail
 multinewsletter_config_default_test_article = Newsletter Artikel
 multinewsletter_config_default_test_sprache = Sprache
 multinewsletter_config_title_standards = Generelle Einstellungen
-multinewsletter_config_sender = E-Mailadresse Absender 
+multinewsletter_config_sender = E-Mailadresse Absender
+multinewsletter_config_reply_to = Antwort An Adresse
 multinewsletter_config_link = Artikel Anmeldung
 multinewsletter_config_link_abmeldung = Artikel Abmeldung
 multinewsletter_config_max_mails = Mails pro Versandschritt

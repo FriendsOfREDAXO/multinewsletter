@@ -30,10 +30,18 @@ $sql->setQuery('ALTER TABLE  ' . rex::getTablePrefix() . '375_group ENGINE = INN
 $sql->setQuery('ALTER TABLE  ' . rex::getTablePrefix() . '375_user ENGINE = INNODB;');
 
 
-rex_sql_table::get(rex::getTable('375_group'))->ensureColumn(new \rex_sql_column('mailchimp_list_id', 'varchar(100)', true, null))->alter();
-rex_sql_table::get(rex::getTable('375_user'))->ensureColumn(new \rex_sql_column('mailchimp_id', 'varchar(100)', true, null))->alter();
-rex_sql_table::get(rex::getTable('375_archive'))->ensureColumn(new \rex_sql_column('attachments', 'text', true, null))->alter();
-rex_sql_table::get(rex::getTable('375_archive'))->ensureColumn(new \rex_sql_column('article_id', 'int'))->alter();
+rex_sql_table::get(rex::getTable('375_group'))
+	->ensureColumn(new \rex_sql_column('mailchimp_list_id', 'varchar(100)', true, null))
+	->ensureColumn(new \rex_sql_column('reply_to_email', 'varchar(191)', true, null))
+	->alter();
+rex_sql_table::get(rex::getTable('375_user'))
+	->ensureColumn(new \rex_sql_column('mailchimp_id', 'varchar(100)', true, null))
+	->alter();
+rex_sql_table::get(rex::getTable('375_archive'))
+	->ensureColumn(new \rex_sql_column('attachments', 'text', true, null))
+	->ensureColumn(new \rex_sql_column('article_id', 'int'))
+	->ensureColumn(new \rex_sql_column('reply_to_email', 'varchar(191)', true, null))
+	->alter();
 
 // CHANGE primary keys to `id`
 if (rex_sql_table::get(rex::getTable('375_user'))->hasColumn('user_id')) {

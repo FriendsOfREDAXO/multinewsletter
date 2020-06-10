@@ -27,6 +27,11 @@ class MultinewsletterGroup {
 	var $default_sender_name = "";
 
 	/**
+	 * @var string Reply to email
+	 */
+	var $reply_to_email = "";
+	
+	/**
 	 * @var int Default Redaxo article id
 	 */
 	var $default_article_id = 0;
@@ -65,6 +70,7 @@ class MultinewsletterGroup {
 			$this->name = $result->getValue("name");
 			$this->default_sender_email = $result->getValue("default_sender_email");
 			$this->default_sender_name = $result->getValue("default_sender_name");
+			$this->reply_to_email = $result->getValue("reply_to_email");
 			$this->default_article_id = $result->getValue("default_article_id");
 			$default_article = rex_article::get($this->default_article_id);
 			if($default_article instanceof rex_article) {
