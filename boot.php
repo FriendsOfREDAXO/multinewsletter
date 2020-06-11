@@ -1,5 +1,5 @@
 <?php
-if (!rex::isBackend() && rex_get('replace_vars', 'boolean', true)) {
+if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     // Web frontend
 	rex_extension::register('OUTPUT_FILTER', function (rex_extension_point $ep) {
 		$multinewsletter_user = rex_get('email', 'string') == "" ? new MultinewsletterUser(0) : MultinewsletterUser::initByMail(rex_get('email', 'string'));

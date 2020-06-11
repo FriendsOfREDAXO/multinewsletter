@@ -285,9 +285,9 @@ class MultinewsletterNewsletter {
             $this->article_id = $article_id;
             $this->clang_id = $clang_id;
 			if(rex_config::get('multinewsletter', 'method', 'redaxo') == 'socket') {
-				$article_url = rtrim(rex::getServer(), "/") . '/' . ltrim(str_replace(array('../', './'), '', rex_getUrl($article_id, $clang_id, ['replace_vars' => 0])),"/");
+				$article_url = rtrim(rex::getServer(), "/") . '/' . ltrim(str_replace(array('../', './'), '', rex_getUrl($article_id, $clang_id, ['replace_vars' => 1])),"/");
 				if(rex_addon::get("yrewrite") && rex_addon::get("yrewrite")->isAvailable()) {
-					$article_url = rex_yrewrite::getFullUrlByArticleId($article_id, $clang_id, ['replace_vars' => 0]);
+					$article_url = rex_yrewrite::getFullUrlByArticleId($article_id, $clang_id, ['replace_vars' => 1]);
 				}
 				try {
 					$article_socket_response = rex_socket::factoryURL($article_url)->doGet();

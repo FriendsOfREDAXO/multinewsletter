@@ -8,6 +8,7 @@
 		<li>Bugfix: Namen können nun auch ein einzelnes Anfürhungszeichen haben.</li>
 		<li>Backend: Einstellungen enthalten jetzt eine Option die es ermöglich einzustellen wie der Artikel ausgelesen werden soll, ob Redaxo intern (ohne Output Filter Addons) oder per Socket (mit allen Addons). Dabei ist Redaxo Intern aus Gründen der Rückwärtskompatibilität Standard.</li>
 		<li>Backend: Einstellungen, Setup und Hilfe Tabs rechts eingeordnet um sie vom Inhalt besser zu unterscheiden.</li>
+		<li>Frontend: Output Filter ist nur aktiviert wenn Parameter replace_vars=1 in der URL enthalten ist.</li>
 	</ul>
 	<p>3.2.6</p>
 	<ul>
