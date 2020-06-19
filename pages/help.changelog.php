@@ -5,7 +5,8 @@
 	<ul>
 		<li>Möglichkeit in einer Gruppe eine Antwort An Adresse hinzuzufügen.</li>
 		<li>Benötigt Redaxo >= 5.10, da die neue Klasse rex_version verwendet wird.</li>
-		<li>Bugfix: Namen können nun auch ein einzelnes Anfürhungszeichen haben.</li>
+		<li>Bugfix: Behebt Fehler wenn YRewrite verwendet wird und kein Startartikel in Redaxo angegeben ist.</li>
+		<li>Bugfix: Namen können nun auch ein einzelnes Anführungszeichen haben.</li>
 		<li>Backend: Einstellungen enthalten jetzt eine Option die es ermöglich einzustellen wie der Artikel ausgelesen werden soll, ob Redaxo intern (ohne Output Filter Addons) oder per Socket (mit allen Addons). Dabei ist Redaxo Intern aus Gründen der Rückwärtskompatibilität Standard.</li>
 		<li>Backend: Einstellungen, Setup und Hilfe Tabs rechts eingeordnet um sie vom Inhalt besser zu unterscheiden.</li>
 		<li>Frontend: Output Filter ist nur aktiviert wenn Parameter replace_vars=1 in der URL enthalten ist.</li>

@@ -188,10 +188,12 @@ class MultinewsletterNewsletter {
     /**
      * Corrects URLs in content string
      * @param string $content Content
+	 * @param int $article_id Redaxo article id
+	 * @param int $clang_id Redaxo language id
      * @return string String with corrected URLs
      */
-    public static function replaceURLs($content) {
-		$current_domain = \rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer();
+    public static function replaceURLs($content, $article_id = 0, $clang_id = 0) {
+		$current_domain = $article_id > 0 && \rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getDomainByArticleId($article_id, $clang_id)->getUrl() : (\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer());
 		$content = str_replace('href="/', 'href="'. $current_domain, $content);
 		$content = str_replace('href="./', 'href="'. $current_domain, $content);
 		$content = str_replace('href="../', 'href="'. $current_domain, $content);
@@ -401,7 +403,7 @@ class MultinewsletterNewsletter {
 
             $mail->Subject = self::personalize($this->subject, $multinewsletter_user, $article);
 			$body = self::personalize($this->htmlbody, $multinewsletter_user, $article);
-            $mail->Body = self::replaceURLs($body);
+            $mail->Body = self::replaceURLs($body, ($article ? $article->getId() : 0), ($article ? $article->getClangId() : \rex_clang::getCurrentId()));
             $success = $mail->send();
 			if(!$success) {
 				print rex_view::error(rex_i18n::msg('multinewsletter_archive_recipients_failure') .": ". $multinewsletter_user->email ." - ". $mail->ErrorInfo);
