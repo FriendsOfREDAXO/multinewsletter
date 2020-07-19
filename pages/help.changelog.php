@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.2.8-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.2.7</p>
 	<ul>
 		<li>Möglichkeit in einer Gruppe eine Antwort An Adresse hinzuzufügen.</li>
