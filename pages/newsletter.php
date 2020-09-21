@@ -188,7 +188,7 @@ $attachments = trim(rex_post('attachments', 'string'));
 if(strlen($attachments)) {
 	$_SESSION['multinewsletter']['newsletter']['attachments'] = $attachments;
 }
-else if(strlen($_SESSION['multinewsletter']['newsletter']['attachments']) == 0 && $_SESSION['multinewsletter']['newsletter']['article_id'] > 0 && rex_article::get($_SESSION['multinewsletter']['newsletter']['article_id'])) {
+else if((!isset($_SESSION['multinewsletter']['newsletter']['attachments']) || strlen($_SESSION['multinewsletter']['newsletter']['attachments']) == 0) && $_SESSION['multinewsletter']['newsletter']['article_id'] > 0 && rex_article::get($_SESSION['multinewsletter']['newsletter']['article_id'])) {
     $_SESSION['multinewsletter']['newsletter']['attachments'] = rex_article::get($_SESSION['multinewsletter']['newsletter']['article_id'])->getValue('art_newsletter_attachments');
 }
 

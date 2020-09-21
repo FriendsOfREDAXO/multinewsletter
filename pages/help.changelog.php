@@ -3,7 +3,7 @@
 
 	<p>3.2.8-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>Notice bezüglich Anhänge entfernt.</li>
 	</ul>
 	<p>3.2.7</p>
 	<ul>
