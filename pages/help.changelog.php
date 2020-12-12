@@ -4,6 +4,7 @@
 	<p>3.2.8-DEV</p>
 	<ul>
 		<li>Notice bezüglich Anhänge entfernt.</li>
+		<li>Modul 80-1, 80-2 und 80-3 mit Eingabefelder im Redaxo Stil.</li>
 	</ul>
 	<p>3.2.7</p>
 	<ul>

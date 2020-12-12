@@ -4,13 +4,13 @@ if(class_exists('D2UModuleManager')) {
 	$d2u_multinewsletter_modules = [];
 	$d2u_multinewsletter_modules[] = new D2UModule("80-1",
 		"MultiNewsletter Anmeldung mit Name und Anrede",
-		5);
+		6);
 	$d2u_multinewsletter_modules[] = new D2UModule("80-2",
 		"MultiNewsletter Abmeldung",
-		6);
+		7);
 	$d2u_multinewsletter_modules[] = new D2UModule("80-3",
 		"MultiNewsletter Anmeldung nur mit Mail",
-		5);
+		6);
 	$d2u_multinewsletter_modules[] = new D2UModule("80-4",
 		"MultiNewsletter YForm Anmeldung",
 		2);
