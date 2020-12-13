@@ -5,6 +5,7 @@
 	<ul>
 		<li>Notice bezüglich Anhänge entfernt.</li>
 		<li>Modul 80-1, 80-2 und 80-3 mit Eingabefelder im Redaxo Stil.</li>
+		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Aktivierungsschlüssel war nicht mit anderen Modulen kompatibel.</li>
 	</ul>
 	<p>3.2.7</p>
 	<ul>

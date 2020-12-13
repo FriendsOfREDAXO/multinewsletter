@@ -61,7 +61,7 @@ print '<div class="col-12 col-sm-'. $cols_sm .' col-md-'. $cols_md .' col-lg-'. 
 
 $addon = rex_addon::get('multinewsletter');
 
-if(strlen(filter_input(INPUT_GET, 'activationkey')) === 32 && filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL) != "") {
+if(strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL) != "") {
 	// Handle activation key
 	$user = MultinewsletterUser::initByMail(filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
 	if($user->activationkey == filter_input(INPUT_GET, 'activationkey')) {
