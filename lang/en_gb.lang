@@ -160,6 +160,7 @@ multinewsletter_archive_recipients = Recipient
 multinewsletter_archive_recipients_count = Number recipients
 multinewsletter_archive_recipients_failure = Recipients with send failure
 multinewsletter_archive_recipients_failure_count = Number recipients with send failure
+multinewsletter_archive_recipients_failure_resend = Add recipients with send failure to new send list
 multinewsletter_archive_htmlbody = HTML content
 multinewsletter_archive_language = Language
 multinewsletter_archive_output_details = Newsletter details

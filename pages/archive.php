@@ -1,9 +1,46 @@
 <?php
-$func     = rex_request('func', 'string');
+$func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
+$resend_failure = rex_request('resend-failure', 'int', 0);
 
+if ($resend_failure > 0) {
+	$query_archive  = "SELECT recipients_failure FROM " . rex::getTablePrefix() . "375_archive WHERE id = " . $resend_failure;
+    $result_archive = rex_sql::factory();
+    $result_archive->setQuery($query_archive);
+    $recipients_failure = [];
+	if (strpos($result_archive->getValue("recipients_failure"), '|') !== FALSE) {
+		$recipients_failure = preg_grep('/^\s*$/s', explode("|", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
+	}
+	else if (strpos($result_archive->getValue("recipients_failure"), ',') !== FALSE) {
+		$recipients_failure = preg_grep('/^\s*$/s', explode(",", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
+	}
+	else if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
+		$recipients_failure[] = $result_archive->getValue("recipients_failure");
+	}
+	foreach($recipients_failure as $recipient_failure) {
+		$result_resend = rex_sql::factory();
+		if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
+		    $result_resend->setQuery("SELECT id FROM " . rex::getTablePrefix() . "375_user WHERE email = '". $recipient_failure ."';");
+			if($result_resend->getValue("id")) {
+			    $result_resend->setQuery("REPLACE INTO " . rex::getTablePrefix() . "375_sendlist SET archive_id = ". $resend_failure .", user_id = ". $result_resend->getValue("id"));
+			}
+		}
+	}
+
+	// Remove from failure list
+	$result_archive->setQuery("UPDATE " . rex::getTablePrefix() . "375_archive SET recipients_failure = '' WHERE id = " . $resend_failure);
+
+	// Set correct Newsletter article Name
+	$archives = MultinewsletterNewsletterManager::getArchivesToSend(true);
+	$_SESSION['multinewsletter']['newsletter']['article_id'] = 0;
+	$_SESSION['multinewsletter']['newsletter']['article_name'] = $archives[0]->subject;
+
+	// Forward to send page
+	header("Location: ". rex_url::backendPage('multinewsletter/newsletter'));
+	exit;
+}
 // Eingabeformular
-if ($func == 'edit') {
+else if ($func == 'edit') {
     $form = rex_form::factory(rex::getTablePrefix() . '375_archive', rex_i18n::msg('multinewsletter_menu_archive'), "id = " . $entry_id, "post", false);
 
     $query_archive  = "SELECT * FROM " . rex::getTablePrefix() . "375_archive WHERE id = " . $entry_id;
@@ -52,10 +89,10 @@ if ($func == 'edit') {
 	if (strpos($result_archive->getValue("recipients_failure"), '|') !== FALSE) {
 		$recipients_failure = preg_grep('/^\s*$/s', explode("|", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
 	}
-	else if (strpos($result_archive->getValue("recipients"), ',') !== FALSE) {
+	else if (strpos($result_archive->getValue("recipients_failure"), ',') !== FALSE) {
 		$recipients_failure = preg_grep('/^\s*$/s', explode(",", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
 	}
-	else {
+	else if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
 		$recipients_failure[] = $result_archive->getValue("recipients_failure");
 	}
     $recipients_failure_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; background-color: white; padding:8px;"><table width="100%"><tr>';
@@ -69,8 +106,10 @@ if ($func == 'edit') {
 	if(count($recipients) > 0 && strpos($recipients_failure[0], 'Addresses deleted') === FALSE) {
 		$form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure_count'), count($recipients_failure)));
 	}
+
 	if(count($recipients_failure) > 0) {
 		$form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure'), $recipients_failure_html));
+	    $form->addRawField(raw_field('', '<a href="'. rex_url::currentBackendPage(['resend-failure' => $entry_id]) .'">'. rex_i18n::msg('multinewsletter_archive_recipients_failure_resend') .'</a>'));
 	}
 
 	// E-Mailadresse Absender

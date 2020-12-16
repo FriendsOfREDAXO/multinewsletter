@@ -4,6 +4,7 @@
 	<p>3.2.8-DEV</p>
 	<ul>
 		<li>Notice bezüglich Anhänge entfernt.</li>
+		<li>Der Versand für fehlgeschlagene Empfänger kann aus dem Archiv heraus wiederholt werden.</li>
 		<li>Modul 80-1, 80-2 und 80-3 mit Eingabefelder im Redaxo Stil.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Aktivierungsschlüssel war nicht mit anderen Modulen kompatibel.</li>
 	</ul>

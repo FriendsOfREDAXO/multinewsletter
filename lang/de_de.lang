@@ -160,6 +160,7 @@ multinewsletter_archive_recipients = Empfänger
 multinewsletter_archive_recipients_count = Anzahl Empfänger
 multinewsletter_archive_recipients_failure = Empfänger mit Versandfehler
 multinewsletter_archive_recipients_failure_count = Anzahl Empfänger mit Versandfehler
+multinewsletter_archive_recipients_failure_resend = Empfänger mit Versandfehler nochmals zur Versandliste hinzufügen
 multinewsletter_archive_htmlbody = HTML-Inhalt
 multinewsletter_archive_language = Sprache
 multinewsletter_archive_output_details = Newsletter-Details
