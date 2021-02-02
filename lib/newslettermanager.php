@@ -97,7 +97,7 @@ class MultinewsletterNewsletterManager {
 
 		$cronjob_sender = multinewsletter_cronjob_sender::factory();
 		if($cronjob_sender->isInstalled() && count($newsletterManager->archives) > 0) {
-			// Activate CronJob
+			// Activate Cronjob
 			$cronjob_sender->activate();
 			return TRUE;
 		}
@@ -110,7 +110,7 @@ class MultinewsletterNewsletterManager {
 					$subject = 'Versand Newsletter abgeschlossen';
 					$body = 'Der Versand das folgenden Newsletters wurde abgeschlossen:<br>'
 						. $archive->subject ."<br><br>"
-						. "Der Versand per ConJob war nicht möglich und wurde daher ohne Berücksichtigung möglicher Serverlimits auf ein mal durchgeführt. Bitte installieren Sie das CronJob Addon und aktivieren Sie außerdem den MutliNewsletter Sender Cronjob über die Einstellungen des MultiNewsletters.<br><br>"
+						. "Der Versand per Cronjob war nicht möglich und wurde daher ohne Berücksichtigung möglicher Serverlimits auf ein mal durchgeführt. Bitte installieren Sie das Cronjob Addon und aktivieren Sie außerdem den MutliNewsletter Sender Cronjob über die Einstellungen des MultiNewsletters.<br><br>"
 						. "Fehler gab es beim Versand an folgende Nutzer:<br>"
 						. implode(", ", $archive->recipients_failure);
 					$newsletterManager->sendAdminNotification($subject, $body);
@@ -125,7 +125,7 @@ class MultinewsletterNewsletterManager {
      * Sends next step of newletters in send list.
      */
 	public static function cronSend() {
-		// Calculate maximum mails per CronJob step (every 5 minutes)
+		// Calculate maximum mails per Cronjob step (every 5 minutes)
 		$numberMails = round(rex_config::get('multinewsletter', 'max_mails') * rex_config::get('multinewsletter', 'versandschritte_nacheinander') * 3600 / rex_config::get('multinewsletter', 'sekunden_pause') / 12);
 		$newsletterManager = new MultinewsletterNewsletterManager($numberMails, TRUE);
 		$newsletterManager->send($numberMails);
@@ -141,14 +141,14 @@ class MultinewsletterNewsletterManager {
 					$body .= "<br><br>Fehler gab es beim Versand an folgende Nutzer:<br>- "
 						. implode('<br>- ', $archive->recipients_failure);
 				}
-				$body .= "<br><br>Details finden Sie in den Archiven des MultiNewsletters und im CronJob Log.";
+				$body .= "<br><br>Details finden Sie in den Archiven des MultiNewsletters und im Cronjob Log.";
 				$newsletterManager->sendAdminNotification($subject, $body);
 				// Unset archive
 				unset($newsletterManager->archives[$archive->id]);
 			}
 		}
 
-		// Deactivate CronJob
+		// Deactivate Cronjob
 		if(count($newsletterManager->archives) == 0) {
 			multinewsletter_cronjob_sender::factory()->deactivate();
 		}
@@ -316,7 +316,7 @@ class MultinewsletterNewsletterManager {
 					$reply_to_email = $_SESSION['multinewsletter']['newsletter']['reply_to_email'];
 				}
                 $newsletter->reply_to_email = $reply_to_email;
-				$newsletter->sentby = rex::getUser() instanceof rex_user ? rex::getUser()->getLogin() : "MultiNewsletter CronJob API Call";
+				$newsletter->sentby = rex::getUser() instanceof rex_user ? rex::getUser()->getLogin() : "MultiNewsletter Cronjob API Call";
                 $newsletter->save();
 
                 $this->archives[$newsletter->id] = $newsletter;
