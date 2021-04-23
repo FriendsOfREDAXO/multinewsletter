@@ -12,7 +12,7 @@
 	</ul>
 	<p>3.2.0:</p>
 	<ul>
-		<li>Bitte Admin E-Mailadresse in den Einstellungen hinterlegen.</li>
+		<li>Bitte Admin E-Mail-Adresse in den Einstellungen hinterlegen.</li>
 	</ul>
 	<p>3.0.0:</p>
 	<ul>

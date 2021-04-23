@@ -35,7 +35,7 @@
 	<p>3.2.4</p>
 	<ul>
 		<li>Bugfix Versand: Fatal Error behoben wenn keine Empfänger ausgewählt waren.</li>
-		<li>Bugfix Import: war ein Leerzeichen beim Import vor oder nach einer E-Mailadresse eingefügt, wurde bei einem doppelten Eintrag ein fatal error angezeigt.</li>
+		<li>Bugfix Import: war ein Leerzeichen beim Import vor oder nach einer E-Mail-Adresse eingefügt, wurde bei einem doppelten Eintrag ein fatal error angezeigt.</li>
 		<li>Verbesserte Übersetzungen ausstehender Newsletter.</li>
 		<li>YRewrite Multidomain support.</li>
 		<li>Datenbanktabellen zu utf8mb4 konvertiert.</li>
@@ -69,7 +69,7 @@
 		<li>Modul 80-2 Abmeldung Parameter zur Abmeldung umbenannt, damit auf einer Seite das An- und Abmeldemodul verwendet werden kann.</li>
 		<li>Newsletter kann über Backend per CronJob versendet werden.</li>
 		<li>Methode zum automatischen Versand per API steht zur Verfügung: <pre>MultinewsletterNewsletterManager::autosend()</pre></li>
-		<li>Administrator E-Mailadresse in den Einstellungen hinzugefügt.</li>
+		<li>Administrator E-Mail-Adresse in den Einstellungen hinzugefügt.</li>
 		<li>Ausstehende Empfänger werden nun in eigener Tabelle gespeichert.</li>
 		<li>Bugfix: Methode getName() in NewsletterGroup lieferte leeren Wert.</li>
 		<li>DSGVO Hinweis im Backend wenn MailChimp genutzt wird.</li>
@@ -89,7 +89,7 @@
 	</ul>
 	<p>3.1.5</p>
 	<ul>
-		<li>Module: emailobfuscator für E-Mailadressen in Formularfelder deaktiviert.</li>
+		<li>Module: emailobfuscator für E-Mail-Adressen in Formularfelder deaktiviert.</li>
 		<li>Module: erneute Anmeldung wenn Datenschutzerklärung noch nicht zugestimmt wurde möglich, wodurch der alte Datensatz aktualisiert wird.</li>
 		<li>Feld Datenschutzerklärung akzeptiert im Frontend Formular hinzugefügt. BITTE in den Einstellungen die Übersetzung aktualisieren und in den Einstellungen des D2U Helper Addons den Link für die Datenschutzerklärung und das Impressum festlegen.</li>
 		<li>Bugfix: automatische Datenübernahme hat nur mit rex_ Tabellen funktioniert.</li>
@@ -99,8 +99,8 @@
 	<ul>
 		<li>Automatische Datenübernahme bei Installation oder Reinstallation wenn Redaxo 4 Tabellen in Datenbank vorhanden sind.</li>
 		<li>Bugfix: Anhängeprüfung konnte nach Neuinstallation des Addons zu fatal error führen.</li>
-		<li>Bugfix: Abmeldung bei nicht existierender E-Mailadresse führte zu Fehler.</li>
-		<li>Neues Anmeldemodul für das lediglich die E-Mailadresse abgefragt wird.</li>
+		<li>Bugfix: Abmeldung bei nicht existierender E-Mail-Adresse führte zu Fehler.</li>
+		<li>Neues Anmeldemodul für das lediglich die E-Mail-Adresse abgefragt wird.</li>
 	</ul>
 	<p>3.1.3</p>
 	<ul>
@@ -120,7 +120,7 @@
 		<li>Englisches Backend hinzugefügt.</li>
 		<li>Bugfix: Import war seit Version 3.0.8 kaputt.</li>
 		<li>Bugfix: Update war in Version 3.1.0 kaputt.</li>
-		<li>Bugfix: Aktivierungslink war ohne E-Mailadresse.</li>
+		<li>Bugfix: Aktivierungslink war ohne E-Mail-Adresse.</li>
 		<li>Bugfix: SEO42 aus Beispieltemplate entfernt.</li>
 	</ul>
 	<p>3.1.0: Danke an Alex Platter! Das ist wieder deine Version.</p>
@@ -150,7 +150,7 @@
 	<p>3.0.5:</p>
 	<ul>
 		<li>Anzahl Empfänger im Archiv angezeigt.</li>
-		<li>Sortierung beim Versand nach E-Mailadresse.</li>
+		<li>Sortierung beim Versand nach E-Mail-Adresse.</li>
 	</ul>
 	<p>3.0.4:</p>
 	<ul>
@@ -182,14 +182,14 @@
 	<ul>
 		<li>Alte Platzhalter die mit /// beginnen und enden entfernt.</li>
 		<li>Portierung auf Redaxo 5.</li>
-		<li>Fehler wenn doppelte E-Mailadressen im Import vorhanden sind behoben.</li>
+		<li>Fehler wenn doppelte E-Mail-Adressen im Import vorhanden sind behoben.</li>
 		<li>Suche in Benutzerliste wird in Session gespeichert.</li>
 		<li>Tabellenengine auf InnoDB umgestellt (Redaxo 5 Standard).</li>
 	</ul>
 	<p>2.2.3:</p>
 	<ul>
 		<li>Nutzer mit GruppenID NULL werden in Liste der Benutzer ohne Gruppe angezeigt.</li>
-		<li>E-Mailadressen konnten mit Leerzeichen gespeichert werden und haben so den Versand blockiert.</li>
+		<li>E-Mail-Adressen konnten mit Leerzeichen gespeichert werden und haben so den Versand blockiert.</li>
 		<li>Auf Bootstrap basierendes Beispieltemplate hinzugefügt.</li>
 	</ul>
 	<p>2.2.2:</p>
@@ -200,7 +200,7 @@
 	<p>2.2.1:</p>
 	<ul>
 		<li>Funktion MultiNewsletterUser:initByMail() gibt jetzt bei nicht
-		gefundener E-Mailadresse korrekt false zurück.</li>
+		gefundener E-Mail-Adresse korrekt false zurück.</li>
 		<li>Anmeldung und Abmeldung verbessert.</li>
 		<li>Platzhalter für Links beginnen und enden jetzt mit +++.</li>
 	</ul>
@@ -305,7 +305,7 @@
 	<p>1.1.4 Bugfixing:<br />
 	<ul>
 		<li>&Uuml;bersetzungsfehler bei invalid_email behoben.</li>
-		<li>Meldung wenn E-Mailadresse schon angemeldet ist.</li>
+		<li>Meldung wenn E-Mail-Adresse schon angemeldet ist.</li>
 		<li>Backend PHP Einstellung short_open_tag = Off kompatibel.</li>
 	</ul>
 	<p>1.1.3 Bugfixing:<br />
@@ -314,7 +314,7 @@
 	</ul>
 	<p>1.1.2 Bugfixing:</p>
 	<ul>
-		<li>Erkennt und l&ouml;scht ung&uuml;ltige E-Mailadressen w&auml;hrend dem Newsletterversand.</li>
+		<li>Erkennt und l&ouml;scht ung&uuml;ltige E-Mail-Adressen w&auml;hrend dem Newsletterversand.</li>
 		<li>peichert bei neuen Benutzern auch die Gruppen.</li>
 		<li>Fehler beim Speichern von neuen Benutzern ohne Namen behoben</li>
 		<li>Wenn w&auml;hrend dem Newsletterversand benutzer ge&auml;ndert werden, wird Versand nicht mehr unterbrochen.</li>

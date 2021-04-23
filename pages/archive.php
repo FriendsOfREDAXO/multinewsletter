@@ -112,7 +112,7 @@ else if ($func == 'edit') {
 	    $form->addRawField(raw_field('', '<a href="'. rex_url::currentBackendPage(['resend-failure' => $entry_id]) .'">'. rex_i18n::msg('multinewsletter_archive_recipients_failure_resend') .'</a>'));
 	}
 
-	// E-Mailadresse Absender
+	// E-Mail-Adresse Absender
     $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_group_default_sender_email'), $result_archive->getValue("sender_email")));
 
     // Empfänger Gruppen

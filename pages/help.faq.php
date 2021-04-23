@@ -3,7 +3,7 @@
 
 	<p><strong>Frage: Gibt es Informationen zum Datenschutz?</strong></p>
 	<p>MultiNewsletter erhebt speichert personenbezogene Daten. Diese sind: Name,
-		E-Mailadresse, Geschlecht, IP Adresse. Daher muss eine Zustimmung des
+		E-Mail-Adresse, Geschlecht, IP Adresse. Daher muss eine Zustimmung des
 		Benutzers eingeholt werden. Im Beispielmodul wird das gemacht.</p>
 	<p>Informationen wie die Zustimmung rechtlich wirksam eingeholt werden kann
 		gibt es hier: <a href="https://www.heise.de/-4023584" target="_blank">
@@ -36,7 +36,7 @@
 	<br>
 	<p><strong>Frage: Wenn ich in der Aktivierungsmail auf den Aktivierungslink klicke
 		bekomme ich die Meldung, dass die Aktivierung schon durchgeführt wurde. Warum?</strong></p>
-	<p>Manche E-Mailprovider haben einen proaktiven Schutz von URLs. Kommt eine Mail an,
+	<p>Manche E-Mail-Provider haben einen proaktiven Schutz von URLs. Kommt eine Mail an,
 		werden alle URLs ausgeführt und nach Schadprogrammen durchsucht. Dabei erfolgt
 		die Aktivierung. Ob dies zutrifft lässt sich daran erkennen, dass in den
 		Daten des Benutzers das Aktivierungsdatum nur wenige Sekunden nach dem
@@ -50,7 +50,7 @@
 	<br>
 	<p><strong>Gibt es eine Möglichkeit aus dem PHP Code heraus den Versand anzustoßen?</strong></p>
 	<p>Ja. Hierzu muss das CronJob Addon aktiviert sein und in den Einstellungen
-		eine Admin E-Mail Adresse hinterlegt sein, sowie die Autosend Option
+		eine Admin E-Mail-Adresse hinterlegt sein, sowie die Autosend Option
 		aktiviert werden. Durch folgende Methode kann der Versand gestartet werden:</p>
 	<pre>MultinewsletterNewsletterManager::autosend($group_ids, $article_id, $fallback_clang_id, $recipient_ids = [], $attachments = '')</pre>
 	<p>Hinweise zu den Parametern:</p>

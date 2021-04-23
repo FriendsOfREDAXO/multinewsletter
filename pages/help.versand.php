@@ -9,7 +9,7 @@
 		<li>+++GRAD+++ ist der akademische Grad des Empfängers.</li>
 		<li>+++FIRSTNAME+++ ist der Vorname des Empfängers.</li>
 		<li>+++LASTNAME+++ ist der Nachname des Empfängers.</li>
-		<li>+++EMAIL+++ ist die E-Mailadresse des Empfängers.</li>
+		<li>+++EMAIL+++ ist die E-Mail-Adresse des Empfängers.</li>
 		<li>+++LINK_PRIVACY_POLICY+++ ist der Link zur Datenschutzerklärung. Er wird in den <a href="<?php print rex_url::backendPage('d2u_helper/settings'); ?>">Einstellungen des D2U Helper Addon</a> festgelegt.</li>
 		<li>+++LINK_IMPRESS+++ ist der Link zum Impressum. Er wird in den <a href="<?php print rex_url::backendPage('d2u_helper/settings'); ?>">Einstellungen des D2U Helper Addon</a> festgelegt.</li>
 	</ul>
