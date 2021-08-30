@@ -88,46 +88,47 @@ if(filter_input(INPUT_POST, 'submit') != "") {
 	if($save) {
 		// nur, wenn noch nicht gesendet
 		if(!$_SESSION['newsletteranmeldung_gesendet']) {
-		// Benutzer speichern
-		if($user !== false) {
-			$user->title = filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT);
-			$user->firstname = filter_input(INPUT_POST, 'firstname');
-			$user->lastname = filter_input(INPUT_POST, 'lastname');
-			$user->clang_id = rex_clang::getCurrentId();
-		}
-		else {
-			$user = MultinewsletterUser::factory(
-				filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
-				filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT),
-				filter_input(INPUT_POST, 'grad'),
-				filter_input(INPUT_POST, 'firstname'),
-				filter_input(INPUT_POST, 'lastname'),
-				rex_clang::getCurrentId()
-			);
-		}
-		$user->createdate = date('Y-m-d H:i:s');
-		$user->createip = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
-		$user->group_ids = $form_groups['groups'];
-		$user->status = 0;
-		$user->subscriptiontype = 'web';
-		$user->activationkey = rand(100000, 999999);
-		$user->privacy_policy_accepted = filter_input(INPUT_POST, 'privacy_policy', FILTER_VALIDATE_INT) == 1 ? 1 : 0;
-		$user->save();
+			// Benutzer speichern
+			if($user !== false) {
+				$user->title = filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT);
+				$user->firstname = filter_input(INPUT_POST, 'firstname');
+				$user->lastname = filter_input(INPUT_POST, 'lastname');
+				$user->clang_id = rex_clang::getCurrentId();
+			}
+			else {
+				$user = MultinewsletterUser::factory(
+					filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
+					filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT),
+					filter_input(INPUT_POST, 'grad'),
+					filter_input(INPUT_POST, 'firstname'),
+					filter_input(INPUT_POST, 'lastname'),
+					rex_clang::getCurrentId()
+				);
+			}
+			$user->createdate = date('Y-m-d H:i:s');
+			$user->createip = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
+			$user->group_ids = $form_groups['groups'];
+			$user->status = 0;
+			$user->subscriptiontype = 'web';
+			$user->activationkey = rand(100000, 999999);
+			$user->privacy_policy_accepted = filter_input(INPUT_POST, 'privacy_policy', FILTER_VALIDATE_INT) == 1 ? 1 : 0;
+			$user->save();
 
-		// Aktivierungsmail senden und Hinweis ausgeben
-		$user->sendActivationMail(
-			$addon->getConfig('sender'),
-			$addon->getConfig("lang_". rex_clang::getCurrentId() ."_sendername"),
-			$addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmsubject"),
-			$addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmcontent")
-		);
-		print '<p>'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmation_sent") .'</p>';
-		// reload verhindern
-		$_SESSION['newsletteranmeldung_gesendet']=1;
-		}else{
-		// Aktivierungsmail wurde schon gesendet
-		// ToDo: Meldung in config aufnehmen
-		print '<p>Die Bestätigungsmail wurde bereits gesendet.</p>';	
+			// Aktivierungsmail senden und Hinweis ausgeben
+			$user->sendActivationMail(
+				$addon->getConfig('sender'),
+				$addon->getConfig("lang_". rex_clang::getCurrentId() ."_sendername"),
+				$addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmsubject"),
+				$addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmcontent")
+			);
+			print '<p>'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmation_sent") .'</p>';
+			// reload verhindern
+			$_SESSION['newsletteranmeldung_gesendet']=1;
+		}
+		else{
+			// Aktivierungsmail wurde schon gesendet
+			// ToDo: Meldung in config aufnehmen
+			print '<p>Die Bestätigungsmail wurde bereits gesendet.</p>';	
 		}
 		$showform = false;
 	}
@@ -136,7 +137,7 @@ if(filter_input(INPUT_POST, 'submit') != "") {
 
 if($showform) {
 	//Session zum Senden freigeben
-    	unset($_SESSION['newsletteranmeldung_gesendet']);
+    unset($_SESSION['newsletteranmeldung_gesendet']);
 	if(count($messages) == 0) {
 		print '<p>'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_action") .'</p>';	
 	}

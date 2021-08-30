@@ -6,6 +6,7 @@
 		<li>Notice bezüglich Anhänge entfernt.</li>
 		<li>Der Versand für fehlgeschlagene Empfänger kann aus dem Archiv heraus wiederholt werden.</li>
 		<li>Modul 80-1, 80-2 und 80-3 mit Eingabefelder im Redaxo Stil.</li>
+		<li>Modul 80-1 "MultiNewsletter Anmeldung mit Name und Anrede": Doppleter Versand bei von Anmeldemails bei Seitenreload behoben.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Aktivierungsschlüssel war nicht mit anderen Modulen kompatibel.</li>
 	</ul>
 	<p>3.2.7</p>
