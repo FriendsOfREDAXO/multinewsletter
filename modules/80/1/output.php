@@ -86,6 +86,8 @@ if(filter_input(INPUT_POST, 'submit') != "") {
 	}
 	
 	if($save) {
+		// nur, wenn noch nicht gesendet
+		if(!$_SESSION['newsletteranmeldung_gesendet']) {
 		// Benutzer speichern
 		if($user !== false) {
 			$user->title = filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT);
@@ -120,13 +122,21 @@ if(filter_input(INPUT_POST, 'submit') != "") {
 			$addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmcontent")
 		);
 		print '<p>'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmation_sent") .'</p>';
-		
+		// reload verhindern
+		$_SESSION['newsletteranmeldung_gesendet']=1;
+		}else{
+		// Aktivierungsmail wurde schon gesendet
+		// ToDo: Meldung in config aufnehmen
+		print '<p>Die Bestätigungsmail wurde bereits gesendet.</p>';	
+		}
 		$showform = false;
 	}
 }
 
 
 if($showform) {
+	//Session zum Senden freigeben
+    	unset($_SESSION['newsletteranmeldung_gesendet']);
 	if(count($messages) == 0) {
 		print '<p>'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_action") .'</p>';	
 	}
