@@ -108,7 +108,7 @@ class MultinewsletterNewsletter {
 			$this->recipients_failure = preg_grep('/^\s*$/s', explode(",", $result->getValue("recipients_failure")), PREG_GREP_INVERT);
 			$this->group_ids = preg_grep('/^\s*$/s', explode("|", $result->getValue("group_ids")), PREG_GREP_INVERT);
 			$this->sender_email = $result->getValue("sender_email");
-			$this->sender_name = $result->getValue("sender_name");
+			$this->sender_name = stripslashes($result->getValue("sender_name"));
 			$this->reply_to_email = $result->getValue("reply_to_email");
 			$this->setupdate = $result->getValue("setupdate");
 			$this->sentdate = $result->getValue("sentdate");
@@ -335,7 +335,7 @@ class MultinewsletterNewsletter {
 					."recipients_failure = '". implode(",", $this->recipients_failure) ."', "
 					."group_ids = '|". implode("|", $this->group_ids) ."|', "
 					."sender_email = '". trim($this->sender_email) ."', "
-					."sender_name = '". trim($this->sender_name) ."', "
+					."sender_name = '". addslashes(trim($this->sender_name)) ."', "
 					."reply_to_email = '". trim($this->reply_to_email) ."', "
 					."setupdate = '". ($this->setupdate == "" ? date('Y-m-d H:i:s') : $this->setupdate) ."', "
 					."sentdate = '". $this->sentdate ."', "
