@@ -359,7 +359,7 @@ class MultinewsletterNewsletterManager {
 		$this->recipients = [];
 
         // Archive, die bisher keine Empfänger hatten auch löschen
-        $query_archive  = "DELETE FROM " . rex::getTablePrefix() . "375_archive " . "WHERE sentdate = '' OR sentdate IS NULL";
+        $query_archive  = "DELETE FROM " . rex::getTablePrefix() . "375_archive WHERE sentdate = 0";
         $result_archive = rex_sql::factory();
         $result_archive->setQuery($query_archive);
 		$this->archives = [];
