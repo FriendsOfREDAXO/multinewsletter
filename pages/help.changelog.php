@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.2.9-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.2.8</p>
 	<ul>
 		<li>Notice bezüglich Anhänge entfernt.</li>
