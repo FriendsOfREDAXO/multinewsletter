@@ -140,6 +140,7 @@ multinewsletter_config_lang_subscribe = Anmelden Button
 multinewsletter_config_lang_unsubscribe = Abmelden Button
 multinewsletter_config_lang_nogroup_selected = Kein Newsletter ausgewählt
 multinewsletter_config_submit = Einstellungen speichern
+multinewsletter_config_warning = Einstellungen noch nicht festgelegt. Diese müssen zur Verwendung des Addons zuerst festgelegt werden. Dies betrifft auch die Übersetzungen.
 
 multinewsletter_config_title_mailchimp = Mailchimp Einstellungen
 multinewsletter_expl_config_mailchimp = Es ist möglich die Benutzer mit Mailchimp zu synchronisieren. Dazu muss man zuerst auf Mailchimp die jeweiligen Listen erstellen und anschließend im Addon der Gruppe die entsprechende List zuweisen.<br>DSGVO Hinweis: der Abonnent muss darauf hingewiesen werden, dass seine Daten an Dritte (den Betreiber von Mailchimp) weitergegeben werden.

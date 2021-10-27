@@ -8,6 +8,7 @@
 		<li>Whoops beim Zurücksetzen des Versands unter MySQL 8.</li>
 		<li>Bugfix: Versandeinstellungen für eigenen SMTP Server wurden bei Aktivierungsmail ignoriert.</li>
 		<li>Der Versand für fehlgeschlagene Empfänger kann aus dem Archiv heraus wiederholt werden.</li>
+		<li>Warnmeldung eingebaut, wenn wichtige Eintellungen noch nicht festegelegt sind, die für die Verwendung des Addons Voraussetzung sind.</li>
 		<li>Modul 80-1, 80-2 und 80-3 mit Eingabefelder im Redaxo Stil.</li>
 		<li>Modul 80-1 "MultiNewsletter Anmeldung mit Name und Anrede": Doppleter Versand bei von Anmeldemails bei Seitenreload behoben.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Aktivierungsschlüssel war nicht mit anderen Modulen kompatibel.</li>

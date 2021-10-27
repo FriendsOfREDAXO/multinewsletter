@@ -140,6 +140,7 @@ multinewsletter_config_lang_subscribe = Subscribe button
 multinewsletter_config_lang_unsubscribe = Unsubscribe button
 multinewsletter_config_lang_nogroup_selected = No newsletter selected
 multinewsletter_config_submit = Save settings
+multinewsletter_config_warning = Settings are missing. Settings need to be saved once to use the addon. This includes translation settings.
 
 multinewsletter_config_title_mailchimp = Mailchimp settings
 multinewsletter_expl_config_mailchimp = It is possible to sync users with Mailchimp. To do this, first create the lists in Mailchimp and then assign list in group settings.<br>GDPR hint: the user must be informed, that his data is transferred to a third party (MailChimp).
