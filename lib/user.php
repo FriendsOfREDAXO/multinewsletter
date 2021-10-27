@@ -355,7 +355,19 @@ class MultinewsletterUser {
                 'mail' => $mail,
                 'user' => $this,
             ]));
-            return $mail->Send();
+			
+            $addon_multinewsletter = rex_addon::get("multinewsletter");
+            if ($addon_multinewsletter->getConfig('use_smtp')) {
+                $mail->Mailer = 'smtp';
+                $mail->Host = $addon_multinewsletter->getConfig('smtp_host');
+                $mail->Port = $addon_multinewsletter->getConfig('smtp_port');
+                $mail->SMTPSecure = $addon_multinewsletter->getConfig('smtp_crypt');
+                $mail->SMTPAuth = $addon_multinewsletter->getConfig('smtp_auth');
+                $mail->Username = $addon_multinewsletter->getConfig('smtp_user');
+                $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
+            }
+
+			return $mail->Send();
         }
         else {
             return FALSE;
@@ -388,6 +400,18 @@ class MultinewsletterUser {
                 $mail->Subject = "Abmeldung vom Newsletter";
                 $mail->Body    = "Abmeldung vom Newsletter: " . $this->email;
             }
+
+			$addon_multinewsletter = rex_addon::get("multinewsletter");
+            if ($addon_multinewsletter->getConfig('use_smtp')) {
+                $mail->Mailer = 'smtp';
+                $mail->Host = $addon_multinewsletter->getConfig('smtp_host');
+                $mail->Port = $addon_multinewsletter->getConfig('smtp_port');
+                $mail->SMTPSecure = $addon_multinewsletter->getConfig('smtp_crypt');
+                $mail->SMTPAuth = $addon_multinewsletter->getConfig('smtp_auth');
+                $mail->Username = $addon_multinewsletter->getConfig('smtp_user');
+                $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
+            }
+
             return $mail->Send();
         }
         else {
