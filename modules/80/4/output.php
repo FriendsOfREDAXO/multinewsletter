@@ -119,7 +119,7 @@ else {
 			html||<p>* '. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_compulsory", "") .'<br><br></p>
 			html||<p> '. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_safety", "") .'<br><br></p>
 
-			submit|submit|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_subscribe", "") .'|no_db'. PHP_EOL;
+			submit|submit|'. ($addon->getConfig("lang_". rex_clang::getCurrentId() ."_subscribe", "") ?: 'submit') .'|no_db'. PHP_EOL;
 	if($ask_name) {
 		$form_data .= 'validate|empty|firstname|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_invalid_firstname", "") .'
 			validate|empty|lastname|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_invalid_name", "") . PHP_EOL;
