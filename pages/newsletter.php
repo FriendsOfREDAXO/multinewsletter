@@ -259,7 +259,7 @@ if(filter_input(INPUT_POST, 'sendtestmail') != "") {
 // Adressen vorbereiten
 else if(filter_input(INPUT_POST, 'prepare') != "") {
 	$newsletterManager->reset();
-	if($_SESSION['multinewsletter']['newsletter']['groups'][0] == 0 && count($_SESSION['multinewsletter']['newsletter']['man_recipients']) == 0) {
+	if(count($_SESSION['multinewsletter']['newsletter']['groups']) == 0 && count($_SESSION['multinewsletter']['newsletter']['man_recipients']) == 0) {
 		$messages[] = rex_i18n::msg('multinewsletter_error_nogroupselected');
 	}
 
