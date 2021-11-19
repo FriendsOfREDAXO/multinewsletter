@@ -194,7 +194,7 @@ if ($func == '') {
     $list->setNoRowsMessage(rex_i18n::msg('multinewsletter_group_not_found'));
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('multinewsletter_group'), false);
+    $fragment->setVar('title', rex_i18n::msg('multinewsletter_menu_archive'), false);
     $fragment->setVar('content', $list->get(), false);
     echo $fragment->parse('core/page/section.php');
 }

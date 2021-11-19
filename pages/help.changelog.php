@@ -4,6 +4,7 @@
 	<p>3.2.9-DEV</p>
 	<ul>
 		<li>Notice beim Versand entfernt, wenn versehentlich keine Gruppe ausgewählt wurde.</li>
+		<li>Überschrift Archiv korrigert.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Notice entfernt.</li>
 	</ul>
 	<p>3.2.8</p>
