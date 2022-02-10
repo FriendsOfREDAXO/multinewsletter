@@ -5,7 +5,7 @@ supportpage: https://github.com/TobiasKrais/multinewsletter/issues/
 
 page:
     title: MultiNewsletter
-    perm: multinewsletter[]
+    perm: 'multinewsletter[]'
     icon: rex-icon rex-icon-envelope
     subpages:
         newsletter: { title: 'translate:multinewsletter_menu_versand', icon: rex-icon rex-icon-envelope }

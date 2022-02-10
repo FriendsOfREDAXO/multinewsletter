@@ -3,6 +3,7 @@
 
 	<p>3.2.9-DEV</p>
 	<ul>
+		<li>Anpassungen an Publish Github Release to Redaxo.</li>
 		<li>Notice beim Versand entfernt, wenn versehentlich keine Gruppe ausgewählt wurde.</li>
 		<li>Beschreibung der YForm Option in den Einstellungen verbessert.</li>
 		<li>Überschrift Archiv korrigert.</li>
