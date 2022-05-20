@@ -92,7 +92,7 @@ else if ($func == 'edit') {
 	else if (strpos($result_archive->getValue("recipients_failure"), ',') !== FALSE) {
 		$recipients_failure = preg_grep('/^\s*$/s', explode(",", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
 	}
-	else if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
+	else if(filter_var($recipients_failure, FILTER_VALIDATE_EMAIL)) {
 		$recipients_failure[] = $result_archive->getValue("recipients_failure");
 	}
     $recipients_failure_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; background-color: white; padding:8px;"><table width="100%"><tr>';
@@ -103,7 +103,7 @@ else if ($func == 'edit') {
         }
     }
     $recipients_failure_html .= "</tr></table></div>";
-	if(count($recipients) > 0 && strpos($recipients_failure[0], 'Addresses deleted') === FALSE) {
+	if(count($recipients) > 0 && isset($recipients_failure[0]) && strpos($recipients_failure[0], 'Addresses deleted') === FALSE) {
 		$form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure_count'), count($recipients_failure)));
 	}
 

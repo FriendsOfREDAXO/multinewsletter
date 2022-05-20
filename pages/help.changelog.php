@@ -7,6 +7,7 @@
 		<li>Notice beim Versand entfernt, wenn versehentlich keine Gruppe ausgewählt wurde.</li>
 		<li>Beschreibung der YForm Option in den Einstellungen verbessert.</li>
 		<li>Überschrift Archiv korrigert.</li>
+		<li>2 PHP Notices auf der Archivseite entfernt.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Notice entfernt.</li>
 	</ul>
 	<p>3.2.8</p>
