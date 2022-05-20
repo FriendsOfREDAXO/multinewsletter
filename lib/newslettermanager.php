@@ -103,7 +103,7 @@ class MultinewsletterNewsletterManager {
 		}
 		else {
 			// Send it all right now - or try it at least
-			$sendresult = $newsletterManager->send(count($newsletterManager->recipients));
+			$newsletterManager->send(count($newsletterManager->recipients));
 			// Send final admin notification
 			foreach($newsletterManager->archives as $archive) {
 				if($archive->countRemainingUsers() == 0) {
