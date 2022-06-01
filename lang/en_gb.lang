@@ -68,14 +68,14 @@ multinewsletter_newsletter_stop_reload = Interrupt automatic reload - send proce
 multinewsletter_newsletter_send = Send newsletter manually
 multinewsletter_newsletter_send_cron = Send newsletter automatically in background
 multinewsletter_newsletter_send_cron_active = Started sending newsletter automatically. After sending, you will receive a message to the admin email address stored in settings. You can now prepare a next newsletter for autosend.
-multinewsletter_newsletter_send_cron_not_available = Automatic newsletter send option not available. Please install CronJob addon. Activate autosend option in settings and enter your admin email address also.
+multinewsletter_newsletter_send_cron_not_available = Automatic newsletter send option not available. Please install Cronjob addon. Activate autosend option in settings and enter your admin email address also.
 multinewsletter_newsletter_send_cron_warning = Currently, a newsletter is send in background. Please do not start sending a next newsletter manually, because server limits might be exceeded. Starting an other automatic newsletter is OK.
 multinewsletter_newsletter_key = Activation code
 
 multinewsletter_config_admin_email = Email address administrator
 multinewsletter_config_autocleanup = Activate auto cleanup option and install cronjob. It will delete not activated users after 4 weeks and substitute recipient addresses in archives.
 multinewsletter_config_autosend = Activate autosend option and install autosend cronjob
-multinewsletter_config_install_cronjob = To be able to activate autosend or auto cleanup option, please install CronJob addon.
+multinewsletter_config_install_cronjob = To be able to activate autosend or auto cleanup option, please install Cronjob addon.
 multinewsletter_config_install_yform3_required = This module requires YForm 3 or above.
 multinewsletter_config_title_serverlimits = Sending server limits
 multinewsletter_config_title_testmails = Test presets
