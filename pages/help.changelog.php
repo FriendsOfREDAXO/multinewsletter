@@ -1,7 +1,7 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.2.9-DEV</p>
+	<p>3.2.9</p>
 	<ul>
 		<li>Anpassungen an Publish Github Release to Redaxo.</li>
 		<li>Notice beim Versand entfernt, wenn versehentlich keine Gruppe ausgewählt wurde.</li>
