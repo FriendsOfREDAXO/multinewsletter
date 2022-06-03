@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.3.0-DEV</p>
+	<ul>
+		<li>.github Verzeichnis aus Installer Action ausgeschlossen.</li>
+	</ul>
 	<p>3.2.9</p>
 	<ul>
 		<li>Anpassungen an Publish Github Release to Redaxo.</li>
