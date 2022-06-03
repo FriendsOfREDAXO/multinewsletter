@@ -4,3 +4,6 @@
 input[type="radio"] {
 	width: 1em;
 }
+#yform-formular-createdate {
+	display: none;
+}

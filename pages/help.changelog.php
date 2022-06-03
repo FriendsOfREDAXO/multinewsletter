@@ -9,6 +9,7 @@
 		<li>Überschrift Archiv korrigert.</li>
 		<li>2 PHP Notices auf der Archivseite entfernt.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Notice entfernt.</li>
+		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Erstellungsdatum per CSS ausgeblendet (<a href="https://github.com/yakamara/redaxo_yform/issues/1158" target="_blank">YForm Issue</a>).</li>
 	</ul>
 	<p>3.2.8</p>
 	<ul>
