@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter FAQ</legend>
 
+	<p><strong>Frage: Ich habe einen Newsletter auf Autosend gestartet. Wie kann
+		ich den Versand stoppen?</strong></p>
+	<p>Einfach das zugehörige Archiv löschen.</p>
+	<br>
 	<p><strong>Frage: Gibt es Informationen zum Datenschutz?</strong></p>
 	<p>MultiNewsletter erhebt speichert personenbezogene Daten. Diese sind: Name,
 		E-Mail-Adresse, Geschlecht, IP Adresse. Daher muss eine Zustimmung des

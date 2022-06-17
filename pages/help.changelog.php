@@ -4,6 +4,7 @@
 	<p>3.3.0-DEV</p>
 	<ul>
 		<li>.github Verzeichnis aus Installer Action ausgeschlossen.</li>
+		<li>FAQ zur Frage erweitert wie ein Autosend Archiv gestoppt werden kann.</li>
 	</ul>
 	<p>3.2.9</p>
 	<ul>
