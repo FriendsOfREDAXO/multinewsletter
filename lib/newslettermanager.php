@@ -42,6 +42,7 @@ class MultinewsletterNewsletterManager {
 		$this->autosend_only = $autosend_only;
         $this->initArchivesToSend();
         $this->initRecipients($numberMails);
+        $this->cleanupSendlistOrphans();
     }
 
 	/**
@@ -121,7 +122,20 @@ class MultinewsletterNewsletterManager {
 		}
 	}
 	
-    /**
+     /**
+     * Deletes all receipientes from sendlist that where deleted after sendlist was set up
+     */
+    private function cleanupSendlistOrphans() {
+        $query = "DELETE FROM ". rex::getTablePrefix() ."375_sendlist WHERE user_id IN "
+			."(SELECT sendlist.user_id "
+				."FROM ". rex::getTablePrefix() ."375_sendlist AS sendlist "
+				."LEFT JOIN ". rex::getTablePrefix() ."375_user AS users ON sendlist.user_id = users.id "
+				."WHERE users.id IS NULL);";
+		$result = rex_sql::factory();
+        $result->setQuery($query);
+    }
+
+	/**
      * Sends next step of newletters in send list.
      */
 	public static function cronSend() {
@@ -374,8 +388,8 @@ class MultinewsletterNewsletterManager {
 	 * failed email addresses.
      */
     public function send($numberMails) {
-        if ($numberMails > $this->countRemainingUsers()) {
-            $numberMails = $this->countRemainingUsers();
+        if ($numberMails > count($this->recipients)) {
+            $numberMails = count($this->recipients);
         }
 
 	    $result = rex_sql::factory();

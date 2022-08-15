@@ -4,6 +4,7 @@
 	<p>3.3.0-DEV</p>
 	<ul>
 		<li>.github Verzeichnis aus Installer Action ausgeschlossen.</li>
+		<li>Bugfix: wenn ein Empfänger während dem Versandvergang amgemeldet hat, konnte der Newsletter nie zuende verschickt werden.</li>
 		<li>FAQ zur Frage erweitert wie ein Autosend Archiv gestoppt werden kann.</li>
 	</ul>
 	<p>3.2.9</p>
