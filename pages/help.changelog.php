@@ -8,7 +8,7 @@
 		<li>Bugfix: Es war nicht möglich mehrere Newsletter parallel per Cronjob zu versenden, da der vorherige Newsletter gelöscht wurde.</li>
 		<li>Installationsdateien auf Redaxo Standard umgestellt</li>
 		<li>Import Tabellen aus Redaxo 4 entfernt.</li>
-		<li>FAQ zur Frage erweitert wie ein Autosend Archiv gestoppt werden kann.</li>
+		<li>Autosend Archiv Übersicht mit Möglichkeit zum Abbrechen auf der Newsletterseite programmiert.</li>
 	</ul>
 	<p>3.2.9</p>
 	<ul>
