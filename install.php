@@ -62,6 +62,23 @@ if (rex_sql_table::get(rex::getTable('375_archive'))->hasColumn('archive_id')) {
 }
 else {
 	// Create
+\rex_sql_table::get(\rex::getTable('375_archive'))
+	->ensureColumn(new rex_sql_column('id', 'INT(11) unsigned', false, null, 'auto_increment'))
+	->setPrimaryKey('id')
+	->ensureColumn(new \rex_sql_column('article_id', 'INT(11)', true))
+    ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', true))
+    ->ensureColumn(new \rex_sql_column('subject', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('htmlbody', 'LONGTEXT', true))
+    ->ensureColumn(new \rex_sql_column('attachments', 'TEXT', true))
+    ->ensureColumn(new \rex_sql_column('recipients', 'LONGTEXT', true))
+    ->ensureColumn(new \rex_sql_column('recipients_failure', 'LONGTEXT', true))
+    ->ensureColumn(new \rex_sql_column('group_ids', 'TEXT', true))
+    ->ensureColumn(new \rex_sql_column('sender_email', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('sender_name', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('reply_to_email', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true))
+    ->ensureColumn(new \rex_sql_column('updatedate', 'DATETIME'))
+    ->ensure();
 	$sql->setQuery('CREATE TABLE IF NOT EXISTS `' . rex::getTablePrefix() . '375_archive` (
 		`id` int(11) unsigned NOT NULL auto_increment,
 		`article_id` int(11) NOT NULL,
@@ -89,8 +106,6 @@ else {
 		`reply_to_email` varchar(191) NOT NULL,
 		`default_article_id` int(11) unsigned NOT NULL,
 		`mailchimp_list_id` varchar(100) NULL,
-		`createdate` DATETIME NULL DEFAULT NULL,
-		`updatedate` DATETIME NULL DEFAULT NULL,
 	PRIMARY KEY(`id`),
 	UNIQUE KEY `name` (`name`)
 	) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;');

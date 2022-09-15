@@ -67,6 +67,7 @@ multinewsletter_newsletter_reloadin = Reload der Seite und damit nächster Versa
 multinewsletter_newsletter_stop_reload = Automatischen Reload unterbrechen - der Versand kann manuell wieder gestartet werden.
 multinewsletter_newsletter_send = Newsletter manuell versenden
 multinewsletter_newsletter_send_cron = Newsletter automatisch im Hintergrund versenden
+multinewsletter_newsletter_send_cron_abort = Versand abbrechen
 multinewsletter_newsletter_send_cron_active = Automatischer Newsletterversand aktiviert. Nach dem Versand erhalten Sie eine Nachricht an die in den Einstellungen hinterlegte Admin E-Mailadresse. Sie können nun einen weiteren Newsletter für den automatischen Versand vorbereiten.
 multinewsletter_newsletter_send_cron_not_available = Automatischer Newsletter Versand nicht verfügbar. Bitte installieren Sie falls gewünscht das Cronjob Addon. Aktivieren Sie außerdem die Autosend Option in den Einstellungen und tragen Sie auch die Admin Mailadresse ein.
 multinewsletter_newsletter_send_cron_warning = Im Moment läuft der Versand eines Newsletters im Hintergrund. Bitte starten Sie keinen manuellen Versand, um die Serverlimits einzuhalten. Ein weiterer automatischer Versand kann hinzugefügt werden.

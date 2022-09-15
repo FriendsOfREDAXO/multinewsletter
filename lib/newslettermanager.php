@@ -126,13 +126,18 @@ class MultinewsletterNewsletterManager {
      * Deletes all receipientes from sendlist that where deleted after sendlist was set up
      */
     private function cleanupSendlistOrphans() {
-        $query = "DELETE FROM ". rex::getTablePrefix() ."375_sendlist WHERE user_id IN "
-			."(SELECT sendlist.user_id "
-				."FROM ". rex::getTablePrefix() ."375_sendlist AS sendlist "
+        $query = "SELECT sendlist.user_id FROM ". rex::getTablePrefix() ."375_sendlist AS sendlist "
 				."LEFT JOIN ". rex::getTablePrefix() ."375_user AS users ON sendlist.user_id = users.id "
-				."WHERE users.id IS NULL);";
+				."WHERE users.id IS NULL;";
 		$result = rex_sql::factory();
         $result->setQuery($query);
+		for ($i = 0; $result->getRows() > $i; $i++) {
+			$query_delete = "DELETE FROM ". rex::getTablePrefix() ."375_sendlist WHERE user_id = ". $result->getValue('user_id');
+			$result_delete = rex_sql::factory();
+			$result_delete->setQuery($query_delete);
+
+			$result->next();
+        }
     }
 
 	/**
@@ -282,20 +287,13 @@ class MultinewsletterNewsletterManager {
         // Welche Sprachen sprechen die Nutzer der vorzubereitenden Gruppen?
         $where_groups = [];
         foreach ($group_ids as $group_id) {
-            $where_groups[] = "
-                group_ids = '" . $group_id . "' OR 
-                group_ids LIKE '" . $group_id . "|%' OR 
-                group_ids LIKE '%|" . $group_id . "' OR 
-                group_ids LIKE '%|" . $group_id . "|%' OR 
-                group_ids LIKE '" . $group_id . ",%' OR 
-                group_ids LIKE '%," . $group_id . "' OR 
-                group_ids LIKE '%," . $group_id . ",%' 
-            ";
+            $where_groups[] = 'FIND_IN_SET('. $group_id .', REPLACE(group_ids, "|", ","))';
         }
         if (count($recipient_ids)) {
             $where_groups[] = 'id IN(' . implode(',', $recipient_ids) . ')';
         }
-        $query = "SELECT clang_id FROM " . rex::getTablePrefix() . "375_user " . "WHERE " . implode(" OR ", $where_groups) . " GROUP BY clang_id";
+        $query = 'SELECT clang_id FROM ' . rex::getTablePrefix() . '375_user '
+			. 'WHERE ' . implode(' OR ', $where_groups) . ' GROUP BY clang_id';
 
         $result = rex_sql::factory();
         $result->setQuery($query);
@@ -306,6 +304,7 @@ class MultinewsletterNewsletterManager {
         }
 
         // Read article
+		$new_archives = [];
         foreach ($clang_ids as $clang_id) {
             $newsletter = MultinewsletterNewsletter::factory($article_id, $clang_id);
 
@@ -333,7 +332,8 @@ class MultinewsletterNewsletterManager {
 				$newsletter->sentby = rex::getUser() instanceof rex_user ? rex::getUser()->getLogin() : "MultiNewsletter Cronjob API Call";
                 $newsletter->save();
 
-                $this->archives[$newsletter->id] = $newsletter;
+				$new_archives[$newsletter->id] = $newsletter;
+				$this->archives[$newsletter->id] = $newsletter;
             }
         }
 
@@ -342,7 +342,7 @@ class MultinewsletterNewsletterManager {
         foreach ($offline_lang_ids as $offline_lang_id) {
             $where_offline_langs[] = "clang_id = " . $offline_lang_id;
         }
-        foreach ($this->archives as $archive_id => $newsletter) {
+		foreach ($new_archives as $archive_id => $newsletter) {
             $newsletter_lang_id = $newsletter->clang_id;
 
             if (!in_array($newsletter_lang_id, $offline_lang_ids)) {
@@ -362,18 +362,23 @@ class MultinewsletterNewsletterManager {
     }
 
     /**
-     * Setzt die zu versendenden Newsletter zurück. Dabei werden auch noch nicht
-	 * versendete Archive gelöscht.
+     * Reset newsletter sendlist. If no archive ID is submitted, the complete
+	 * sendlist is deleted. Additionally, alls unsent archives are deleted from
+	 * archive table.
+     * @param int $archive_id archive id to delete
      */
-    public function reset() {
-        // Benutzer zurücksetzen
+    public function reset($archive_id = 0) {
+        // Reset users
         $query_user  = "TRUNCATE " . rex::getTablePrefix() . "375_sendlist";
+		if($archive_id > 0) {
+	        $query_user  = "DELETE FROM " . rex::getTablePrefix() . "375_sendlist WHERE archive_id = ". $archive_id;
+		}
         $result_user = rex_sql::factory();
         $result_user->setQuery($query_user);
 		$this->recipients = [];
 
-        // Archive, die bisher keine Empfänger hatten auch löschen
-        $query_archive  = "DELETE FROM " . rex::getTablePrefix() . "375_archive WHERE sentdate = 0";
+        // Delete unsent archive(s)
+        $query_archive  = "DELETE FROM " . rex::getTablePrefix() . "375_archive WHERE sentdate = 0". ($archive_id > 0 ? ' AND id = '. $archive_id : '');
         $result_archive = rex_sql::factory();
         $result_archive->setQuery($query_archive);
 		$this->archives = [];

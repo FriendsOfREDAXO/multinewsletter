@@ -47,16 +47,6 @@ class MultinewsletterGroup {
 	var $mailchimp_list_id = "";
 
 	/**
-	 * @var string Create date (format: Y-m-d H:i:s)
-	 */
-	var $createdate = "";
-
-	/**
-	 * @var string Update date (format: Y-m-d H:i:s)
-	 */
-	var $updatedate = "";
-
-	/**
      * Fetch object data from database
      * @param int $id Group id from database
      */
@@ -77,8 +67,6 @@ class MultinewsletterGroup {
 				$this->default_article_name = $default_article->getName();
 			}
 			$this->mailchimp_list_id = $result->getValue("mailchimp_list_id");
-			$this->createdate = $result->getValue("createdate");
-			$this->updatedate = $result->getValue("updatedate");
 		}
     }
 

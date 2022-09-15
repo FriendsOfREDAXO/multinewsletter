@@ -1,5 +1,10 @@
 <?php
 $newsletterManager = new MultinewsletterNewsletterManager($this->getConfig('max_mails'));
+// First do reset action
+if(filter_input(INPUT_POST, 'reset') != "") {
+	// 0 = reset complete sendlist
+	$newsletterManager->reset(filter_input(INPUT_POST, 'reset', FILTER_VALIDATE_INT, ['options' => ['default'=>0]]));
+}
 
 // Autosend stuff
 if(!rex_addon::get('cronjob')->isAvailable() || rex_config::get('multinewsletter', 'autosend', 'inactive') != 'active' || rex_config::get('multinewsletter', 'admin_email', '') == '') {
@@ -7,23 +12,33 @@ if(!rex_addon::get('cronjob')->isAvailable() || rex_config::get('multinewsletter
 	print rex_view::warning(rex_i18n::msg('multinewsletter_newsletter_send_cron_not_available'));
 }
 else {
+	$autosend_message = '';
 	// if automatic send in background is requested
 	if(filter_input(INPUT_POST, 'send_cron') != "") {
 		// Send in background via CronJob
 		foreach($newsletterManager->archives as $archive) {
 			$archive->setAutosend();
 		}
-		echo rex_view::warning(rex_i18n::msg('multinewsletter_newsletter_send_cron_active'));
+		$autosend_message = '<p>'. rex_i18n::msg('multinewsletter_newsletter_send_cron_active') .'</p><br>';
 		// Reset send settings
 		unset($_SESSION['multinewsletter']);
 	}
 	else {
 		// Autosend status message if autosend is active
-		$newsletterManager_autosend = new MultinewsletterNewsletterManager($this->getConfig('max_mails'));
-		$newsletterManager_autosend->autosend_only = TRUE;
+		$newsletterManager_autosend = new MultinewsletterNewsletterManager($this->getConfig('max_mails'), TRUE);
 		if($newsletterManager_autosend->countRemainingUsers() > 0) {
-			print rex_view::warning(rex_i18n::msg('multinewsletter_newsletter_send_cron_warning'));
+			$autosend_message = '<p>'. rex_i18n::msg('multinewsletter_newsletter_send_cron_warning') .'</p><br>';
 		}
+	}
+	if($autosend_message) {
+		// Detailed newsletter information
+		$newsletterManager_autosend = new MultinewsletterNewsletterManager($this->getConfig('max_mails'), TRUE);
+		$autosend_message .= '<form action="'. rex_url::currentBackendPage() .'" method="post" name="multinewsletter-cron-abort"><ul>';
+		foreach($newsletterManager_autosend->archives as $autosend_archive) {
+			$autosend_message .= '<li>'. $autosend_archive->countRemainingUsers() .' '. rex_i18n::msg('multinewsletter_archive_recipients') .': '. $autosend_archive->subject .' ('. $autosend_archive->sender_name.') <button class="btn btn-delete" style="margin: 5px 15px;" type="submit" name="reset" value="'. $autosend_archive->id .'">'. rex_i18n::msg('multinewsletter_newsletter_send_cron_abort') .'</button></li>';
+		}
+		$autosend_message .= '</ul></form>';
+		print rex_view::warning($autosend_message);
 	}
 }
 
@@ -56,8 +71,6 @@ if(!isset($_SESSION['multinewsletter']['newsletter']['status']) && $newsletterMa
 	$_SESSION['multinewsletter']['newsletter']['status'] = 0;
 }
 else if(filter_input(INPUT_POST, 'reset') != "") {
-	// 0 = Wenn der Versand zurückgesetzt werden soll
-	$newsletterManager->reset();
 	$_SESSION['multinewsletter']['newsletter']['status'] = 0;
 }
 else if(filter_input(INPUT_POST, 'sendtestmail') != "") {
@@ -258,7 +271,6 @@ if(filter_input(INPUT_POST, 'sendtestmail') != "") {
 }
 // Adressen vorbereiten
 else if(filter_input(INPUT_POST, 'prepare') != "") {
-	$newsletterManager->reset();
 	if(count($_SESSION['multinewsletter']['newsletter']['groups']) == 0 && count($_SESSION['multinewsletter']['newsletter']['man_recipients']) == 0) {
 		$messages[] = rex_i18n::msg('multinewsletter_error_nogroupselected');
 	}

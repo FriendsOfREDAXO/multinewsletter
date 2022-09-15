@@ -67,6 +67,7 @@ multinewsletter_newsletter_reloadin = Page reload and thus next shipping step in
 multinewsletter_newsletter_stop_reload = Interrupt automatic reload - send process can be continued later.
 multinewsletter_newsletter_send = Send newsletter manually
 multinewsletter_newsletter_send_cron = Send newsletter automatically in background
+multinewsletter_newsletter_send_cron_abort = Abort sending process
 multinewsletter_newsletter_send_cron_active = Started sending newsletter automatically. After sending, you will receive a message to the admin email address stored in settings. You can now prepare a next newsletter for autosend.
 multinewsletter_newsletter_send_cron_not_available = Automatic newsletter send option not available. Please install Cronjob addon. Activate autosend option in settings and enter your admin email address also.
 multinewsletter_newsletter_send_cron_warning = Currently, a newsletter is send in background. Please do not start sending a next newsletter manually, because server limits might be exceeded. Starting an other automatic newsletter is OK.
