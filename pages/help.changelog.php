@@ -1,11 +1,13 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.3.0-DEV</p>
+	<p>3.3.0</p>
 	<ul>
 		<li>.github Verzeichnis aus Installer Action ausgeschlossen.</li>
 		<li>Bugfix: wenn ein Empfänger während dem Versandvergang amgemeldet hat, konnte der Newsletter nie zuende verschickt werden.</li>
 		<li>Bugfix: Es war nicht möglich mehrere Newsletter parallel per Cronjob zu versenden, da der vorherige Newsletter gelöscht wurde.</li>
+		<li>Installationsdateien auf Redaxo Standard umgestellt</li>
+		<li>Import Tabellen aus Redaxo 4 entfernt.</li>
 		<li>FAQ zur Frage erweitert wie ein Autosend Archiv gestoppt werden kann.</li>
 	</ul>
 	<p>3.2.9</p>
