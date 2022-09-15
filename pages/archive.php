@@ -71,7 +71,7 @@ else if ($func == 'edit') {
 	else {
 		$recipients[] = $result_archive->getValue("recipients");
 	}
-    $recipients_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; background-color: white; padding:8px;"><table width="100%"><tr>';
+    $recipients_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; padding:8px;"><table width="100%"><tr>';
     foreach ($recipients as $key => $recipient) {
         $recipients_html .= "<td width='33%'>" . $recipient . "</td>";
         if ($key > 1 && $key % 3 == 2) {
@@ -163,7 +163,7 @@ else if ($func == 'delete') {
 
 // Übersichtsliste
 if ($func == '') {
-    $list = rex_list::factory('SELECT id, subject, clang_id, sentdate FROM ' . rex::getTablePrefix() . '375_archive ORDER BY sentdate DESC');
+    $list = rex_list::factory('SELECT id, subject, sender_name, clang_id, sentdate FROM ' . rex::getTablePrefix() . '375_archive ORDER BY sentdate DESC');
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-backup"></i>';
@@ -176,7 +176,19 @@ if ($func == '') {
     $list->setColumnLabel('subject', rex_i18n::msg('multinewsletter_archive_subject'));
     $list->setColumnParams('subject', ['func' => 'edit', 'entry_id' => '###id###']);
 
+    $list->setColumnLabel('sender_name', rex_i18n::msg('multinewsletter_group_default_sender_name'));
+    $list->setColumnParams('sender_name', ['func' => 'edit', 'entry_id' => '###id###']);
+
     $list->setColumnLabel('clang_id', rex_i18n::msg('multinewsletter_newsletter_clang'));
+	$list->setColumnFormat('clang_id', 'custom', function ($params) {
+		$list_params = $params['list'];
+		$clang = rex_clang::get($list_params->getValue('clang_id'));
+		if($clang) {
+			return $clang->getCode();
+		}
+		return $list_params->getValue('clang_id');
+	});
+
     $list->setColumnParams('clang_id', ['func' => 'edit', 'entry_id' => '###id###']);
 
     $list->setColumnLabel('sentdate', rex_i18n::msg('multinewsletter_archive_sentdate'));

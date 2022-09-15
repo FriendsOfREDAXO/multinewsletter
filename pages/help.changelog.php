@@ -1,6 +1,12 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.3.1-DEV</p>
+	<ul>
+		<li>Anpassungen der Archivseite an den Dark Mode.</li>
+		<li>Absender zur Übersicht der Archivseite hinzugefügt.</li>
+		<li>Sprachcode statt Sprach-ID auf der Übersichtsseite der Archive angezeigt.</li>
+	</ul>
 	<p>3.3.0</p>
 	<ul>
 		<li>.github Verzeichnis aus Installer Action ausgeschlossen.</li>
