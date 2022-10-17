@@ -93,7 +93,7 @@ if(class_exists('D2UModuleManager')) {
 		6);
 	$d2u_multinewsletter_modules[] = new D2UModule("80-4",
 		"MultiNewsletter YForm Anmeldung",
-		4);
+		5);
 	$d2u_multinewsletter_modules[] = new D2UModule("80-5",
 		"MultiNewsletter YForm Abmeldung",
 		2);
