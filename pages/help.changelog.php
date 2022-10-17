@@ -1,11 +1,12 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.3.1-DEV</p>
+	<p>3.3.1</p>
 	<ul>
 		<li>Anpassungen der Archivseite an den Dark Mode.</li>
 		<li>Absender zur Übersicht der Archivseite hinzugefügt.</li>
 		<li>Sprachcode statt Sprach-ID auf der Übersichtsseite der Archive angezeigt.</li>
+		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Datenschutzhinweis wurde doppelt angezeigt.</li>
 	</ul>
 	<p>3.3.0</p>
 	<ul>
