@@ -127,8 +127,6 @@ else {
 	$form_data .= 'validate|empty|email|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_invalid_email", "") .'
 			validate|type|email|email|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_invalid_email", "") .'
 			validate|unique|email|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_already_subscribed", "") .'|rex_375_user
-			validate|empty|privacy_policy_accepted|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_privacy_policy") .'
-
 			action|db|rex_375_user
 			action|callback|sendActivationMail';
 

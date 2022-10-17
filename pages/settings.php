@@ -13,10 +13,7 @@ $lang_presets = [
 		'email' => 'E-Mail',
 		'select_newsletter' => 'Newsletter auswählen',
 		'compulsory' => 'Felder mit einem * müssen ausgefüllt werden.',
-		'privacy_policy' => "Ich willige ein dass ich per E-Mail über Produkte und Produktaktionen dieser Webseite informiert werde. Über den Umfang der Datenverarbeitung habe ich mich <a href='+++LINK_PRIVACY_POLICY+++'>hier</a> informiert.
-Meine Daten werden ausschließlich zu diesem Zweck genutzt.
-Eine Weitergabe der Daten an Dritte erfolgt nicht.
-Ich kann die Einwilligung jederzeit unter den im <a href='+++LINK_IMPRESS+++'>Impressum</a> angegebenen Kontaktdaten oder durch Nutzung des in den E-Mails enthaltenen Abmeldelinks widerrufen.",
+		'privacy_policy' => "Ich willige ein dass ich per E-Mail über Produkte und Produktaktionen dieser Webseite informiert werde. Über den Umfang der Datenverarbeitung habe ich mich <a href='+++LINK_PRIVACY_POLICY+++'>hier</a> informiert. Meine Daten werden ausschließlich zu diesem Zweck genutzt. Eine Weitergabe der Daten an Dritte erfolgt nicht. Ich kann die Einwilligung jederzeit unter den im <a href='+++LINK_IMPRESS+++'>Impressum</a> angegebenen Kontaktdaten oder durch Nutzung des in den E-Mails enthaltenen Abmeldelinks widerrufen.",
 		'subscribe' => 'Newsletter abonnieren',
 		'action' => 'Möchten Sie regelmäßig informiert werden? Dann abonnieren Sie unseren interessanten Newsletter:',
 		'safety' => 'Bei der Newsletterbestellung erhalten Sie aus rechtlichen Gründen eine E-Mail mit einem Bestätigungslink.',
