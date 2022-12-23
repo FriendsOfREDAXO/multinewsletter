@@ -101,9 +101,9 @@ class MultinewsletterNewsletter {
 			$this->clang_id = $result->getValue("clang_id");
 			$this->subject = stripslashes(htmlspecialchars_decode($result->getValue("subject")));
 			$this->htmlbody = base64_decode($result->getValue("htmlbody"));
-			$attachment_separator = strpos($result->getValue("attachments"), '|') !== FALSE ? "|" : ",";
+			$attachment_separator = strpos($result->getValue("attachments"), '|') !== false ? "|" : ",";
 			$this->attachments = preg_grep('/^\s*$/s', explode($attachment_separator, $result->getValue("attachments")), PREG_GREP_INVERT);
-			$recipients_separator = strpos($result->getValue("recipients"), '|') !== FALSE ? "|" : ",";
+			$recipients_separator = strpos($result->getValue("recipients"), '|') !== false ? "|" : ",";
 			$this->recipients = preg_grep('/^\s*$/s', explode($recipients_separator, $result->getValue("recipients")), PREG_GREP_INVERT);
 			$this->recipients_failure = preg_grep('/^\s*$/s', explode(",", $result->getValue("recipients_failure")), PREG_GREP_INVERT);
 			$this->group_ids = preg_grep('/^\s*$/s', explode("|", $result->getValue("group_ids")), PREG_GREP_INVERT);
@@ -320,10 +320,10 @@ class MultinewsletterNewsletter {
 
 	/**
 	 * Updates or inserts the object into database.
-	 * @return boolean TRUE if successful
+	 * @return boolean true if successful
 	 */
 	public function save() {
-		$error = TRUE;
+		$error = true;
 
 		$query = \rex::getTablePrefix() ."375_archive SET "
 					."article_id = ". $this->article_id .", "
@@ -349,7 +349,7 @@ class MultinewsletterNewsletter {
 		$result = \rex_sql::factory();
 		$result->setQuery($query);
 		if($this->id == 0) {
-			$this->id = $result->getLastId();
+			$this->id = intval($result->getLastId());
 			$error = !$result->hasError();
 		}
 
@@ -360,14 +360,14 @@ class MultinewsletterNewsletter {
      * Sends Newsletter to user
      * @param MultinewsletterUser $multinewsletter_user Recipient user
      * @param rex_article $article Redaxo article
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return boolean true if successful, otherwise false
      */
     private function send($multinewsletter_user, $article = null) {
         if (strlen($this->htmlbody) && strlen($multinewsletter_user->email)) {
             $addon_multinewsletter = rex_addon::get("multinewsletter");
 
             $mail = new rex_mailer();
-            $mail->IsHTML(TRUE);
+            $mail->IsHTML(true);
             $mail->CharSet  = "utf-8";
             $mail->From = trim($this->sender_email);
             $mail->FromName = trim($this->sender_name);
@@ -411,27 +411,27 @@ class MultinewsletterNewsletter {
 			return $success;
         }
         else {
-            return FALSE;
+            return false;
         }
     }
 
     /**
      * Sends newsletter mail to recipient and stores in database
      * @param MultinewsletterUser $user Recipient object
-     * @return boolean TRUE, if successful, otherwise FALSE
+     * @return boolean true, if successful, otherwise false
      */
     public function sendNewsletter($multinewsletter_user, $article = null) {
         if ($this->send($multinewsletter_user, $article)) {
 			$this->recipients[] = $multinewsletter_user->email;
 			$this->sentdate = date('Y-m-d H:i:s');
 			$this->save();
-            return TRUE;
+            return true;
         }
 		else {
 			$this->recipients_failure[] = $multinewsletter_user->email;
 			$this->sentdate = date('Y-m-d H:i:s');
 			$this->save();
-	        return FALSE;
+	        return false;
 		}
     }
 
@@ -439,7 +439,7 @@ class MultinewsletterNewsletter {
      * Sends newsletter test mail
      * @param MultinewsletterUser $testuser test user object
      * @param int $article_id Redaxo article id
-     * @return boolean TRUE, if successful, otherwise FALSE
+     * @return boolean true, if successful, otherwise false
      */
     public function sendTestmail($testuser, $article_id) {
         return $this->send($testuser, rex_article::get($article_id));
@@ -447,18 +447,18 @@ class MultinewsletterNewsletter {
 
     /**
      * Sets sendlist archive to autosend and turn on autosend CronJob
-     * @return boolean TRUE, if successful
+     * @return boolean true, if successful
      */
     public function setAutosend() {
 	    $result = rex_sql::factory();
 		$result->setQuery("UPDATE ". rex::getTablePrefix() ."375_sendlist SET autosend = 1 WHERE archive_id = ". $this->id);
 		if($result->hasError()){
-			return FALSE;
+			return false;
 		}
 		
 		// Turn on autosend
 		multinewsletter_cronjob_sender::factory()->activate();
 		
-        return TRUE;
+        return true;
     }
 }

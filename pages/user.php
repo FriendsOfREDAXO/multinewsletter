@@ -9,7 +9,7 @@ if(filter_input(INPUT_POST, 'newsletter_exportusers') != "") {
 $newsletter_groups = MultinewsletterGroup::getAll();
 
 // Übersichtsliste
-if($func == '') {
+if($func === '') {
 	// Anzuzeigende Nachrichten
 	$messages = [];
 
@@ -492,7 +492,7 @@ if($func == '') {
 <?php
 }
 // Eingabeformular
-elseif ($func == 'edit' || $func == 'add') {
+elseif ($func === 'edit' || $func === 'add') {
 	$form = rex_form::factory(rex::getTablePrefix() .'375_user', rex_i18n::msg('multinewsletter_newsletter_userdata'), "id = ". $entry_id, "post", false);
 
 	// E-Mail

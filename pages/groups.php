@@ -3,8 +3,8 @@ $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
 
 // Eingabeformular
-if ($func == 'edit' || $func == 'add') {
-	$form = rex_form::factory(rex::getTablePrefix() .'375_group', rex_i18n::msg('multinewsletter_group'), "id = ". $entry_id, "post", FALSE);
+if ($func === 'edit' || $func === 'add') {
+	$form = rex_form::factory(rex::getTablePrefix() .'375_group', rex_i18n::msg('multinewsletter_group'), "id = ". $entry_id, "post", false);
 
 	// Gruppenname
 	$field = $form->addTextField('name');
@@ -60,7 +60,7 @@ else if ($func == 'delete') {
 	$func = '';
 }
 
-if ($func == '') {
+if ($func === '') {
     $list = rex_list::factory('SELECT id, name FROM '. rex::getTablePrefix() .'375_group ORDER BY name ASC');
     $list->addTableAttribute('class', 'table-striped table-hover');
 

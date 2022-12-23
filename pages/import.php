@@ -35,7 +35,7 @@ if(filter_input(INPUT_POST, 'import_action') != "") {
 				foreach($csv_users as $csv_user) {
 					if(filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL) !== false) {
 						$multinewsletter_user = MultinewsletterUser::initByMail(strtolower($csv_user[$fields['email']]));
-						if($multinewsletter_user === FALSE) {
+						if($multinewsletter_user === false) {
 							$multinewsletter_user = new MultinewsletterUser(0);
 							$multinewsletter_user->email = filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL);
 						}

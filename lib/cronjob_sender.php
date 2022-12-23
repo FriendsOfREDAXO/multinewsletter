@@ -20,7 +20,7 @@ class multinewsletter_cronjob_sender extends D2U_Helper\ACronJob {
 		$description = 'Sendet ausstehende Newsletter im Hintergrund. Aktiviert und deaktiviert sich automatisch.';
 		$php_code = '<?php MultinewsletterNewsletterManager::cronSend(); ?>';
 		$interval = '{\"minutes\":\"all\",\"hours\":\"all\",\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}';
-		$activate = FALSE;
+		$activate = false;
 		self::save($description, $php_code, $interval, $activate);
 	}
 }

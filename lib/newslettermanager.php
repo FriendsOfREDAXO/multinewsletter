@@ -18,10 +18,10 @@ class MultinewsletterNewsletterManager {
     var $recipients = [];
 
     /**
-     * @var boolean $autosend_only TRUE if only autosend archives and receipients
+     * @var boolean $autosend_only true if only autosend archives and receipients
 	 * should be managed.
      */
-    var $autosend_only = FALSE;
+    var $autosend_only = false;
 
     /**
      * @var MultinewsletterUser[] Users an die der Newsletter zuletzt versand wurde.
@@ -38,7 +38,7 @@ class MultinewsletterNewsletterManager {
      * @param int $numberMails Anzahl der Mails für den nächsten Versandschritt.
 	 * @param boolean $autosend_only Init only reciepients with autosend option.
      */
-    public function __construct($numberMails = 0, $autosend_only = FALSE) {
+    public function __construct($numberMails = 0, $autosend_only = false) {
 		$this->autosend_only = $autosend_only;
         $this->initArchivesToSend();
         $this->initRecipients($numberMails);
@@ -89,18 +89,18 @@ class MultinewsletterNewsletterManager {
      * wenn der Artikel offline ist.
      * @param int[] $recipient_ids IDs of receipients that should be added to send list
      * @param string $attachments Attachment list, comma separated
-     * @return TRUE if successful started, otherwise FALSE
+     * @return true if successful started, otherwise false
      */
 	public static function autosend($group_ids, $article_id, $fallback_clang_id, array $recipient_ids = [], $attachments = '') {
 		$newsletterManager = MultinewsletterNewsletterManager::factory();
-		$newsletterManager->autosend_only = TRUE;
+		$newsletterManager->autosend_only = true;
 		$newsletterManager->prepare($group_ids, $article_id, $fallback_clang_id, $recipient_ids, $attachments);
 
 		$cronjob_sender = multinewsletter_cronjob_sender::factory();
 		if($cronjob_sender->isInstalled() && count($newsletterManager->archives) > 0) {
 			// Activate Cronjob
 			$cronjob_sender->activate();
-			return TRUE;
+			return true;
 		}
 		else {
 			// Send it all right now - or try it at least
@@ -146,7 +146,7 @@ class MultinewsletterNewsletterManager {
 	public static function cronSend() {
 		// Calculate maximum mails per Cronjob step (every 5 minutes)
 		$numberMails = round(rex_config::get('multinewsletter', 'max_mails') * rex_config::get('multinewsletter', 'versandschritte_nacheinander') * 3600 / rex_config::get('multinewsletter', 'sekunden_pause') / 12);
-		$newsletterManager = new MultinewsletterNewsletterManager($numberMails, TRUE);
+		$newsletterManager = new MultinewsletterNewsletterManager($numberMails, true);
 		$newsletterManager->send($numberMails);
 
 		// Send final admin notification
@@ -177,7 +177,7 @@ class MultinewsletterNewsletterManager {
 
 	/**
 	 * Get newsletter archives which are on send list.
-	 * @param boolean $manual_send_only If TRUE, autosend archives are excluded.
+	 * @param boolean $manual_send_only If true, autosend archives are excluded.
 	 * @return \MultinewsletterNewsletter[] Array with MultinewsletterNewsletter archives
 	 */
 	public static function getArchivesToSend($manual_send_only = true) {
@@ -250,7 +250,7 @@ class MultinewsletterNewsletterManager {
     }
 
     /**
-     * Returns pending user number. If autosend_only in this object is TRUE,
+     * Returns pending user number. If autosend_only in this object is true,
 	 * only autosend number is returned, otherwise only not autosend user number
 	 * is returned
      * @return int Pending user number
@@ -389,7 +389,7 @@ class MultinewsletterNewsletterManager {
     /**
      * Veranlasst das Senden der nächsten Trange von Mails.
      * @param int $numberMails Anzahl von Mails die raus sollen.
-     * @return mixed TRUE, wenn erfolgreich versendet, otherwise array with
+     * @return mixed true, wenn erfolgreich versendet, otherwise array with
 	 * failed email addresses.
      */
     public function send($numberMails) {
@@ -406,7 +406,7 @@ class MultinewsletterNewsletterManager {
 			$archive_id = $recipient->getSendlistArchiveIDs($this->autosend_only);
             $newsletter = $this->archives[$archive_id[0]];
 
-            if ($newsletter->sendNewsletter($recipient, rex_article::get($newsletter->article_id)) == FALSE) {
+            if ($newsletter->sendNewsletter($recipient, rex_article::get($newsletter->article_id)) == false) {
 				$result->setQuery("DELETE FROM ". rex::getTablePrefix() ."375_sendlist WHERE user_id = ". $recipient->id ." AND archive_id = ". $newsletter->id);
                 $failure_mails[] = $recipient->email;
             }
@@ -420,7 +420,7 @@ class MultinewsletterNewsletterManager {
         }
 
 		if(count($failure_mails) == 0) {
-			return TRUE;
+			return true;
 		}
 		else {
 			return $failure_mails;
@@ -431,7 +431,7 @@ class MultinewsletterNewsletterManager {
      * Sends a email to MutliNewsletter admin, if given in settings.
      * @param string $subject Message subject
      * @param string $body Message body
-     * @return boolean TRUE if successfully sent, otherwise FALSE
+     * @return boolean true if successfully sent, otherwise false
      */
     private function sendAdminNotification($subject, $body) {
 		$multinewsletter = rex_addon::get('multinewsletter');

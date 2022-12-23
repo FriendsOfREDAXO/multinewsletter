@@ -117,7 +117,7 @@ class MultinewsletterUser {
 			$this->title = $result->getValue("title") == "" ? 0 : $result->getValue("title");
 			$this->clang_id = $result->getValue("clang_id");
 			$this->status = $result->getValue("status");
-			$group_separator = strpos($result->getValue("group_ids"), '|') !== FALSE ? "|" : ",";
+			$group_separator = strpos($result->getValue("group_ids"), '|') !== false ? "|" : ",";
 			$this->group_ids = preg_grep('/^\s*$/s', explode($group_separator, $result->getValue("group_ids")), PREG_GREP_INVERT);
 			$this->mailchimp_id = $result->getValue("mailchimp_id");
 			$this->createdate = $result->getValue("createdate");
@@ -209,11 +209,11 @@ class MultinewsletterUser {
 
 	/**
 	 * Get archive id(s), that should be sent to user
-	 * @param boolean $autosend_only If TRUE, only archive IDs with autosend 
+	 * @param boolean $autosend_only If true, only archive IDs with autosend 
 	 * option are returned.
 	 * @return int[] Array with Archive IDs that will be sent to user.
 	 */
-    public function getSendlistArchiveIDs($autosend_only = FALSE) {
+    public function getSendlistArchiveIDs($autosend_only = false) {
 		$archive_ids = [];
 		
 	    $result = rex_sql::factory();
@@ -242,7 +242,7 @@ class MultinewsletterUser {
 		if ($result->getRows() > 0) {
 			return new MultinewsletterUser($result->getValue("id"));
 		}
-		return FALSE;
+		return false;
 
     }
 
@@ -272,10 +272,10 @@ class MultinewsletterUser {
 
     /**
      * Update user in database
-	 * @return boolean TRUE if error occured
+	 * @return boolean true if error occured
      */
 	public function save() {
-		$error = TRUE;
+		$error = true;
 
 		$query = \rex::getTablePrefix() ."375_user SET "
 					."id = ". $this->id .", "
@@ -306,7 +306,7 @@ class MultinewsletterUser {
 		$result = \rex_sql::factory();
 		$result->setQuery($query);
 		if($this->id == 0) {
-			$this->id = $result->getLastId();
+			$this->id = intval($result->getLastId());
 			$error = !$result->hasError();
 		}
 		
@@ -338,7 +338,7 @@ class MultinewsletterUser {
      * @param string $sender_name Sender name
      * @param string $subject Mail subject
      * @param string $body Mail content
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return boolean true if successful, otherwise false
      */
     public function sendActivationMail($sender_mail, $sender_name, $subject, $body) {
         if (!empty($body) && strlen($this->email) && filter_var($sender_mail, FILTER_VALIDATE_EMAIL) !== false) {
@@ -370,19 +370,19 @@ class MultinewsletterUser {
 			return $mail->Send();
         }
         else {
-            return FALSE;
+            return false;
         }
     }
 
     /**
      * Send admin mail with hint, that user status changed
      * @param string $type Either "subscribe" or "unsubscribe"
-     * @return boolean TRUE if successful, otherwise FALSE
+     * @return boolean true if successful, otherwise false
      */
     public function sendAdminNoctificationMail($type) {
         $addon = rex_addon::get('multinewsletter');
 
-        if (filter_var($addon->getConfig('subscribe_meldung_email'), FILTER_VALIDATE_EMAIL) !== FALSE) {
+        if (filter_var($addon->getConfig('subscribe_meldung_email'), FILTER_VALIDATE_EMAIL) !== false) {
             $mail = new rex_mailer();
             $mail->IsHTML(true);
             $mail->CharSet  = "utf-8";
@@ -415,7 +415,7 @@ class MultinewsletterUser {
             return $mail->Send();
         }
         else {
-            return FALSE;
+            return false;
         }
     }
 

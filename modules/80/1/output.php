@@ -67,7 +67,7 @@ if(filter_input(INPUT_POST, 'submit') != "") {
 	else if(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL) != "") {
 		// Ist Benutzer schon in der Newslettergruppe?
 		$user = MultinewsletterUser::initByMail(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
-		if($user !== FALSE && $user->id > 0 && $user->status == 1) {
+		if($user !== false && $user->id > 0 && $user->status == 1) {
 			$not_already_subscribed = [];
 			if(count($user->group_ids) > 0 && count($form_groups['groups']) > 0) {
 				foreach($form_groups['groups'] as $group_id) {

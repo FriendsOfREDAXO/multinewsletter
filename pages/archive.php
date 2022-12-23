@@ -8,10 +8,10 @@ if ($resend_failure > 0) {
     $result_archive = rex_sql::factory();
     $result_archive->setQuery($query_archive);
     $recipients_failure = [];
-	if (strpos($result_archive->getValue("recipients_failure"), '|') !== FALSE) {
+	if (strpos($result_archive->getValue("recipients_failure"), '|') !== false) {
 		$recipients_failure = preg_grep('/^\s*$/s', explode("|", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
 	}
-	else if (strpos($result_archive->getValue("recipients_failure"), ',') !== FALSE) {
+	else if (strpos($result_archive->getValue("recipients_failure"), ',') !== false) {
 		$recipients_failure = preg_grep('/^\s*$/s', explode(",", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
 	}
 	else if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
@@ -62,10 +62,10 @@ else if ($func == 'edit') {
 
     // Empfänger
     $recipients = [];
-	if (strpos($result_archive->getValue("recipients"), '|') !== FALSE) {
+	if (strpos($result_archive->getValue("recipients"), '|') !== false) {
 		$recipients = preg_grep('/^\s*$/s', explode("|", $result_archive->getValue("recipients")), PREG_GREP_INVERT);
 	}
-	else if (strpos($result_archive->getValue("recipients"), ',') !== FALSE) {
+	else if (strpos($result_archive->getValue("recipients"), ',') !== false) {
 		$recipients = preg_grep('/^\s*$/s', explode(",", $result_archive->getValue("recipients")), PREG_GREP_INVERT);
 	}
 	else {
@@ -79,17 +79,17 @@ else if ($func == 'edit') {
         }
     }
     $recipients_html .= "</tr></table></div>";
-	if(count($recipients) > 0 && strpos($recipients[0], 'Addresses deleted') === FALSE) {
+	if(count($recipients) > 0 && strpos($recipients[0], 'Addresses deleted') === false) {
 	    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_count'), count($recipients)));
 	}
     $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients'), $recipients_html));
 
     // Recipients with send failures
     $recipients_failure = [];
-	if (strpos($result_archive->getValue("recipients_failure"), '|') !== FALSE) {
+	if (strpos($result_archive->getValue("recipients_failure"), '|') !== false) {
 		$recipients_failure = preg_grep('/^\s*$/s', explode("|", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
 	}
-	else if (strpos($result_archive->getValue("recipients_failure"), ',') !== FALSE) {
+	else if (strpos($result_archive->getValue("recipients_failure"), ',') !== false) {
 		$recipients_failure = preg_grep('/^\s*$/s', explode(",", $result_archive->getValue("recipients_failure")), PREG_GREP_INVERT);
 	}
 	else if(filter_var($recipients_failure, FILTER_VALIDATE_EMAIL)) {
@@ -103,7 +103,7 @@ else if ($func == 'edit') {
         }
     }
     $recipients_failure_html .= "</tr></table></div>";
-	if(count($recipients) > 0 && isset($recipients_failure[0]) && strpos($recipients_failure[0], 'Addresses deleted') === FALSE) {
+	if(count($recipients) > 0 && isset($recipients_failure[0]) && strpos($recipients_failure[0], 'Addresses deleted') === false) {
 		$form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure_count'), count($recipients_failure)));
 	}
 
@@ -162,7 +162,7 @@ else if ($func == 'delete') {
 }
 
 // Übersichtsliste
-if ($func == '') {
+if ($func === '') {
     $list = rex_list::factory('SELECT id, subject, sender_name, clang_id, sentdate FROM ' . rex::getTablePrefix() . '375_archive ORDER BY sentdate DESC');
     $list->addTableAttribute('class', 'table-striped table-hover');
 

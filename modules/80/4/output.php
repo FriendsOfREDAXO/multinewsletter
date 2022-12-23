@@ -76,7 +76,7 @@ if(strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && filter_input(INPUT_GE
 	}
 }
 else {
-	$ask_name = "REX_VALUE[2]" == 'true' ? TRUE : FALSE;
+	$ask_name = "REX_VALUE[2]" == 'true' ? true : false;
 	
 	// Show form
 	$form_data = 'hidden|subscriptiontype|web
@@ -134,7 +134,7 @@ else {
 	$yform->setFormData(trim($form_data));
 	$yform->setObjectparams("form_action", rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId()));
 	$yform->setObjectparams("Error-occured", $addon->getConfig("lang_". rex_clang::getCurrentId() ."_no_userdata", ""));
-	$yform->setObjectparams("real_field_names", TRUE);
+	$yform->setObjectparams("real_field_names", true);
 
 	// action - showtext
 	$yform->setActionField("showtext", [$addon->getConfig("lang_". rex_clang::getCurrentId() ."_confirmation_sent", "")]);

@@ -25,14 +25,14 @@ else {
 	}
 	else {
 		// Autosend status message if autosend is active
-		$newsletterManager_autosend = new MultinewsletterNewsletterManager($this->getConfig('max_mails'), TRUE);
+		$newsletterManager_autosend = new MultinewsletterNewsletterManager($this->getConfig('max_mails'), true);
 		if($newsletterManager_autosend->countRemainingUsers() > 0) {
 			$autosend_message = '<p>'. rex_i18n::msg('multinewsletter_newsletter_send_cron_warning') .'</p><br>';
 		}
 	}
 	if($autosend_message) {
 		// Detailed newsletter information
-		$newsletterManager_autosend = new MultinewsletterNewsletterManager($this->getConfig('max_mails'), TRUE);
+		$newsletterManager_autosend = new MultinewsletterNewsletterManager($this->getConfig('max_mails'), true);
 		$autosend_message .= '<form action="'. rex_url::currentBackendPage() .'" method="post" name="multinewsletter-cron-abort"><ul>';
 		foreach($newsletterManager_autosend->archives as $autosend_archive) {
 			$autosend_message .= '<li>'. $autosend_archive->countRemainingUsers() .' '. rex_i18n::msg('multinewsletter_archive_recipients') .': '. $autosend_archive->subject .' ('. $autosend_archive->sender_name.') <button class="btn btn-delete" style="margin: 5px 15px;" type="submit" name="reset" value="'. $autosend_archive->id .'">'. rex_i18n::msg('multinewsletter_newsletter_send_cron_abort') .'</button></li>';
@@ -304,7 +304,7 @@ else if(filter_input(INPUT_POST, 'send') != "") {
 		$number_mails_send = $this->getConfig('max_mails');
 	}
 	$sendresult = $newsletterManager->send($number_mails_send);
-	if($sendresult !== TRUE) {
+	if($sendresult !== true) {
 		$messages[] = rex_i18n::msg('multinewsletter_error_send_incorrect_user') .' '. implode(", ", $sendresult);
 	}
 	if(count($newsletterManager->last_send_users) > 0) {
@@ -410,8 +410,8 @@ if(class_exists("rex_mailer")) {
 					</dl>
 					<?php
 							d2u_addon_backend_helper::form_linkfield('multinewsletter_newsletter_article', 1, $_SESSION['multinewsletter']['newsletter']['article_id'], $_SESSION['multinewsletter']['newsletter']['testlanguage']);
-							d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', 'sender_email', $_SESSION['multinewsletter']['newsletter']['sender_email'], TRUE, FALSE, 'email');
-							d2u_addon_backend_helper::form_input('multinewsletter_config_reply_to', 'reply_to_email', $_SESSION['multinewsletter']['newsletter']['reply_to_email'], FALSE, FALSE, 'email');
+							d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', 'sender_email', $_SESSION['multinewsletter']['newsletter']['sender_email'], true, false, 'email');
+							d2u_addon_backend_helper::form_input('multinewsletter_config_reply_to', 'reply_to_email', $_SESSION['multinewsletter']['newsletter']['reply_to_email'], false, false, 'email');
 							foreach(rex_clang::getAll() as $rex_clang) {
 								print '<dl class="rex-form-group form-group">';
 								print '<dt><label>'. rex_i18n::msg('multinewsletter_group_default_sender_name') .' '. $rex_clang->getName() .'</label></dt>';
@@ -434,7 +434,7 @@ if(class_exists("rex_mailer")) {
 						<dd><?php print rex_i18n::msg('multinewsletter_expl_testmail'); ?></dd>
 					</dl>
 					<?php
-						d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', "testemail", $_SESSION['multinewsletter']['newsletter']['testemail'], TRUE, FALSE, 'email');
+						d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', "testemail", $_SESSION['multinewsletter']['newsletter']['testemail'], true, false, 'email');
 
 						$options_anrede = [];
 						$options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');

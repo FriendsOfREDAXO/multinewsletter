@@ -27,7 +27,7 @@ if(!function_exists('unsubscribe')) {
 		$addon = rex_addon::get('multinewsletter');
 		if(filter_var($email, FILTER_VALIDATE_EMAIL) != "") {
 			$user = MultinewsletterUser::initByMail($email);
-			if($user !== FALSE) {
+			if($user !== false) {
 				$user->unsubscribe();
 				print "<p>". $addon->getConfig("lang_". rex_clang::getCurrentId() ."_status0", "") ."</p><br />";
 			} else {
@@ -77,7 +77,7 @@ else {
 		$yform->setFormData(trim($form_data));
 		$yform->setObjectparams("form_action", rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId()));
 		$yform->setObjectparams("Error-occured", $addon->getConfig("lang_". rex_clang::getCurrentId() ."_no_userdata", ""));
-		$yform->setObjectparams("real_field_names", TRUE);
+		$yform->setObjectparams("real_field_names", true);
 
 		echo $yform->getForm();
 	}

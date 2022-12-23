@@ -78,7 +78,7 @@
 
   /**
     * Set Quote character
-    * @param mixed $q New quote character (string or FALSE)
+    * @param mixed $q New quote character (string or false)
     */
     function setQuote($q) {
       if (empty($q))
@@ -531,7 +531,7 @@
     * @param resource $res MySQL result resource
     * @param string $name Preset file name
     * @param string $ext Extension (default: "csv")
-    * @param boolean $nameContainsExt Wether $name contains $ext (default: FALSE)
+    * @param boolean $nameContainsExt Wether $name contains $ext (default: false)
     */
     function queryExport($res, $name, $ext, $nameContainsExt=false) {
       $fc = mysql_num_fields($res);
@@ -591,7 +591,7 @@
     * Open export file stream (HTTP download)
     * @param string $name Preset file name
     * @param string $ext Extension (default: "csv")
-    * @param boolean $nameContainsExt Wether $name contains $ext (default: FALSE)
+    * @param boolean $nameContainsExt Wether $name contains $ext (default: false)
     */
     function exStream($name, $ext="csv", $nameContainsExt=false) {
       if (empty($this->data)) return;
