@@ -17,12 +17,14 @@ if ($resend_failure > 0) {
 	else if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
 		$recipients_failure[] = $result_archive->getValue("recipients_failure");
 	}
-	foreach($recipients_failure as $recipient_failure) {
-		$result_resend = rex_sql::factory();
-		if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
-		    $result_resend->setQuery("SELECT id FROM " . rex::getTablePrefix() . "375_user WHERE email = '". $recipient_failure ."';");
-			if($result_resend->getValue("id")) {
-			    $result_resend->setQuery("REPLACE INTO " . rex::getTablePrefix() . "375_sendlist SET archive_id = ". $resend_failure .", user_id = ". $result_resend->getValue("id"));
+	if(is_array($recipient_failure)) {
+		foreach($recipients_failure as $recipient_failure) {
+			$result_resend = rex_sql::factory();
+			if(filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
+				$result_resend->setQuery("SELECT id FROM " . rex::getTablePrefix() . "375_user WHERE email = '". $recipient_failure ."';");
+				if($result_resend->getValue("id")) {
+					$result_resend->setQuery("REPLACE INTO " . rex::getTablePrefix() . "375_sendlist SET archive_id = ". $resend_failure .", user_id = ". $result_resend->getValue("id"));
+				}
 			}
 		}
 	}
@@ -72,10 +74,12 @@ else if ($func == 'edit') {
 		$recipients[] = $result_archive->getValue("recipients");
 	}
     $recipients_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; padding:8px;"><table width="100%"><tr>';
-    foreach ($recipients as $key => $recipient) {
-        $recipients_html .= "<td width='33%'>" . $recipient . "</td>";
-        if ($key > 1 && $key % 3 == 2) {
-            $recipients_html .= "</tr><tr>";
+	if(is_array($recipients)) {
+		foreach ($recipients as $key => $recipient) {
+			$recipients_html .= "<td width='33%'>" . $recipient . "</td>";
+			if ($key > 1 && $key % 3 == 2) {
+				$recipients_html .= "</tr><tr>";
+			}
         }
     }
     $recipients_html .= "</tr></table></div>";
@@ -96,12 +100,14 @@ else if ($func == 'edit') {
 		$recipients_failure[] = $result_archive->getValue("recipients_failure");
 	}
     $recipients_failure_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; background-color: white; padding:8px;"><table width="100%"><tr>';
-    foreach ($recipients_failure as $key_failure => $recipient_failure) {
-        $recipients_failure_html .= "<td width='33%'>" . $recipient_failure . "</td>";
-        if ($key_failure > 1 && $key_failure % 3 == 2) {
-            $recipients_failure_html .= "</tr><tr>";
-        }
-    }
+	if(is_array($recipient_failure)) {
+		foreach ($recipients_failure as $key_failure => $recipient_failure) {
+			$recipients_failure_html .= "<td width='33%'>" . $recipient_failure . "</td>";
+			if ($key_failure > 1 && $key_failure % 3 == 2) {
+				$recipients_failure_html .= "</tr><tr>";
+			}
+		}
+	}
     $recipients_failure_html .= "</tr></table></div>";
 	if(count($recipients) > 0 && isset($recipients_failure[0]) && strpos($recipients_failure[0], 'Addresses deleted') === false) {
 		$form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure_count'), count($recipients_failure)));
