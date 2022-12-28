@@ -118,7 +118,8 @@ class MultinewsletterUser {
 			$this->clang_id = $result->getValue("clang_id");
 			$this->status = $result->getValue("status");
 			$group_separator = strpos($result->getValue("group_ids"), '|') !== false ? "|" : ",";
-			$this->group_ids = preg_grep('/^\s*$/s', explode($group_separator, $result->getValue("group_ids")), PREG_GREP_INVERT);
+			$group_ids = preg_grep('/^\s*$/s', explode($group_separator, $result->getValue("group_ids")), PREG_GREP_INVERT);
+			$this->group_ids = is_array($group_ids) ? array_map('intval', $group_ids) : [];
 			$this->mailchimp_id = $result->getValue("mailchimp_id");
 			$this->createdate = $result->getValue("createdate");
 			$this->createip = $result->getValue("createip");

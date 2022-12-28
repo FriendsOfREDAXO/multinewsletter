@@ -111,6 +111,7 @@ if(filter_input(INPUT_POST, 'import_action') != "") {
 						else if($fields['group_ids'] > -1) {
 							$gruppen_ids = preg_grep('/^\s*$/s', explode("|", $csv_user[$fields['group_ids']]), PREG_GREP_INVERT);
 						}
+						$gruppen_ids = is_array($gruppen_ids) ? array_map('intval', $gruppen_ids) : [];
 						foreach($gruppen_ids as $gruppen_id) {
 							$orig_group_ids = $multinewsletter_user->group_ids;
 							if(!in_array($gruppen_id, $orig_group_ids)) {
