@@ -32,22 +32,22 @@ class MultinewsletterNewsletter {
 	var $htmlbody = "";
 	
 	/**
-	 * @var string[] Array with attachment file names
+	 * @var array<string> Array with attachment file names
 	 */
 	var $attachments = [];
 	
 	/**
-	 * @var string[] Array with recipient email addresses
+	 * @var array<string> Array with recipient email addresses
 	 */
 	var $recipients = [];
 	
 	/**
-	 * @var string[] Array with recipient email addresses that failed to send
+	 * @var array<string> Array with recipient email addresses that failed to send
 	 */
 	var $recipients_failure = [];
 	
 	/**
-	 * @var string[] Array with group ids
+	 * @var array<string> Array with group ids
 	 */
 	var $group_ids = [];
 	
@@ -155,7 +155,7 @@ class MultinewsletterNewsletter {
     /**
      * Deletes archive
      */
-    public function delete() {
+    public function delete():void {
         $sql = rex_sql::factory();
 		$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."375_archive WHERE id = ". $$this->id);
     }

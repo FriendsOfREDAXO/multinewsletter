@@ -144,17 +144,17 @@ Posso ritirare il tuo consenso in qualsiasi momento dalle informazioni di contat
 
 // save settings
 if (filter_input(INPUT_POST, "btn_save") == "Speichern") {
-	$settings = (array) rex_post('settings', 'array', []);
+	$settings = rex_post('settings', 'array', []);
 
 	// Linkmap Link braucht besondere Behandlung
 	$link_ids = filter_input_array(INPUT_POST, ['REX_INPUT_LINK'=> ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
 	$link_names = filter_input_array(INPUT_POST, ['REX_LINK_NAME' => ['flags' => FILTER_REQUIRE_ARRAY]]);
 
-	$settings['link'] = $link_ids["REX_INPUT_LINK"][1];
+	$settings['link'] = !is_array($link_ids) ? 0 : $link_ids["REX_INPUT_LINK"][1];
 	$settings['linkname'] = trim($link_names["REX_LINK_NAME"][1]);
-	$settings['link_abmeldung'] = $link_ids["REX_INPUT_LINK"][2];
+	$settings['link_abmeldung'] = !is_array($link_ids) ? 0 : $link_ids["REX_INPUT_LINK"][2];
 	$settings['linkname_abmeldung'] = trim($link_names["REX_LINK_NAME"][2]);
-	$settings['default_test_article'] = $link_ids["REX_INPUT_LINK"][3];
+	$settings['default_test_article'] = !is_array($link_ids) ? 0 : $link_ids["REX_INPUT_LINK"][3];
 	$settings['default_test_article_name'] = trim($link_names["REX_LINK_NAME"][3]);
 
 	$settings['autocleanup'] = array_key_exists('autocleanup', $settings) ? "active" : "inactive";

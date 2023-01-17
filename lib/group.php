@@ -73,7 +73,7 @@ class MultinewsletterGroup {
     /**
      * Deletes object in database.
      */
-    public function delete() {
+    public function delete():void {
 		$result = rex_sql::factory();
 		$result->setQuery("DELETE FROM ". \rex::getTablePrefix() ."375_group WHERE id = ". $$this->id);
     }

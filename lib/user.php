@@ -45,7 +45,7 @@ class MultinewsletterUser {
 	var $status = 0;
 	
 	/**
-	 * @var string[] Array with group ids
+	 * @var array<string> Array with group ids
 	 */
 	var $group_ids = [];
 	
@@ -179,7 +179,7 @@ class MultinewsletterUser {
     /**
      * Delete user
      */
-    public function delete() {
+    public function delete():void {
         if (MultinewsletterMailchimp::isActive()) {
             $Mailchimp = MultinewsletterMailchimp::factory();
 

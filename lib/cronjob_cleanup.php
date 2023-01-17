@@ -16,7 +16,7 @@ class multinewsletter_cronjob_cleanup extends D2U_Helper\ACronJob {
 	/**
 	 * Install CronJob. Its also activated.
 	 */
-	public function install() {
+	public function install():void {
 		$description = 'Ersetzt Empfängeradressen in Archiven die älter als 4 Wochen sind. Außerdem werden nicht aktivierte Abonnenten nach 4 Wochen gelöscht.';
 		$php_code = '<?php MultinewsletterNewsletterManager::autoCleanup(); ?>';
 		$interval = '{\"minutes\":[0],\"hours\":[0],\"days\":\"all\",\"weekdays\":[1],\"months\":\"all\"}';

@@ -17,7 +17,7 @@ if (rex_sql_table::get(rex::getTable('375_archive'))->hasColumn('archive_id')) {
 }
 
 // use path relative to __DIR__ to get correct path in update temp dir
-$this->includeFile(__DIR__.'/install.php');
+$this->includeFile(__DIR__.'/install.php'); /** @phpstan-ignore-line */
 
 // 3.1.6 GDPR update
 if($this->hasConfig('unsubscribe_action')) {
