@@ -66,31 +66,31 @@ else if(!isset($_SESSION['multinewsletter']['newsletter']['preselect_group'])
 }
 
 // Status des Sendefortschritts. Bedeutungen
-if(!isset($_SESSION['multinewsletter']['newsletter']['status']) && $newsletterManager->countRemainingUsers() == 0) {
+if(!isset($_SESSION['multinewsletter']['newsletter']['status']) && $newsletterManager->countRemainingUsers() === 0) {
 	// 0 = Aufruf des neuen Formulars
 	$_SESSION['multinewsletter']['newsletter']['status'] = 0;
 }
-else if(filter_input(INPUT_POST, 'reset') != "") {
+else if(filter_input(INPUT_POST, 'reset') !== null) {
 	$_SESSION['multinewsletter']['newsletter']['status'] = 0;
 }
-else if(filter_input(INPUT_POST, 'sendtestmail') != "") {
+else if(filter_input(INPUT_POST, 'sendtestmail') !== null) {
 	// 1 = Testmail wurde verschickt
 	// Status wird säter nur gesetzt, wenn kein Fehler beim Versand auftrat
 }
-else if(filter_input(INPUT_POST, 'prepare') != "") {
+else if(filter_input(INPUT_POST, 'prepare') !== null) {
 	// 2 = Benutzer wurden vorbereitet
 	// Status wird säter nur gesetzt, wenn kein Fehler beim Vorbereiten auftrat
 }
-else if(filter_input(INPUT_POST, 'send') != "" || $newsletterManager->countRemainingUsers() > 0) {
+else if(filter_input(INPUT_POST, 'send') !== null || $newsletterManager->countRemainingUsers() > 0) {
 	// 3 = Versand gestartet
 	$_SESSION['multinewsletter']['newsletter']['status'] = 3;
 }
 
 // Ausgewählter Artikel
-$form_link = filter_input_array(INPUT_POST, array('REX_INPUT_LINK'=> array('filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY)));
+$form_link = filter_input_array(INPUT_POST, ['REX_INPUT_LINK'=> ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
 if(!empty($form_link['REX_INPUT_LINK'])) {
 	$_SESSION['multinewsletter']['newsletter']['article_id'] = $form_link['REX_INPUT_LINK'][1];
-	$link_names = filter_input_array(INPUT_POST, array('REX_LINK_NAME' => array('flags' => FILTER_REQUIRE_ARRAY)));
+	$link_names = filter_input_array(INPUT_POST, ['REX_LINK_NAME' => ['flags' => FILTER_REQUIRE_ARRAY]]);
 	$_SESSION['multinewsletter']['newsletter']['article_name'] = $link_names['REX_LINK_NAME'][1];
 }
 else if(!isset($_SESSION['multinewsletter']['newsletter']['article_id'])) {
@@ -198,10 +198,10 @@ else if(!isset($_SESSION['multinewsletter']['newsletter']['groups']) || !is_arra
 
 // Attachments
 $attachments = trim(rex_post('attachments', 'string'));
-if(strlen($attachments)) {
+if(strlen($attachments) > 0) {
 	$_SESSION['multinewsletter']['newsletter']['attachments'] = $attachments;
 }
-else if((!isset($_SESSION['multinewsletter']['newsletter']['attachments']) || strlen($_SESSION['multinewsletter']['newsletter']['attachments']) == 0) && $_SESSION['multinewsletter']['newsletter']['article_id'] > 0 && rex_article::get($_SESSION['multinewsletter']['newsletter']['article_id'])) {
+else if((!isset($_SESSION['multinewsletter']['newsletter']['attachments']) || strlen($_SESSION['multinewsletter']['newsletter']['attachments']) === 0) && $_SESSION['multinewsletter']['newsletter']['article_id'] > 0 && rex_article::get($_SESSION['multinewsletter']['newsletter']['article_id'])) {
     $_SESSION['multinewsletter']['newsletter']['attachments'] = rex_article::get($_SESSION['multinewsletter']['newsletter']['article_id'])->getValue('art_newsletter_attachments');
 }
 
@@ -259,6 +259,8 @@ if(filter_input(INPUT_POST, 'sendtestmail') != "") {
 		$testnewsletter->sender_email = $_SESSION['multinewsletter']['newsletter']['sender_email'];
 		$testnewsletter->sender_name = $_SESSION['multinewsletter']['newsletter']['sender_name'][$_SESSION['multinewsletter']['newsletter']['testlanguage']];
 		$testnewsletter->reply_to_email = $_SESSION['multinewsletter']['newsletter']['reply_to_email'];
+		$testnewsletter->attachments = is_array(explode(",", $attachments)) ? explode(",", $attachments) : [];
+
 		$sendresult = $testnewsletter->sendTestmail($testuser, $_SESSION['multinewsletter']['newsletter']['article_id']);
 
 		if(!$sendresult) {
@@ -458,6 +460,11 @@ if(class_exists("rex_mailer")) {
 								break;
 							}
 						}
+						$attachments_html = rex_var_medialist::getWidget(1, 'attachments', $_SESSION['multinewsletter']['newsletter']['attachments']);
+						print '<dl class="rex-form-group form-group">';
+						print '<dt><label>'. rex_i18n::msg('multinewsletter_attachments') .'</label></dt>';
+						print '<dd>'. $attachments_html .'</dd>';
+						print '</dl>';
 					?>
 					<dl class="rex-form-group form-group">
 						<dt><label for="sendtestmail"></label></dt>

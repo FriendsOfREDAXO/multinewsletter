@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.4.0-DEV</p>
+	<ul>
+		<li>Testmails können nun auch mit Anhängen versehen werden.</li>
+	</ul>
 	<p>3.3.1</p>
 	<ul>
 		<li>Anpassungen der Archivseite an den Dark Mode.</li>

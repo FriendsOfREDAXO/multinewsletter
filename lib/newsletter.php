@@ -9,82 +9,82 @@ class MultinewsletterNewsletter {
 	/**
 	 * @var int Database ID
 	 */
-	var $id = 0;
+	public int $id = 0;
 	
 	/**
 	 * @var int Redaxo article id
 	 */
-	var $article_id = 0;
+	public int $article_id = 0;
 	
 	/**
 	 * @var int Redaxo language id
 	 */
-	var $clang_id = 0;
+	public int $clang_id = 0;
 	
 	/**
 	 * @var string Subject
 	 */
-	var $subject = "";
+	public string $subject = "";
 	
 	/**
 	 * @var string Body
 	 */
-	var $htmlbody = "";
+	public string $htmlbody = "";
 	
 	/**
 	 * @var array<string> Array with attachment file names
 	 */
-	var $attachments = [];
+	public array $attachments = [];
 	
 	/**
 	 * @var array<string> Array with recipient email addresses
 	 */
-	var $recipients = [];
+	public array $recipients = [];
 	
 	/**
 	 * @var array<string> Array with recipient email addresses that failed to send
 	 */
-	var $recipients_failure = [];
+	public array $recipients_failure = [];
 	
 	/**
 	 * @var array<string> Array with group ids
 	 */
-	var $group_ids = [];
+	public array $group_ids = [];
 	
 	/**
 	 * @var string Sender email address
 	 */
-	var $sender_email = "";
+	public string $sender_email = "";
 
 	/**
 	 * @var string Sender name
 	 */
-	var $sender_name = "";
+	public string $sender_name = "";
 
 	/**
 	 * @var string Reply to email address
 	 */
-	var $reply_to_email = "";
+	public string $reply_to_email = "";
 
 	/**
 	 * @var string Setup date (format: Y-m-d H:i:s)
 	 */
-	var $setupdate = "";
+	public string $setupdate = "";
 
 	/**
 	 * @var string Send date (format: Y-m-d H:i:s)
 	 */
-	var $sentdate = "";
+	public string $sentdate = "";
 	
 	/**
 	 * @var string Redaxo send user name
 	 */
-	var $sentby = "";
+	public string $sentby = "";
 	
 	/**
 	 * @var int Number of remaining users in sendlist
 	 */
-	var $remaining_users = 0;
+	public int $remaining_users = 0;
 	
     /**
      * Gets object data from database

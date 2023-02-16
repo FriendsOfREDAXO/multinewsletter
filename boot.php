@@ -105,7 +105,7 @@ else if (rex::isBackend() && rex::getUser()) {
 		for($i = 0; $i < $sql_groups->getRows(); $i++) {
 			$message = '<a href="javascript:openPage(\'index.php?page=multinewsletter/groups&func=edit&entry_id='.
 				$sql_groups->getValue('id') .'\')">'. rex_i18n::msg('multinewsletter_addon_short_title') ." - ". rex_i18n::msg('multinewsletter_menu_groups') .': '. $sql_groups->getValue('name') .'</a>';
-			if(!in_array($message, $warning)) {
+			if(!in_array($message, $warning, true)) {
 				$warning[] = $message;
 			}
 		}
@@ -115,7 +115,7 @@ else if (rex::isBackend() && rex::getUser()) {
 		if($addon->hasConfig("default_test_article") && $addon->getConfig("default_test_article") == $article_id) {
 			$message = '<a href="index.php?page=multinewsletter/settings">'.
 				 rex_i18n::msg('multinewsletter_addon_short_title') ." - ". rex_i18n::msg('multinewsletter_menu_config') . '</a>';
-			if(!in_array($message, $warning)) {
+			if(!in_array($message, $warning, true)) {
 				$warning[] = $message;
 			}
 		}
