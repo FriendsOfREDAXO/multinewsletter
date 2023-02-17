@@ -4,6 +4,7 @@
 	<p>3.4.0-DEV</p>
 	<ul>
 		<li>Testmails können nun auch mit Anhängen versehen werden.</li>
+		<li>Bugfix: Dateinamen der Anhänge sind nun gleich wie im Medienpool.</li>
 	</ul>
 	<p>3.3.1</p>
 	<ul>

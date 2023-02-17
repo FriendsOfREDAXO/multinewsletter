@@ -401,7 +401,7 @@ class MultinewsletterNewsletter {
             foreach ($this->attachments as $attachment) {
                 $media = rex_media::get($attachment);
 				if($media instanceof rex_media) {
-					$mail->addAttachment(rex_path::media($attachment), $media->getTitle());
+					$mail->addAttachment(rex_path::media($attachment), $attachment);
 				}
             }
 
