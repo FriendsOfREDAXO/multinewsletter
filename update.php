@@ -1,4 +1,5 @@
 <?php
+
 $sql = rex_sql::factory();
 // Datenbankengine auf Redaxo Standard umstellen
 $sql->setQuery('ALTER TABLE  ' . rex::getTablePrefix() . '375_archive ENGINE = INNODB;');
@@ -20,6 +21,6 @@ if (rex_sql_table::get(rex::getTable('375_archive'))->hasColumn('archive_id')) {
 $this->includeFile(__DIR__.'/install.php'); /** @phpstan-ignore-line */
 
 // 3.1.6 GDPR update
-if($this->hasConfig('unsubscribe_action')) {
-	$this->removeConfig('unsubscribe_action');
+if ($this->hasConfig('unsubscribe_action')) {
+    $this->removeConfig('unsubscribe_action');
 }

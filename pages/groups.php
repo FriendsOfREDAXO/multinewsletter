@@ -1,34 +1,35 @@
 <?php
+
 $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
 
 // Eingabeformular
-if ($func === 'edit' || $func === 'add') {
-	$form = rex_form::factory(rex::getTablePrefix() .'375_group', rex_i18n::msg('multinewsletter_group'), "id = ". $entry_id, "post", false);
+if ('edit' === $func || 'add' === $func) {
+    $form = rex_form::factory(rex::getTablePrefix() .'375_group', rex_i18n::msg('multinewsletter_group'), 'id = '. $entry_id, 'post', false);
 
-	// Gruppenname
-	$field = $form->addTextField('name');
-	$field->setLabel(rex_i18n::msg('multinewsletter_group_name'));
+    // Gruppenname
+    $field = $form->addTextField('name');
+    $field->setLabel(rex_i18n::msg('multinewsletter_group_name'));
 
-	// Absender E-Mail-Adresse
-	$field = $form->addTextField('default_sender_email');
-	$field->setLabel(rex_i18n::msg('multinewsletter_group_default_sender_email'));
+    // Absender E-Mail-Adresse
+    $field = $form->addTextField('default_sender_email');
+    $field->setLabel(rex_i18n::msg('multinewsletter_group_default_sender_email'));
 
-	// Reply to email address
-	$field = $form->addTextField('reply_to_email');
-	$field->setLabel(rex_i18n::msg('multinewsletter_group_reply_email'));
+    // Reply to email address
+    $field = $form->addTextField('reply_to_email');
+    $field->setLabel(rex_i18n::msg('multinewsletter_group_reply_email'));
 
-	// Gruppenname
-	$field = $form->addTextField('default_sender_name');
-	$field->setLabel(rex_i18n::msg('multinewsletter_group_default_sender_name'));
+    // Gruppenname
+    $field = $form->addTextField('default_sender_name');
+    $field->setLabel(rex_i18n::msg('multinewsletter_group_default_sender_name'));
 
-	// Artikel ID
-	$field = $form->addLinkmapField('default_article_id');
-	$field->setLabel(rex_i18n::msg('multinewsletter_group_default_article_id'));
+    // Artikel ID
+    $field = $form->addLinkmapField('default_article_id');
+    $field->setLabel(rex_i18n::msg('multinewsletter_group_default_article_id'));
 
-	if($func == 'edit') {
-		$form->addParam('entry_id', $entry_id);
-	}
+    if ('edit' == $func) {
+        $form->addParam('entry_id', $entry_id);
+    }
 
     if (MultinewsletterMailchimp::isActive()) {
         $Mailchimp = MultinewsletterMailchimp::factory();
@@ -45,22 +46,22 @@ if ($func === 'edit' || $func === 'add') {
         }
     }
 
-	$form->show();
-	
-	print "<br>";
+    $form->show();
+
+    echo '<br>';
 }
 // Eintrag löschen
-else if ($func == 'delete') {
-	$query = "DELETE FROM ". rex::getTablePrefix() ."375_group "
-		."WHERE id = ". $entry_id;
-	$result = rex_sql::factory();
-	$result->setQuery($query);
-	
-	echo rex_view::success(rex_i18n::msg('multinewsletter_delete'));
-	$func = '';
+elseif ('delete' == $func) {
+    $query = 'DELETE FROM '. rex::getTablePrefix() .'375_group '
+        .'WHERE id = '. $entry_id;
+    $result = rex_sql::factory();
+    $result->setQuery($query);
+
+    echo rex_view::success(rex_i18n::msg('multinewsletter_delete'));
+    $func = '';
 }
 
-if ($func === '') {
+if ('' === $func) {
     $list = rex_list::factory('SELECT id, name FROM '. rex::getTablePrefix() .'375_group ORDER BY name ASC');
     $list->addTableAttribute('class', 'table-striped table-hover');
 

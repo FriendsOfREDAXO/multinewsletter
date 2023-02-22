@@ -1,8 +1,9 @@
 <?php
+
 \rex_sql_table::get(\rex::getTable('375_archive'))
-	->ensureColumn(new rex_sql_column('id', 'INT(11) unsigned', false, null, 'auto_increment'))
-	->setPrimaryKey('id')
-	->ensureColumn(new \rex_sql_column('article_id', 'INT(11)', true))
+    ->ensureColumn(new rex_sql_column('id', 'INT(11) unsigned', false, null, 'auto_increment'))
+    ->setPrimaryKey('id')
+    ->ensureColumn(new \rex_sql_column('article_id', 'INT(11)', true))
     ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', true))
     ->ensureColumn(new \rex_sql_column('subject', 'VARCHAR(191)', true))
     ->ensureColumn(new \rex_sql_column('htmlbody', 'LONGTEXT', true))
@@ -20,8 +21,8 @@
     ->ensure();
 
 \rex_sql_table::get(\rex::getTable('375_group'))
-	->ensureColumn(new rex_sql_column('id', 'INT(11) unsigned', false, null, 'auto_increment'))
-	->setPrimaryKey('id')
+    ->ensureColumn(new rex_sql_column('id', 'INT(11) unsigned', false, null, 'auto_increment'))
+    ->setPrimaryKey('id')
     ->ensureColumn(new \rex_sql_column('name', 'VARCHAR(191)', true))
     ->ensureIndex(new rex_sql_index('name', ['name'], rex_sql_index::UNIQUE))
     ->ensureColumn(new \rex_sql_column('default_sender_email', 'VARCHAR(191)', true))
@@ -32,9 +33,9 @@
     ->ensure();
 
 \rex_sql_table::get(\rex::getTable('375_user'))
-	->ensureColumn(new rex_sql_column('id', 'INT(11) unsigned', false, null, 'auto_increment'))
-	->setPrimaryKey('id')
-	->ensureColumn(new \rex_sql_column('email', 'VARCHAR(191)', true))
+    ->ensureColumn(new rex_sql_column('id', 'INT(11) unsigned', false, null, 'auto_increment'))
+    ->setPrimaryKey('id')
+    ->ensureColumn(new \rex_sql_column('email', 'VARCHAR(191)', true))
     ->ensureIndex(new rex_sql_index('email', ['email'], rex_sql_index::UNIQUE))
     ->ensureColumn(new \rex_sql_column('grad', 'VARCHAR(191)', true))
     ->ensureColumn(new \rex_sql_column('firstname', 'VARCHAR(191)', true))
@@ -56,20 +57,20 @@
     ->ensure();
 
 \rex_sql_table::get(\rex::getTable('375_sendlist'))
-	->ensureColumn(new rex_sql_column('archive_id', 'INT(11)', false))
+    ->ensureColumn(new rex_sql_column('archive_id', 'INT(11)', false))
     ->ensureColumn(new \rex_sql_column('user_id', 'INT(11)', false))
-	->setPrimaryKey(['archive_id', 'user_id'])
+    ->setPrimaryKey(['archive_id', 'user_id'])
     ->ensureColumn(new \rex_sql_column('autosend', 'TINYINT(1)'))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('375_archive'))
-	->removeColumn('send_archive_id')
-	->alter();
+    ->removeColumn('send_archive_id')
+    ->alter();
 
 rex_sql_table::get(rex::getTable('375_group'))
-	->removeColumn('createdate')
-	->removeColumn('updatedate')
-	->alter();
+    ->removeColumn('createdate')
+    ->removeColumn('updatedate')
+    ->alter();
 
 // Standartkonfiguration erstellen
 if (!$this->hasConfig('default_test_email')) {
@@ -80,24 +81,24 @@ if (!$this->hasConfig('default_test_email')) {
 }
 
 // Update modules
-if(class_exists('D2UModuleManager')) {
-	$d2u_multinewsletter_modules = [];
-	$d2u_multinewsletter_modules[] = new D2UModule("80-1",
-		"MultiNewsletter Anmeldung mit Name und Anrede",
-		6);
-	$d2u_multinewsletter_modules[] = new D2UModule("80-2",
-		"MultiNewsletter Abmeldung",
-		7);
-	$d2u_multinewsletter_modules[] = new D2UModule("80-3",
-		"MultiNewsletter Anmeldung nur mit Mail",
-		6);
-	$d2u_multinewsletter_modules[] = new D2UModule("80-4",
-		"MultiNewsletter YForm Anmeldung",
-		5);
-	$d2u_multinewsletter_modules[] = new D2UModule("80-5",
-		"MultiNewsletter YForm Abmeldung",
-		2);
+if (class_exists('D2UModuleManager')) {
+    $d2u_multinewsletter_modules = [];
+    $d2u_multinewsletter_modules[] = new D2UModule('80-1',
+        'MultiNewsletter Anmeldung mit Name und Anrede',
+        6);
+    $d2u_multinewsletter_modules[] = new D2UModule('80-2',
+        'MultiNewsletter Abmeldung',
+        7);
+    $d2u_multinewsletter_modules[] = new D2UModule('80-3',
+        'MultiNewsletter Anmeldung nur mit Mail',
+        6);
+    $d2u_multinewsletter_modules[] = new D2UModule('80-4',
+        'MultiNewsletter YForm Anmeldung',
+        5);
+    $d2u_multinewsletter_modules[] = new D2UModule('80-5',
+        'MultiNewsletter YForm Abmeldung',
+        2);
 
-	$d2u_module_manager = new D2UModuleManager($d2u_multinewsletter_modules, "", "multinewsletter");
-	$d2u_module_manager->autoupdate();
+    $d2u_module_manager = new D2UModuleManager($d2u_multinewsletter_modules, '', 'multinewsletter');
+    $d2u_module_manager->autoupdate();
 }

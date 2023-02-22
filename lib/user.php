@@ -3,138 +3,102 @@
 /**
  * Benutzer des MultiNewsletters.
  */
-class MultinewsletterUser {
-	/**
-	 * @var int Database ID
-	 */
-	var $id = 0;
-	
-	/**
-	 * @var string Email address
-	 */
-	var $email = "";
-	
-	/**
-	 * @var string Academic degree
-	 */
-	var $grad = "";
-	
-	/**
-	 * @var string First name
-	 */
-	var $firstname = "";
-	
-	/**
-	 * @var string Last name
-	 */
-	var $lastname = "";
-	
-	/**
-	 * @var int Title 0 = male, 1 = female
-	 */
-	var $title = 0;
-	
-	/**
-	 * @var int Redaxo language id
-	 */
-	var $clang_id = 0;
-	
-	/**
-	 * @var int Status. 0, = inactive, 1 =  active, 2 = not verified
-	 */
-	var $status = 0;
-	
-	/**
-	 * @var array<string> Array with group ids
-	 */
-	var $group_ids = [];
-	
-	/**
-	 * @var string Mailchimp ID
-	 */
-	var $mailchimp_id = "";
+class MultinewsletterUser
+{
+    /** @var int Database ID */
+    public $id = 0;
 
-	/**
-	 * @var string Create date (format: Y-m-d H:i:s)
-	 */
-	var $createdate = "";
+    /** @var string Email address */
+    public $email = '';
 
-	/**
-	 * @var string Create IP Address
-	 */
-	var $createip = "";
+    /** @var string Academic degree */
+    public $grad = '';
 
-	/**
-	 * @var string Activation date (format: Y-m-d H:i:s)
-	 */
-	var $activationdate = "";
+    /** @var string First name */
+    public $firstname = '';
 
-	/**
-	 * @var string Activation IP Address
-	 */
-	var $activationip = "";
+    /** @var string Last name */
+    public $lastname = '';
 
-	/**
-	 * @var string Activation Key
-	 */
-	var $activationkey = "";
+    /** @var int Title 0 = male, 1 = female */
+    public $title = 0;
 
-	/**
-	 * @var string Update date (format: Y-m-d H:i:s)
-	 */
-	var $updatedate = "";
-	
-	/**
-	 * @var string Update IP Address
-	 */
-	var $updateip = "";
+    /** @var int Redaxo language id */
+    public $clang_id = 0;
 
-	/**
-	 * @var string Type of subcription, "web", "import", "backend"
-	 */
-	var $subscriptiontype = "";
-	
-	/**
-	 * @var int Has privacy policy been accepted? 1 = yes, 0 = no
-	 */
-	var $privacy_policy_accepted = 0;
-	
+    /** @var int Status. 0, = inactive, 1 =  active, 2 = not verified */
+    public $status = 0;
+
+    /** @var array<string> Array with group ids */
+    public $group_ids = [];
+
+    /** @var string Mailchimp ID */
+    public $mailchimp_id = '';
+
+    /** @var string Create date (format: Y-m-d H:i:s) */
+    public $createdate = '';
+
+    /** @var string Create IP Address */
+    public $createip = '';
+
+    /** @var string Activation date (format: Y-m-d H:i:s) */
+    public $activationdate = '';
+
+    /** @var string Activation IP Address */
+    public $activationip = '';
+
+    /** @var string Activation Key */
+    public $activationkey = '';
+
+    /** @var string Update date (format: Y-m-d H:i:s) */
+    public $updatedate = '';
+
+    /** @var string Update IP Address */
+    public $updateip = '';
+
+    /** @var string Type of subcription, "web", "import", "backend" */
+    public $subscriptiontype = '';
+
+    /** @var int Has privacy policy been accepted? 1 = yes, 0 = no */
+    public $privacy_policy_accepted = 0;
+
     /**
-     * Get user data from database
+     * Get user data from database.
      * @param int $user_id user id
      */
-    public function __construct($user_id) {
- 		$query = "SELECT * FROM ". \rex::getTablePrefix() ."375_user WHERE id = ". $user_id;
-		$result = \rex_sql::factory();
-		$result->setQuery($query);
+    public function __construct($user_id)
+    {
+        $query = 'SELECT * FROM '. \rex::getTablePrefix() .'375_user WHERE id = '. $user_id;
+        $result = \rex_sql::factory();
+        $result->setQuery($query);
 
-		if ($result->getRows() > 0) {
-			$this->id = $result->getValue("id");
-			$this->email = $result->getValue("email");
-			$this->grad = $result->getValue("grad");
-			$this->firstname = stripslashes($result->getValue("firstname"));
-			$this->lastname = stripslashes($result->getValue("lastname"));
-			$this->title = $result->getValue("title") == "" ? 0 : $result->getValue("title");
-			$this->clang_id = $result->getValue("clang_id");
-			$this->status = $result->getValue("status");
-			$group_separator = strpos($result->getValue("group_ids"), '|') !== false ? "|" : ",";
-			$group_ids = preg_grep('/^\s*$/s', explode($group_separator, $result->getValue("group_ids")), PREG_GREP_INVERT);
-			$this->group_ids = is_array($group_ids) ? array_map('intval', $group_ids) : [];
-			$this->mailchimp_id = $result->getValue("mailchimp_id");
-			$this->createdate = $result->getValue("createdate");
-			$this->createip = $result->getValue("createip");
-			$this->activationdate = $result->getValue("activationdate");
-			$this->activationip = $result->getValue("activationip");
-			$this->activationkey = $result->getValue("activationkey");
-			$this->updatedate = $result->getValue("updatedate");
-			$this->updateip = $result->getValue("updateip");
-			$this->subscriptiontype = $result->getValue("subscriptiontype");
-			$this->privacy_policy_accepted = $result->getValue("privacy_policy_accepted");
-		}
+        if ($result->getRows() > 0) {
+            $this->id = $result->getValue('id');
+            $this->email = $result->getValue('email');
+            $this->grad = $result->getValue('grad');
+            $this->firstname = stripslashes($result->getValue('firstname'));
+            $this->lastname = stripslashes($result->getValue('lastname'));
+            $this->title = '' == $result->getValue('title') ? 0 : $result->getValue('title');
+            $this->clang_id = $result->getValue('clang_id');
+            $this->status = $result->getValue('status');
+            $group_separator = str_contains($result->getValue('group_ids'), '|') ? '|' : ',';
+            $group_ids = preg_grep('/^\s*$/s', explode($group_separator, $result->getValue('group_ids')), PREG_GREP_INVERT);
+            $this->group_ids = is_array($group_ids) ? array_map('intval', $group_ids) : [];
+            $this->mailchimp_id = $result->getValue('mailchimp_id');
+            $this->createdate = $result->getValue('createdate');
+            $this->createip = $result->getValue('createip');
+            $this->activationdate = $result->getValue('activationdate');
+            $this->activationip = $result->getValue('activationip');
+            $this->activationkey = $result->getValue('activationkey');
+            $this->updatedate = $result->getValue('updatedate');
+            $this->updateip = $result->getValue('updateip');
+            $this->subscriptiontype = $result->getValue('subscriptiontype');
+            $this->privacy_policy_accepted = $result->getValue('privacy_policy_accepted');
+        }
     }
 
     /**
-     * Create a new user
+     * Create a new user.
      * @param string $email email address
      * @param int $title title (0 = male, 1 = female)
      * @param string $grad academic degree
@@ -143,8 +107,9 @@ class MultinewsletterUser {
      * @param int $clang_id Redaxo clang id
      * @return MultinewsletterUser initialized user
      */
-    public static function factory($email, $title, $grad, $firstname, $lastname, $clang_id) {
-		$user = self::initByMail($email) ?: new self(0);
+    public static function factory($email, $title, $grad, $firstname, $lastname, $clang_id)
+    {
+        $user = self::initByMail($email) ?: new self(0);
 
         $user->email = $email;
         $user->title = $title;
@@ -160,10 +125,11 @@ class MultinewsletterUser {
     }
 
     /**
-     * Activate user
+     * Activate user.
      */
-    public function activate() {
-        $this->activationkey = "0";
+    public function activate()
+    {
+        $this->activationkey = '0';
         $this->activationdate = date('Y-m-d H:i:s');
         $this->activationip = $_SERVER['REMOTE_ADDR'];
         $this->updatedate = date('Y-m-d H:i:s');
@@ -173,13 +139,14 @@ class MultinewsletterUser {
 
         rex_extension::registerPoint(new rex_extension_point('multinewsletter.userActivated', $this));
 
-        $this->sendAdminNoctificationMail("subscribe");
+        $this->sendAdminNoctificationMail('subscribe');
     }
 
     /**
-     * Delete user
+     * Delete user.
      */
-    public function delete():void {
+    public function delete(): void
+    {
         if (MultinewsletterMailchimp::isActive()) {
             $Mailchimp = MultinewsletterMailchimp::factory();
 
@@ -191,130 +158,133 @@ class MultinewsletterUser {
                         $Mailchimp->unsubscribe($this, $group->mailchimp_list_id);
                     }
                 }
-            }
-            catch (MultinewsletterMailchimpException $ex) {
+            } catch (MultinewsletterMailchimpException $ex) {
             }
         }
 
-		$sql = rex_sql::factory();
-		$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."375_user WHERE id = ". $this->id);
+        $sql = rex_sql::factory();
+        $sql->setQuery('DELETE FROM '. \rex::getTablePrefix() .'375_user WHERE id = '. $this->id);
     }
 
-	/**
-	 * Get full name
-	 * @return string Name
-	 */
-    public function getName() {
+    /**
+     * Get full name.
+     * @return string Name
+     */
+    public function getName()
+    {
         return trim($this->firstname) .' '. trim($this->lastname);
     }
 
-	/**
-	 * Get archive id(s), that should be sent to user
-	 * @param boolean $autosend_only If true, only archive IDs with autosend 
-	 * option are returned.
-	 * @return int[] Array with Archive IDs that will be sent to user.
-	 */
-    public function getSendlistArchiveIDs($autosend_only = false) {
-		$archive_ids = [];
-		
-	    $result = rex_sql::factory();
-		$result->setQuery("SELECT archive_id FROM ". rex::getTablePrefix() ."375_sendlist "
-			. "WHERE user_id = ". $this->id
-			.($autosend_only ? " AND autosend = 1" : ""));
-		
-        for ($i = 0; $result->getRows() > $i; $i++) {
+    /**
+     * Get archive id(s), that should be sent to user.
+     * @param bool $autosend_only if true, only archive IDs with autosend
+     * option are returned
+     * @return int[] array with Archive IDs that will be sent to user
+     */
+    public function getSendlistArchiveIDs($autosend_only = false)
+    {
+        $archive_ids = [];
+
+        $result = rex_sql::factory();
+        $result->setQuery('SELECT archive_id FROM '. rex::getTablePrefix() .'375_sendlist '
+            . 'WHERE user_id = '. $this->id
+            .($autosend_only ? ' AND autosend = 1' : ''));
+
+        for ($i = 0; $result->getRows() > $i; ++$i) {
             $archive_ids[] = $result->getValue('archive_id');
             $result->next();
         }
-		
+
         return $archive_ids;
     }
 
     /**
-     * Fetch user from database
+     * Fetch user from database.
      * @param string $email email address
-     * @return MultinewsletterUser|boolean Initialized MultinewsletterUser object.
+     * @return MultinewsletterUser|bool initialized MultinewsletterUser object
      */
-    public static function initByMail($email) {
- 		$query = "SELECT * FROM ". \rex::getTablePrefix() ."375_user WHERE email = '". trim($email) ."'";
-		$result = \rex_sql::factory();
-		$result->setQuery($query);
+    public static function initByMail($email)
+    {
+        $query = 'SELECT * FROM '. \rex::getTablePrefix() ."375_user WHERE email = '". trim($email) ."'";
+        $result = \rex_sql::factory();
+        $result->setQuery($query);
 
-		if ($result->getRows() > 0) {
-			return new MultinewsletterUser($result->getValue("id"));
-		}
-		return false;
+        if ($result->getRows() > 0) {
+            return new self($result->getValue('id'));
+        }
+        return false;
 
     }
 
     /**
-     * Personalize activation mail string
+     * Personalize activation mail string.
      * @param string $content string to be personalized
      * @return string Personalized string
      */
-    private function personalize($content) {
-        $addon = rex_addon::get("multinewsletter");
+    private function personalize($content)
+    {
+        $addon = rex_addon::get('multinewsletter');
 
-        $content = str_replace("+++EMAIL+++", $this->email, stripslashes($content));
-        $content = str_replace("+++GRAD+++", htmlspecialchars(stripslashes($this->grad), ENT_QUOTES), $content);
-        $content = str_replace("+++LASTNAME+++", htmlspecialchars(stripslashes($this->lastname), ENT_QUOTES), $content);
-        $content = str_replace("+++FIRSTNAME+++", htmlspecialchars(stripslashes($this->firstname), ENT_QUOTES), $content);
-        $content = str_replace("+++TITLE+++", htmlspecialchars(stripslashes($addon->getConfig('lang_' . $this->clang_id . "_title_" . $this->title)), ENT_QUOTES), $content);
+        $content = str_replace('+++EMAIL+++', $this->email, stripslashes($content));
+        $content = str_replace('+++GRAD+++', htmlspecialchars(stripslashes($this->grad), ENT_QUOTES), $content);
+        $content = str_replace('+++LASTNAME+++', htmlspecialchars(stripslashes($this->lastname), ENT_QUOTES), $content);
+        $content = str_replace('+++FIRSTNAME+++', htmlspecialchars(stripslashes($this->firstname), ENT_QUOTES), $content);
+        $content = str_replace('+++TITLE+++', htmlspecialchars(stripslashes($addon->getConfig('lang_' . $this->clang_id . '_title_' . $this->title)), ENT_QUOTES), $content);
         $content = preg_replace('/ {2,}/', ' ', $content);
 
-        $subscribe_link = (\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer()) 
-			. trim(trim(rex_getUrl($addon->getConfig('link'), $this->clang_id, ['activationkey' => $this->activationkey, 'email' => rawurldecode($this->email)], '&'), "/"), "./");
+        $subscribe_link = (\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer())
+            . trim(trim(rex_getUrl($addon->getConfig('link'), $this->clang_id, ['activationkey' => $this->activationkey, 'email' => rawurldecode($this->email)], '&'), '/'), './');
         if (rex_addon::get('yrewrite')->isAvailable()) {
             // Use YRewrite, support for Redaxo installations in subfolders: https://github.com/TobiasKrais/multinewsletter/issues/7
             $subscribe_link = \rex_yrewrite::getFullUrlByArticleId($addon->getConfig('link'), $this->clang_id, ['activationkey' => $this->activationkey, 'email' => rawurldecode($this->email)], '&');
         }
-        return str_replace("+++AKTIVIERUNGSLINK+++", $subscribe_link, $content);
+        return str_replace('+++AKTIVIERUNGSLINK+++', $subscribe_link, $content);
     }
 
     /**
-     * Update user in database
-	 * @return boolean true if error occured
+     * Update user in database.
+     * @return bool true if error occured
      */
-	public function save() {
-		$error = true;
+    public function save()
+    {
+        $error = true;
 
-		$query = \rex::getTablePrefix() ."375_user SET "
-					."id = ". $this->id .", "
-					."email = '". trim($this->email) ."', "
-					."grad = '". $this->grad ."', "
-					."firstname = '". addslashes($this->firstname) ."', "
-					."lastname = '". addslashes($this->lastname) ."', "
-					."title = ". ($this->title == "" ? 0 : $this->title) .", "
-					."clang_id = ". $this->clang_id .", "
-					."status = ". $this->status .", "
-					."group_ids = '|". implode("|", (array) $this->group_ids) ."|', "
-					."mailchimp_id = '". $this->mailchimp_id ."', "
-					."createdate = '". ($this->createdate == "" ? date('Y-m-d H:i:s') : $this->createdate) ."', "
-					."createip = '". ($this->createip == "" ? $_SERVER['REMOTE_ADDR'] : $this->createip) ."', "
-					."activationdate = '". $this->activationdate ."', "
-					."activationip = '". $this->activationip ."', "
-					."activationkey = '". $this->activationkey ."', "
-					."updatedate = '". date('Y-m-d H:i:s') ."', "
-					."updateip = '". $_SERVER['REMOTE_ADDR'] ."', "
-					."subscriptiontype = '". $this->subscriptiontype ."', "
-					."privacy_policy_accepted = ". $this->privacy_policy_accepted ." ";
-		if($this->id == 0) {
-			$query = "INSERT INTO ". $query;
-		}
-		else {
-			$query = "UPDATE ". $query ." WHERE id = ". $this->id;
-		}
-		$result = \rex_sql::factory();
-		$result->setQuery($query);
-		if($this->id == 0) {
-			$this->id = intval($result->getLastId());
-			$error = !$result->hasError();
-		}
-		
-		// Don't forget Mailchimp
+        $query = \rex::getTablePrefix() .'375_user SET '
+                    .'id = '. $this->id .', '
+                    ."email = '". trim($this->email) ."', "
+                    ."grad = '". $this->grad ."', "
+                    ."firstname = '". addslashes($this->firstname) ."', "
+                    ."lastname = '". addslashes($this->lastname) ."', "
+                    .'title = '. ('' == $this->title ? 0 : $this->title) .', '
+                    .'clang_id = '. $this->clang_id .', '
+                    .'status = '. $this->status .', '
+                    ."group_ids = '|". implode('|', (array) $this->group_ids) ."|', "
+                    ."mailchimp_id = '". $this->mailchimp_id ."', "
+                    ."createdate = '". ('' == $this->createdate ? date('Y-m-d H:i:s') : $this->createdate) ."', "
+                    ."createip = '". ('' == $this->createip ? $_SERVER['REMOTE_ADDR'] : $this->createip) ."', "
+                    ."activationdate = '". $this->activationdate ."', "
+                    ."activationip = '". $this->activationip ."', "
+                    ."activationkey = '". $this->activationkey ."', "
+                    ."updatedate = '". date('Y-m-d H:i:s') ."', "
+                    ."updateip = '". $_SERVER['REMOTE_ADDR'] ."', "
+                    ."subscriptiontype = '". $this->subscriptiontype ."', "
+                    .'privacy_policy_accepted = '. $this->privacy_policy_accepted .' ';
+        if (0 == $this->id) {
+            $query = 'INSERT INTO '. $query;
+        } else {
+            $query = 'UPDATE '. $query .' WHERE id = '. $this->id;
+        }
+        $result = \rex_sql::factory();
+        $result->setQuery($query);
+        if (0 == $this->id) {
+            $this->id = (int) $result->getLastId();
+            $error = !$result->hasError();
+        }
+
+        // Don't forget Mailchimp
         if (MultinewsletterMailchimp::isActive()) {
             $Mailchimp = MultinewsletterMailchimp::factory();
-            $_status = $this->status == 2 ? 'unsubscribed' : ($this->status == 1 ? 'subscribed' : 'pending');
+            $_status = 2 == $this->status ? 'unsubscribed' : (1 == $this->status ? 'subscribed' : 'pending');
 
             try {
                 foreach ($this->group_ids as $group_id) {
@@ -325,84 +295,39 @@ class MultinewsletterUser {
                         $this->mailchimp_id = $result['id'];
                     }
                 }
-            }
-            catch (MultinewsletterMailchimpException $ex) {
+            } catch (MultinewsletterMailchimpException $ex) {
             }
         }
-		
-		return $error;
+
+        return $error;
     }
 
     /**
-     * Send activation mail
+     * Send activation mail.
      * @param string $sender_mail Sender email addresss
      * @param string $sender_name Sender name
      * @param string $subject Mail subject
      * @param string $body Mail content
-     * @return boolean true if successful, otherwise false
+     * @return bool true if successful, otherwise false
      */
-    public function sendActivationMail($sender_mail, $sender_name, $subject, $body) {
-        if (!empty($body) && strlen($this->email) && filter_var($sender_mail, FILTER_VALIDATE_EMAIL) !== false) {
+    public function sendActivationMail($sender_mail, $sender_name, $subject, $body)
+    {
+        if (!empty($body) && strlen($this->email) && false !== filter_var($sender_mail, FILTER_VALIDATE_EMAIL)) {
             $mail = new rex_mailer();
             $mail->IsHTML(true);
-            $mail->CharSet  = "utf-8";
+            $mail->CharSet = 'utf-8';
             $mail->From = $sender_mail;
             $mail->FromName = $sender_name;
             $mail->Sender = $sender_mail;
             $mail->AddAddress($this->email, $this->getName());
 
             $mail->Subject = $this->personalize($subject);
-            $mail->Body    = rex_extension::registerPoint(new rex_extension_point('multinewsletter.preSend', $this->personalize($body), [
+            $mail->Body = rex_extension::registerPoint(new rex_extension_point('multinewsletter.preSend', $this->personalize($body), [
                 'mail' => $mail,
                 'user' => $this,
             ]));
-			
-            $addon_multinewsletter = rex_addon::get("multinewsletter");
-            if ($addon_multinewsletter->getConfig('use_smtp')) {
-                $mail->Mailer = 'smtp';
-                $mail->Host = $addon_multinewsletter->getConfig('smtp_host');
-                $mail->Port = $addon_multinewsletter->getConfig('smtp_port');
-                $mail->SMTPSecure = $addon_multinewsletter->getConfig('smtp_crypt');
-                $mail->SMTPAuth = $addon_multinewsletter->getConfig('smtp_auth');
-                $mail->Username = $addon_multinewsletter->getConfig('smtp_user');
-                $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
-            }
 
-			return $mail->Send();
-        }
-        else {
-            return false;
-        }
-    }
-
-    /**
-     * Send admin mail with hint, that user status changed
-     * @param string $type Either "subscribe" or "unsubscribe"
-     * @return boolean true if successful, otherwise false
-     */
-    public function sendAdminNoctificationMail($type) {
-        $addon = rex_addon::get('multinewsletter');
-
-        if (filter_var($addon->getConfig('subscribe_meldung_email'), FILTER_VALIDATE_EMAIL) !== false) {
-            $mail = new rex_mailer();
-            $mail->IsHTML(true);
-            $mail->CharSet  = "utf-8";
-            $mail->From = $addon->getConfig('sender');
-            $mail->FromName = $addon->getConfig('lang_' . $this->clang_id . "_sendername");
-            $mail->Sender = $addon->getConfig('sender');
-
-            $mail->AddAddress($addon->getConfig('subscribe_meldung_email'));
-
-            if ($type == "subscribe") {
-                $mail->Subject = "Neue Anmeldung zum Newsletter";
-                $mail->Body    = "Neue Anmeldung zum Newsletter: " . $this->email;
-            }
-            else {
-                $mail->Subject = "Abmeldung vom Newsletter";
-                $mail->Body    = "Abmeldung vom Newsletter: " . $this->email;
-            }
-
-			$addon_multinewsletter = rex_addon::get("multinewsletter");
+            $addon_multinewsletter = rex_addon::get('multinewsletter');
             if ($addon_multinewsletter->getConfig('use_smtp')) {
                 $mail->Mailer = 'smtp';
                 $mail->Host = $addon_multinewsletter->getConfig('smtp_host');
@@ -415,24 +340,69 @@ class MultinewsletterUser {
 
             return $mail->Send();
         }
-        else {
-            return false;
-        }
+
+        return false;
+
     }
 
     /**
-     * Unsubcribe user
+     * Send admin mail with hint, that user status changed.
+     * @param string $type Either "subscribe" or "unsubscribe"
+     * @return bool true if successful, otherwise false
      */
-    public function unsubscribe($action = "delete") {
-        if ($action == "delete") {
-            $this->delete();
+    public function sendAdminNoctificationMail($type)
+    {
+        $addon = rex_addon::get('multinewsletter');
+
+        if (false !== filter_var($addon->getConfig('subscribe_meldung_email'), FILTER_VALIDATE_EMAIL)) {
+            $mail = new rex_mailer();
+            $mail->IsHTML(true);
+            $mail->CharSet = 'utf-8';
+            $mail->From = $addon->getConfig('sender');
+            $mail->FromName = $addon->getConfig('lang_' . $this->clang_id . '_sendername');
+            $mail->Sender = $addon->getConfig('sender');
+
+            $mail->AddAddress($addon->getConfig('subscribe_meldung_email'));
+
+            if ('subscribe' == $type) {
+                $mail->Subject = 'Neue Anmeldung zum Newsletter';
+                $mail->Body = 'Neue Anmeldung zum Newsletter: ' . $this->email;
+            } else {
+                $mail->Subject = 'Abmeldung vom Newsletter';
+                $mail->Body = 'Abmeldung vom Newsletter: ' . $this->email;
+            }
+
+            $addon_multinewsletter = rex_addon::get('multinewsletter');
+            if ($addon_multinewsletter->getConfig('use_smtp')) {
+                $mail->Mailer = 'smtp';
+                $mail->Host = $addon_multinewsletter->getConfig('smtp_host');
+                $mail->Port = $addon_multinewsletter->getConfig('smtp_port');
+                $mail->SMTPSecure = $addon_multinewsletter->getConfig('smtp_crypt');
+                $mail->SMTPAuth = $addon_multinewsletter->getConfig('smtp_auth');
+                $mail->Username = $addon_multinewsletter->getConfig('smtp_user');
+                $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
+            }
+
+            return $mail->Send();
         }
-        else {
+
+        return false;
+
+    }
+
+    /**
+     * Unsubcribe user.
+     */
+    public function unsubscribe($action = 'delete')
+    {
+        if ('delete' == $action) {
+            $this->delete();
+        } else {
             // $action = "status_unsubscribed"
             $this->status = 2;
             $this->save();
         }
 
-        $this->sendAdminNoctificationMail("unsubscribe");
+        $this->sendAdminNoctificationMail('unsubscribe');
     }
 }

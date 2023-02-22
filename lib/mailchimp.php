@@ -12,20 +12,18 @@
  */
 class MultinewsletterMailchimp
 {
-    private static $inst        = null;
-    private static $api_key     = '';
+    private static $inst;
+    private static $api_key = '';
     private static $data_center = '';
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function factory()
     {
-        if (self::$inst === null) {
-            self::$inst    = new self();
+        if (null === self::$inst) {
+            self::$inst = new self();
             self::$api_key = rex_addon::get('multinewsletter')->getConfig('mailchimp_api_key');
-            list($a, self::$data_center) = explode('-', self::$api_key);
+            [$a, self::$data_center] = explode('-', self::$api_key);
         }
         return self::$inst;
     }
@@ -49,12 +47,11 @@ class MultinewsletterMailchimp
         try {
             $this->request("/lists/{$listId}/members/{$hash}");
             $result = $this->request("/lists/{$listId}/members/{$hash}", 'PATCH', ['status' => $status]);
-        }
-        catch (MultinewsletterMailchimpException $ex) {
+        } catch (MultinewsletterMailchimpException $ex) {
             $result = $this->request("/lists/{$listId}/members/", 'POST', [
                 'email_address' => $user->email,
-                'status'        => $status,
-                'merge_fields'  => [
+                'status' => $status,
+                'merge_fields' => [
                     'FNAME' => $user->firstname,
                     'LNAME' => $user->lastname,
                 ],
@@ -74,38 +71,37 @@ class MultinewsletterMailchimp
 
     public function request($path, $type = 'GET', $fields = [])
     {
-        //open connection
-        $ch  = curl_init();
+        // open connection
+        $ch = curl_init();
         $url = 'https://' . self::$data_center . '.api.mailchimp.com/3.0' . $path;
-//        pr($url);
+        //        pr($url);
 
-        //set the url, number of POST vars, POST data
+        // set the url, number of POST vars, POST data
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, HTTP_AUTH_BASIC, true);
         curl_setopt($ch, CURLOPT_USERPWD, 'anystring:' . self::$api_key);
 
-        if ($type != 'GET') {
+        if ('GET' != $type) {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 "X-HTTP-Method-Override: {$type}",
             ]);
         }
-        //execute post
+        // execute post
         $result = curl_exec($ch);
-        //close connection
+        // close connection
         curl_close($ch);
 
         $decoded_json = (array) json_decode($result, true);
 
-        if (json_last_error() == JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE == json_last_error()) {
             $result = $decoded_json;
-        }
-        else {
+        } else {
             throw new MultinewsletterMailchimpException('Mailchimp: Request Not Found', 1);
         }
-        if ($result['status'] == '404') {
+        if ('404' == $result['status']) {
             throw new MultinewsletterMailchimpException('Mailchimp: ' . $result['detail'], 2);
         }
         return $result;
@@ -114,5 +110,4 @@ class MultinewsletterMailchimp
 
 class MultinewsletterMailchimpException extends Exception
 {
-
 }
