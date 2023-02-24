@@ -42,7 +42,7 @@ if (rex::isBackend()) {
 
     if ($showform) {
 ?>
-		<form id="unsubscribe" action="<?= rex_getURL(rex_article::getCurrentId(), rex_clang::getCurrentId()) ?>" method="post" name="unsubscribe" class="rex-yform">
+		<form id="unsubscribe" action="<?= rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId()) ?>" method="post" name="unsubscribe" class="rex-yform">
 			<div class="form-group yform-element">
 				<label class="control-label" for="unsubscribe_email"><?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?></label>
 				<input type="email" class="form-control" name="unsubscribe_email" value="" required>
