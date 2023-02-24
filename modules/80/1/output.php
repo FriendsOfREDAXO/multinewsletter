@@ -44,7 +44,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
     if ('' == filter_input(INPUT_POST, 'lastname') || strlen(filter_input(INPUT_POST, 'lastname')) > 30) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_lastname');
     }
-    if (0 == count($form_groups['groups'])) {
+    if (0 === count($form_groups['groups'])) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_nogroup_selected');
     }
 
@@ -131,7 +131,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
 if ($showform) {
     // Session zum Senden freigeben
     unset($_SESSION['newsletteranmeldung_gesendet']);
-    if (0 == count($messages)) {
+    if (0 === count($messages)) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_action') .'</p>';
     }
 ?>

@@ -168,7 +168,7 @@ class MultinewsletterNewsletterManager
         }
 
         // Deactivate Cronjob
-        if (0 == count($newsletterManager->archives)) {
+        if (0 === count($newsletterManager->archives)) {
             multinewsletter_cronjob_sender::factory()->deactivate();
         }
 
@@ -426,7 +426,7 @@ class MultinewsletterNewsletterManager
             --$numberMails;
         }
 
-        if (0 == count($failure_mails)) {
+        if (0 === count($failure_mails)) {
             return true;
         }
 

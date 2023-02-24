@@ -250,7 +250,7 @@ if('' != filter_input(INPUT_POST, 'sendtestmail')) {
 }
 // Adressen vorbereiten
 elseif('' != filter_input(INPUT_POST, 'prepare')) {
-    if(0 == count($_SESSION['multinewsletter']['newsletter']['groups']) && 0 == count($_SESSION['multinewsletter']['newsletter']['man_recipients'])) {
+    if(0 === count($_SESSION['multinewsletter']['newsletter']['groups']) && 0 == count($_SESSION['multinewsletter']['newsletter']['man_recipients'])) {
         $messages[] = rex_i18n::msg('multinewsletter_error_nogroupselected');
     }
 

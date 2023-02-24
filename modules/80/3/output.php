@@ -110,7 +110,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
 }
 
 if ($showform) {
-    if (0 == count($messages)) {
+    if (0 === count($messages)) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_action') .'</p>';
     }
 ?>
