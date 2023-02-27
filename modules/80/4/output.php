@@ -40,23 +40,10 @@ if (rex_addon::get('emailobfuscator')->isAvailable()) {
     }
 }
 
-$cols_sm = 'REX_VALUE[20]';
-if ('' == $cols_sm) {
-    $cols_sm = 12;
-}
-$cols_md = 'REX_VALUE[19]';
-if ('' == $cols_md) {
-    $cols_md = 12;
-}
-$cols_lg = 'REX_VALUE[18]';
-if ('' == $cols_lg) {
-    $cols_lg = 8;
-}
-$offset_lg_cols = (int) 'REX_VALUE[17]';
-$offset_lg = '';
-if ($offset_lg_cols > 0) { /** @phpstan-ignore-line */
-    $offset_lg = ' mr-lg-auto ml-lg-auto ';
-}
+$cols_sm = 0 === (int) 'REX_VALUE[20]' ? 12 : (int) 'REX_VALUE[20]'; /** @phpstan-ignore-line */
+$cols_md = 0 === (int) 'REX_VALUE[19]' ? 12 : (int) 'REX_VALUE[19]'; /** @phpstan-ignore-line */
+$cols_lg = 0 === (int) 'REX_VALUE[18]' ? 12 : (int) 'REX_VALUE[18]'; /** @phpstan-ignore-line */
+$offset_lg = (int) 'REX_VALUE[17]' > 0 ? ' mr-lg-auto ml-lg-auto ' : ''; /** @phpstan-ignore-line */
 
 echo '<div class="col-12 col-sm-'. $cols_sm .' col-md-'. $cols_md .' col-lg-'. $cols_lg . $offset_lg .' yform">';
 
@@ -74,7 +61,7 @@ if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(I
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key', '') .'</p>';
     }
 } else {
-    $ask_name = 'REX_VALUE[2]' == 'true' ? true : false;
+    $ask_name = 'REX_VALUE[2]' === 'true' ? true : false; /** @phpstan-ignore-line */
 
     // Show form
     $form_data = 'hidden|subscriptiontype|web
