@@ -484,7 +484,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
 			$('[name="settings[lang_' + curClang + '_title_0]"]').val(langPresets[curLangPresetIndex]['title_0']);
 			$('[name="settings[lang_' + curClang + '_title_1]"]').val(langPresets[curLangPresetIndex]['title_1']);
 			$('[name="settings[lang_' + curClang + '_confirmsubject]"]').val(langPresets[curLangPresetIndex]['confirmsubject']);
-			$('[name="settings[lang_' + curClang + '_confirmcontent]"').val(langPresets[curLangPresetIndex]['confirmcontent']);
+			$('[name="settings[lang_' + curClang + '_confirmcontent]"]').val(langPresets[curLangPresetIndex]['confirmcontent']);
 //			$('[name="settings[lang_' + curClang + '_sendername]"]').val(langPresets[curLangPresetIndex]['sendername']);
 			$('[name="settings[lang_' + curClang + '_privacy_policy]"]').val(langPresets[curLangPresetIndex]['privacy_policy']);
 			$('[name="settings[lang_' + curClang + '_compulsory]"]').val(langPresets[curLangPresetIndex]['compulsory']);
