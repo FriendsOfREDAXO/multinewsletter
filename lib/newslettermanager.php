@@ -447,12 +447,12 @@ class MultinewsletterNewsletterManager
             $multinewsletter = rex_addon::get('multinewsletter');
 
             $mail = new rex_mailer();
-            $mail->IsHTML(true);
+            $mail->isHTML(true);
             $mail->CharSet = 'utf-8';
             $mail->From = $multinewsletter->getConfig('sender');
             $mail->FromName = 'MultiNewsletter Manager';
             $mail->Sender = $multinewsletter->getConfig('sender');
-            $mail->AddAddress($multinewsletter->getConfig('admin_email'));
+            $mail->addAddress($multinewsletter->getConfig('admin_email'));
 
             if ($multinewsletter->getConfig('use_smtp')) {
                 $mail->Mailer = 'smtp';

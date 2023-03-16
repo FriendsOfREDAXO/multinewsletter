@@ -270,7 +270,7 @@ class MultinewsletterNewsletter
             $this->clang_id = $clang_id;
             if ('socket' == rex_config::get('multinewsletter', 'method', 'redaxo')) {
                 $article_url = rtrim(rex::getServer(), '/') . '/' . ltrim(str_replace(['../', './'], '', rex_getUrl($article_id, $clang_id, ['replace_vars' => 1])), '/');
-                if (rex_addon::get('yrewrite') && rex_addon::get('yrewrite')->isAvailable()) {
+                if (\rex_addon::get('yrewrite') instanceof \rex_addon_interface && rex_addon::get('yrewrite')->isAvailable()) {
                     $article_url = rex_yrewrite::getFullUrlByArticleId($article_id, $clang_id, ['replace_vars' => 1]);
                 }
                 try {
@@ -349,7 +349,7 @@ class MultinewsletterNewsletter
             $addon_multinewsletter = rex_addon::get('multinewsletter');
 
             $mail = new rex_mailer();
-            $mail->IsHTML(true);
+            $mail->isHTML(true);
             $mail->CharSet = 'utf-8';
             $mail->From = trim($this->sender_email);
             $mail->FromName = trim($this->sender_name);
@@ -357,7 +357,7 @@ class MultinewsletterNewsletter
             if ('' != $this->reply_to_email) {
                 $mail->addReplyTo(trim($this->reply_to_email));
             }
-            $mail->AddAddress(trim($multinewsletter_user->email), $multinewsletter_user->getName());
+            $mail->addAddress(trim($multinewsletter_user->email), $multinewsletter_user->getName());
 
             if ($addon_multinewsletter->getConfig('use_smtp')) {
                 $mail->Mailer = 'smtp';

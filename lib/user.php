@@ -314,12 +314,12 @@ class MultinewsletterUser
     {
         if (!empty($body) && strlen($this->email) && false !== filter_var($sender_mail, FILTER_VALIDATE_EMAIL)) {
             $mail = new rex_mailer();
-            $mail->IsHTML(true);
+            $mail->isHTML(true);
             $mail->CharSet = 'utf-8';
             $mail->From = $sender_mail;
             $mail->FromName = $sender_name;
             $mail->Sender = $sender_mail;
-            $mail->AddAddress($this->email, $this->getName());
+            $mail->addAddress($this->email, $this->getName());
 
             $mail->Subject = $this->personalize($subject);
             $mail->Body = rex_extension::registerPoint(new rex_extension_point('multinewsletter.preSend', $this->personalize($body), [
@@ -356,13 +356,13 @@ class MultinewsletterUser
 
         if (false !== filter_var($addon->getConfig('subscribe_meldung_email'), FILTER_VALIDATE_EMAIL)) {
             $mail = new rex_mailer();
-            $mail->IsHTML(true);
+            $mail->isHTML(true);
             $mail->CharSet = 'utf-8';
             $mail->From = $addon->getConfig('sender');
             $mail->FromName = $addon->getConfig('lang_' . $this->clang_id . '_sendername');
             $mail->Sender = $addon->getConfig('sender');
 
-            $mail->AddAddress($addon->getConfig('subscribe_meldung_email'));
+            $mail->addAddress($addon->getConfig('subscribe_meldung_email'));
 
             if ('subscribe' == $type) {
                 $mail->Subject = 'Neue Anmeldung zum Newsletter';
