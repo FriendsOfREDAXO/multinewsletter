@@ -97,7 +97,7 @@ if (class_exists('D2UModuleManager')) {
         5);
     $d2u_multinewsletter_modules[] = new D2UModule('80-5',
         'MultiNewsletter YForm Abmeldung',
-        2);
+        3);
 
     $d2u_module_manager = new D2UModuleManager($d2u_multinewsletter_modules, '', 'multinewsletter');
     $d2u_module_manager->autoupdate();

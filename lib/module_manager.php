@@ -27,7 +27,7 @@ class D2UMultiNewsletterModules
             5);
         $d2u_multinewsletter_modules[] = new D2UModule('80-5',
             'MultiNewsletter YForm Abmeldung',
-            2);
+            3);
         return $d2u_multinewsletter_modules;
     }
 }

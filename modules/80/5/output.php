@@ -54,6 +54,11 @@ if (rex::isBackend()) {
 } else {
     $addon = rex_addon::get('multinewsletter');
 
+    $cols_sm = 0 === (int) 'REX_VALUE[20]' ? 12 : (int) 'REX_VALUE[20]'; /** @phpstan-ignore-line */
+    $cols_md = 0 === (int) 'REX_VALUE[19]' ? 12 : (int) 'REX_VALUE[19]'; /** @phpstan-ignore-line */
+    $cols_lg = 0 === (int) 'REX_VALUE[18]' ? 12 : (int) 'REX_VALUE[18]'; /** @phpstan-ignore-line */
+    $offset_lg = (int) 'REX_VALUE[17]' > 0 ? ' mr-lg-auto ml-lg-auto ' : ''; /** @phpstan-ignore-line */
+    
     echo '<div class="col-12 col-sm-'. $cols_sm .' col-md-'. $cols_md .' col-lg-'. $cols_lg . $offset_lg .' yform">';
     echo '<h2>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_unsubscribe', '') .'</h2>';
     echo '<br>';

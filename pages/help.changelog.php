@@ -1,7 +1,11 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.4.0-DEV</p>
+	<p>3.4.1</p>
+	<ul>
+		<li>Modul 80-5 "MultiNewsletter YForm Abmeldung": Einstellung der Breite des Blocks funktioniert jetzt korrekt.</li>
+	</ul>
+	<p>3.4.0</p>
 	<ul>
 		<li>PHP-CS-Fixer Code Verbesserungen.</li>
 		<li>Testmails können nun auch mit Anhängen versehen werden.</li>
