@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.4.2-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.4.1</p>
 	<ul>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Formular mit Formularnamen versehen um bessere YForm Spamprotection Kompatibilität bei mehreren Formularen auf einer Seite herzustellen.</li>
