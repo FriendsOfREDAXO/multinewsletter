@@ -3,7 +3,8 @@
 
 	<p>3.4.1</p>
 	<ul>
-		<li>Modul 80-5 "MultiNewsletter YForm Abmeldung": Einstellung der Breite des Blocks funktioniert jetzt korrekt.</li>
+		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Formular mit Formularnamen versehen um bessere YForm Spamprotection Kompatibilität bei mehreren Formularen auf einer Seite herzustellen.</li>
+		<li>Modul 80-5 "MultiNewsletter YForm Abmeldung": Einstellung der Breite des Blocks funktioniert jetzt korrekt. Außerdem FOrmular mit Formularnamen versehen um bessere YForm Spamprotection Kompatibilität bei mehreren Formularen auf einer Seite herzustellen.</li>
 	</ul>
 	<p>3.4.0</p>
 	<ul>

@@ -24,7 +24,7 @@ class D2UMultiNewsletterModules
             6);
         $d2u_multinewsletter_modules[] = new D2UModule('80-4',
             'MultiNewsletter YForm Anmeldung',
-            5);
+            6);
         $d2u_multinewsletter_modules[] = new D2UModule('80-5',
             'MultiNewsletter YForm Abmeldung',
             3);

@@ -193,8 +193,8 @@ foreach ($messages as $message) {
 							<dt><label for="import_action"></label></dt>
 							<dd><input type="radio" value="overwrite" name="import_action"
 									<?php if ('' == filter_input(INPUT_POST, 'import_action') || 'overwrite' == filter_input(INPUT_POST, 'import_action')) {
-									echo 'checked="checked"';
-									} ?> />
+                                    echo 'checked="checked"';
+                                    } ?> />
 								<?= rex_i18n::msg('multinewsletter_import_overwrite')?>
 							</dd>
 						</dl>
@@ -202,8 +202,8 @@ foreach ($messages as $message) {
 							<dt><label for="import_action"></label></dt>
 							<dd><input type="radio" value="delete" name="import_action"
 									<?php if ('delete' == filter_input(INPUT_POST, 'import_action')) {
-									echo 'checked="checked"';
-									} ?> />
+                                    echo 'checked="checked"';
+                                    } ?> />
 								<?= rex_i18n::msg('multinewsletter_import_delete')?>
 							</dd>
 						</dl>
@@ -211,8 +211,8 @@ foreach ($messages as $message) {
 							<dt><label for="import_action"></label></dt>
 							<dd><input  type="radio" value="add_new" name="import_action"
 									<?php if ('add_new' == filter_input(INPUT_POST, 'import_action')) {
-									echo 'checked="checked"';
-									} ?> />
+                                    echo 'checked="checked"';
+                                    } ?> />
 								<?= rex_i18n::msg('multinewsletter_import_add_new')?>
 							</dd>
 						</dl>
