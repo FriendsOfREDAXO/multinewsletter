@@ -14,47 +14,42 @@ if ('Export' == filter_input(INPUT_POST, 'btn_export')) {
 }
 // import settings
 if ('Import' == filter_input(INPUT_POST, 'btn_import')) {
-  if ($_FILES['config_import_file']['tmp_ name'] === '') {
-    echo rex_view::error(rex_i18n::msg('multinewsletter_config_settings_import_error'));
+  $sql_db = rex_sql::factory();
+  $sql_db->beginTransaction();
+
+  try {
+    ### proof on empty
+    if ($_FILES['config_import_file']['tmp_name'] === '') {
+      throw new Exception(rex_i18n::msg('multinewsletter_config_settings_import_empty'));
+    }
+    ### proof on JSON file
+    if ($_FILES['config_import_file']['type'] !== 'application/json') {
+      throw new Exception(rex_i18n::msg('multinewsletter_config_settings_import_filetype'));
+    }
+    ### delete existing settings
+    if (rex_config::get('multinewsletter')) {
+      rex_config::removeNamespace('multinewsletter');
+      $sql_db->setTable('rex_config')->setWhere(['namespace' => 'multinewsletter'])->delete();
+    }
+    $data = file_get_contents($_FILES['config_import_file']['tmp_name']); //data read from json file
+    $import_data = json_decode($data);  //decode a data
+    $blacklist = ['default_test_article', 'link', 'link_abmeldung']; // don't add quotes for link-fields
+    foreach ($import_data as $key => $value) {
+      $import_value = (in_array($key, $blacklist)) ? $value : '"' . $value . '"';
+      $sql_db->setTable('rex_config')->setValue('namespace', 'multinewsletter')->setValue('key', $key)->setValue('value', $import_value)->insert();
+    }
+    $sql_db->commit();
+  } catch (\Throwable $e) {
+    $sql_db->rollBack();
+    $error_message = $e->getMessage();
+  }
+  if ($error_message) {
+    echo rex_view::error($error_message);
   } else {
-
-    $sql_db = rex_sql::factory();
-    $sql_db->beginTransaction();
-
-    try {
-      ### proof on empty
-      if ($_FILES['config_import_file']['tmp_name'] === '') {
-        throw new Exception(rex_i18n::msg('multinewsletter_config_settings_import_empty'));
-      }
-      ### proof on JSON file
-      if ($_FILES['config_import_file']['type'] !== 'application/json') {
-        throw new Exception(rex_i18n::msg('multinewsletter_config_settings_import_filetype'));
-      }
-      ### delete existing settings
-      if (rex_config::get('multinewsletter')) {
-        rex_config::removeNamespace('multinewsletter');
-        $sql_db->setTable('rex_config')->setWhere(['namespace' => 'multinewsletter'])->delete();
-      }
-      $data = file_get_contents($_FILES['config_import_file']['tmp_name']); //data read from json file
-      $import_data = json_decode($data);  //decode a data
-      $blacklist = ['default_test_article', 'link', 'link_abmeldung']; // don't add quotes for link-fields
-      foreach ($import_data as $key => $value) {
-        $import_value = (in_array($key, $blacklist)) ? $value : '"' . $value . '"';
-        $sql_db->setTable('rex_config')->setValue('namespace', 'multinewsletter')->setValue('key', $key)->setValue('value', $import_value)->insert();
-      }
-      $sql_db->commit();
-    } catch (\Throwable $e) {
-      $sql_db->rollBack();
-      $error_message = $e->getMessage();
-    }
-    if ($error_message) {
-      echo rex_view::error($error_message);
-    } else {
-      rex_package::require('multinewsletter')->clearCache();
-      rex_config::refresh();
-      echo rex_view::success(rex_i18n::msg('multinewsletter_config_settings_import_success'));
-      echo rex_view::info(rex_i18n::msg('multinewsletter_config_settings_import_success_hints'));
-    }
+    rex_package::require('multinewsletter')->clearCache();
+    rex_config::refresh();
+    echo rex_view::success(rex_i18n::msg('multinewsletter_config_settings_import_success'));
+    echo rex_view::info(rex_i18n::msg('multinewsletter_config_settings_import_success_hints'));
   }
 }
 ?>
