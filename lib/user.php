@@ -6,61 +6,61 @@
 class MultinewsletterUser
 {
     /** @var int Database ID */
-    public $id = 0;
+    public int $id = 0;
 
     /** @var string Email address */
-    public $email = '';
+    public string $email = '';
 
     /** @var string Academic degree */
-    public $grad = '';
+    public string $grad = '';
 
     /** @var string First name */
-    public $firstname = '';
+    public string $firstname = '';
 
     /** @var string Last name */
-    public $lastname = '';
+    public string $lastname = '';
 
     /** @var int Title 0 = male, 1 = female */
-    public $title = 0;
+    public int $title = 0;
 
     /** @var int Redaxo language id */
-    public $clang_id = 0;
+    public int $clang_id = 0;
 
     /** @var int Status. 0, = inactive, 1 =  active, 2 = not verified */
-    public $status = 0;
+    public int $status = 0;
 
-    /** @var array<string> Array with group ids */
-    public $group_ids = [];
+    /** @var array<int> Array with group ids */
+    public array $group_ids = [];
 
     /** @var string Mailchimp ID */
     public $mailchimp_id = '';
 
     /** @var string Create date (format: Y-m-d H:i:s) */
-    public $createdate = '';
+    public string $createdate = '';
 
     /** @var string Create IP Address */
-    public $createip = '';
+    public string $createip = '';
 
     /** @var string Activation date (format: Y-m-d H:i:s) */
     public $activationdate = '';
 
     /** @var string Activation IP Address */
-    public $activationip = '';
+    public string $activationip = '';
 
     /** @var string Activation Key */
-    public $activationkey = '';
+    public string $activationkey = '';
 
     /** @var string Update date (format: Y-m-d H:i:s) */
-    public $updatedate = '';
+    public string $updatedate = '';
 
     /** @var string Update IP Address */
-    public $updateip = '';
+    public string $updateip = '';
 
     /** @var string Type of subcription, "web", "import", "backend" */
-    public $subscriptiontype = '';
+    public string $subscriptiontype = '';
 
     /** @var int Has privacy policy been accepted? 1 = yes, 0 = no */
-    public $privacy_policy_accepted = 0;
+    public int $privacy_policy_accepted = 0;
 
     /**
      * Get user data from database.
@@ -73,27 +73,27 @@ class MultinewsletterUser
         $result->setQuery($query);
 
         if ($result->getRows() > 0) {
-            $this->id = $result->getValue('id');
-            $this->email = $result->getValue('email');
-            $this->grad = $result->getValue('grad');
-            $this->firstname = stripslashes($result->getValue('firstname'));
-            $this->lastname = stripslashes($result->getValue('lastname'));
-            $this->title = '' == $result->getValue('title') ? 0 : $result->getValue('title');
-            $this->clang_id = $result->getValue('clang_id');
-            $this->status = $result->getValue('status');
-            $group_separator = str_contains($result->getValue('group_ids'), '|') ? '|' : ',';
-            $group_ids = preg_grep('/^\s*$/s', explode($group_separator, $result->getValue('group_ids')), PREG_GREP_INVERT);
+            $this->id = (int) $result->getValue('id');
+            $this->email = (string) $result->getValue('email');
+            $this->grad = (string) $result->getValue('grad');
+            $this->firstname = stripslashes((string) $result->getValue('firstname'));
+            $this->lastname = stripslashes((string) $result->getValue('lastname'));
+            $this->title = (int) $result->getValue('title');
+            $this->clang_id = (int) $result->getValue('clang_id');
+            $this->status = (int) $result->getValue('status');
+            $group_separator = str_contains((string) $result->getValue('group_ids'), '|') ? '|' : ',';
+            $group_ids = preg_grep('/^\s*$/s', explode($group_separator, (string) $result->getValue('group_ids')), PREG_GREP_INVERT);
             $this->group_ids = is_array($group_ids) ? array_map('intval', $group_ids) : [];
-            $this->mailchimp_id = $result->getValue('mailchimp_id');
-            $this->createdate = $result->getValue('createdate');
-            $this->createip = $result->getValue('createip');
-            $this->activationdate = $result->getValue('activationdate');
-            $this->activationip = $result->getValue('activationip');
-            $this->activationkey = $result->getValue('activationkey');
-            $this->updatedate = $result->getValue('updatedate');
-            $this->updateip = $result->getValue('updateip');
-            $this->subscriptiontype = $result->getValue('subscriptiontype');
-            $this->privacy_policy_accepted = $result->getValue('privacy_policy_accepted');
+            $this->mailchimp_id = (string) $result->getValue('mailchimp_id');
+            $this->createdate = (string) $result->getValue('createdate');
+            $this->createip = (string) $result->getValue('createip');
+            $this->activationdate = (string) $result->getValue('activationdate');
+            $this->activationip = (string) $result->getValue('activationip');
+            $this->activationkey = (string) $result->getValue('activationkey');
+            $this->updatedate = (string) $result->getValue('updatedate');
+            $this->updateip = (string) $result->getValue('updateip');
+            $this->subscriptiontype = (string) $result->getValue('subscriptiontype');
+            $this->privacy_policy_accepted = (int) $result->getValue('privacy_policy_accepted');
         }
     }
 
