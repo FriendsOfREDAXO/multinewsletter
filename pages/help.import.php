@@ -1,5 +1,7 @@
 <fieldset>
-	<legend>MultiNewsletter Import</legend>
+	<legend>MultiNewsletter Import von AddOn-Einstellungen</legend>
+	<p class="mb-5"><strong>Verwechslungsgefahr:</strong> Im Gegensatz zum Newsletter-Import mittels CSV-Datei werden die Einstellungen dieses AddOns im JSON-Format exportiert bzw. importiert!</p>
+	<legend>MultiNewsletter Import von Benutzer/Gruppen</legend>
 	<p>Die wichtigsten Anweisungen für einen erfolgreichen Import einer CSV Datei:</p>
 	<ul>
 		<li>Feldtrenner muss ein Semikolon (;) sein, KEIN Komma (,)!</li>
