@@ -1,9 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.4.2-DEV</p>
+	<p>3.5.0</p>
 	<ul>
-		<li>...</li>
+		<li>Import- und Exportfunktion der Einstellungen (@dpf-dd)(</li>
+		<li>Wieder ein paar rexstan Verbesserungen.</li>
 	</ul>
 	<p>3.4.1</p>
 	<ul>
