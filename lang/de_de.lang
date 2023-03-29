@@ -2,6 +2,7 @@ multinewsletter_addon_short_title = MultiNewsletter
 
 multinewsletter_menu_archive = Archiv
 multinewsletter_menu_config = Einstellungen
+multinewsletter_menu_config_import_export = Import/Export
 multinewsletter_menu_help = Hilfe
 multinewsletter_menu_groups = Gruppen
 multinewsletter_menu_import = Import
@@ -142,6 +143,22 @@ multinewsletter_config_lang_unsubscribe = Abmelden Button
 multinewsletter_config_lang_nogroup_selected = Kein Newsletter ausgewählt
 multinewsletter_config_submit = Einstellungen speichern
 multinewsletter_config_warning = Einstellungen noch nicht festgelegt. Diese müssen zur Verwendung des Addons zuerst festgelegt werden. Dies betrifft auch die Übersetzungen.
+
+multinewsletter_config_settings_import_export = Einstellungen importieren / exportieren
+multinewsletter_config_settings_import = Import
+multinewsletter_config_settings_import_long = Einstellungen importieren
+multinewsletter_config_settings_import_advice = WICHTIG: Alle existierenden Einstellungen / Übersetzungen werden unwiderruflich überschrieben!
+multinewsletter_config_settings_import_file = JSON-Datei auswählen
+multinewsletter_config_settings_import_btn = Ausgewählte Datei importieren
+multinewsletter_config_settings_import_null = Keine Datei zum Importieren ausgewählt.
+multinewsletter_config_settings_import_type = Die ausgewählte Datei ist keine gültige JSON-Datei.
+multinewsletter_config_settings_import_success = Die Einstellungen wurden erfolgreich importiert.
+multinewsletter_config_settings_import_success_hints = HINWEIS: Bitte unbedingt alle Einstellungen überprüfen (z.B. Email-Adressen, Artikel-Zuordnungen für An- & Abmeldung etc.)
+multinewsletter_config_settings_export = Export
+multinewsletter_config_settings_export_long = Einstellungen exportieren
+multinewsletter_config_settings_export_advice = Mit einem Klick auf den folgenden Button wird automatisch eine JSON-Datei heruntergeladen.
+multinewsletter_config_settings_export_btn = JSON-Datei herunterladen
+multinewsletter_config_settings_export_error = Es wurden keine Einstellungen zum Exportieren gefunden.
 
 multinewsletter_config_title_mailchimp = Mailchimp Einstellungen
 multinewsletter_expl_config_mailchimp = Es ist möglich die Benutzer mit Mailchimp zu synchronisieren. Dazu muss man zuerst auf Mailchimp die jeweiligen Listen erstellen und anschließend im Addon der Gruppe die entsprechende List zuweisen.<br>DSGVO Hinweis: der Abonnent muss darauf hingewiesen werden, dass seine Daten an Dritte (den Betreiber von Mailchimp) weitergegeben werden.

@@ -16,7 +16,7 @@ function raw_field($label, $content)
 
 echo rex_view::title(rex_i18n::msg('multinewsletter_addon_short_title'));
 
-if ('multinewsletter/settings' != rex_be_controller::getCurrentPage() &&
+if (strpos(rex_be_controller::getCurrentPage(), 'multinewsletter/settings') === false  &&
         (!rex_config::get('multinewsletter', 'link', 0) || !rex_config::get('multinewsletter', 'sender', 0) || !rex_config::get('multinewsletter', 'link_abmeldung', 0) || !rex_config::get('multinewsletter', 'lang_'. rex_clang::getStartId() .'_subscribe', 0))) {
     echo rex_view::error(rex_i18n::msg('multinewsletter_config_warning'));
     rex_be_controller::setCurrentPage('multinewsletter/settings');
