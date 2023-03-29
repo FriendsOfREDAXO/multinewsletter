@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.5.2-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.5.1</p>
 	<ul>
 		<li>Installer Action angepasst.</li>
