@@ -12,27 +12,26 @@ page:
         user: { title: 'translate:multinewsletter_menu_user', icon: rex-icon rex-icon-user }
         groups: { title: 'translate:multinewsletter_menu_groups', icon: rex-icon rex-icon-category }
         archive: { title: 'translate:multinewsletter_menu_archive', icon: rex-icon rex-icon-backup }
-        import: { title: 'translate:multinewsletter_menu_import', icon: rex-icon fa-download }
-        settings_import_export:
-            icon: rex-icon rex-icon-refresh
-            title: 'translate:multinewsletter_menu_config_import_export'
+        settings:
+            icon: rex-icon rex-icon-system
+            title: 'translate:multinewsletter_menu_config'
             itemclass: pull-right
             subpages:
-                import: { title: 'translate:multinewsletter_config_settings_import' }
-                export: { title: 'translate:multinewsletter_config_settings_export' }
-        settings: { title: 'translate:multinewsletter_menu_config', icon: rex-icon rex-icon-system, itemclass: pull-right }
+                settings: { title: 'translate:multinewsletter_menu_config', icon: rex-icon rex-icon-system }
+                export: { title: 'translate:multinewsletter_config_settings_export_long', icon: rex-icon fa-upload }
+                import: { title: 'translate:multinewsletter_config_settings_import_long', icon: rex-icon fa-download }
         help:
             icon: rex-icon rex-icon-help
             title: 'translate:multinewsletter_menu_help'
             itemclass: pull-right
             subpages:
-                import: { title: 'translate:multinewsletter_help_chapter_import' }
-                versand: { title: 'translate:multinewsletter_help_chapter_versand' }
-                faq: { title: 'translate:multinewsletter_help_chapter_faq' }
-                module: { title: 'translate:multinewsletter_help_chapter_module' }
-                templates: { title: 'translate:multinewsletter_help_chapter_template' }
-                updatehinweise: { title: 'translate:multinewsletter_help_chapter_updatehinweise' }
-                changelog: { title: 'translate:multinewsletter_help_chapter_changelog' }
+                import: { title: 'translate:multinewsletter_help_chapter_import', icon: rex-icon fa-download }
+                versand: { title: 'translate:multinewsletter_help_chapter_versand', icon: rex-icon fa-send}
+                faq: { title: 'translate:multinewsletter_help_chapter_faq', icon: rex-icon fa-question-circle}
+                module: { title: 'translate:multinewsletter_help_chapter_module', icon: rex-icon rex-icon-module}
+                templates: { title: 'translate:multinewsletter_help_chapter_template', icon: rex-icon rex-icon-template }
+                updatehinweise: { title: 'translate:multinewsletter_help_chapter_updatehinweise', icon: rex-icon rex-icon-install }
+                changelog: { title: 'translate:multinewsletter_help_chapter_changelog', icon: rex-icon fa-list-alt}
 
 requires:
     redaxo: '>=5.10.0'

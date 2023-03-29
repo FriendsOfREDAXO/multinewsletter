@@ -2,7 +2,6 @@ multinewsletter_addon_short_title = MultiNewsletter
 
 multinewsletter_menu_archive = Archiv
 multinewsletter_menu_config = Einstellungen
-multinewsletter_menu_config_import_export = Import/Export
 multinewsletter_menu_help = Hilfe
 multinewsletter_menu_groups = Gruppen
 multinewsletter_menu_import = Import
@@ -144,7 +143,6 @@ multinewsletter_config_lang_nogroup_selected = Kein Newsletter ausgewählt
 multinewsletter_config_submit = Einstellungen speichern
 multinewsletter_config_warning = Einstellungen noch nicht festgelegt. Diese müssen zur Verwendung des Addons zuerst festgelegt werden. Dies betrifft auch die Übersetzungen.
 
-multinewsletter_config_settings_import_export = Einstellungen importieren / exportieren
 multinewsletter_config_settings_import = Import
 multinewsletter_config_settings_import_long = Einstellungen importieren
 multinewsletter_config_settings_import_advice = WICHTIG: Alle existierenden Einstellungen / Übersetzungen werden unwiderruflich überschrieben!
@@ -253,7 +251,7 @@ multinewsletter_help_chapter_readme = Allgemeines
 multinewsletter_help_chapter_module = Module
 multinewsletter_help_chapter_template = Templates
 multinewsletter_help_chapter_updatehinweise = Updatehinweise
-multinewsletter_help_chapter_import = Import
+multinewsletter_help_chapter_import = Import Benutzer
 multinewsletter_help_chapter_changelog = Changelog
 multinewsletter_help_chapter_versand = Versand
 multinewsletter_help_chapter_faq = FAQ
@@ -262,4 +260,4 @@ multinewsletter_hinzufuegen = Hinzufügen
 multinewsletter_delete = Eintrag gelöscht
 
 multinewsletter_lang_no_fallback = kein Newsletter versenden
-multinewsletter_lang_d2u_helper = Sprache aus dem d2u-Helper Addon verwenden
+multinewsletter_lang_d2u_helper = Ausgangssprache aus den Einstellungen des D2U Helper Addons verwenden

@@ -143,7 +143,6 @@ multinewsletter_config_lang_nogroup_selected = No newsletter selected
 multinewsletter_config_submit = Save settings
 multinewsletter_config_warning = Settings are missing. Settings need to be saved once to use the addon. This includes translation settings.
 
-multinewsletter_config_settings_import_export = Import / Export Settings
 multinewsletter_config_settings_import = Import
 multinewsletter_config_settings_import_long = Import settings
 multinewsletter_config_settings_import_advice = IMPORTANT: All existing settings / translations will be irrevocably overwritten!
@@ -252,10 +251,13 @@ multinewsletter_help_chapter_readme = General
 multinewsletter_help_chapter_module = Module
 multinewsletter_help_chapter_template = Templates
 multinewsletter_help_chapter_updatehinweise = Update hints
-multinewsletter_help_chapter_import = Import
+multinewsletter_help_chapter_import = Import users
 multinewsletter_help_chapter_changelog = Changelog
 multinewsletter_help_chapter_versand = Send
 multinewsletter_help_chapter_faq = FAQ
 
 multinewsletter_hinzufuegen = Add
 multinewsletter_delete = Entry deleted
+
+multinewsletter_lang_no_fallback = send nothing
+multinewsletter_lang_d2u_helper = Use D2U Helper base language

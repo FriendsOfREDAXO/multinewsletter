@@ -451,6 +451,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
 		line-height: 2.5em;
 		background-color: #fff;
 		border: 1px solid #ccc;
+		box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 		-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 		margin-top: -25px;
 		right: 30px;
