@@ -8,9 +8,9 @@ if ('Export' == filter_input(INPUT_POST, 'btn_export')) {
         header('Content-Disposition: attachment; filename="' . $filename . '"; charset=utf-8');
         rex_response::sendContent($export_config, 'application/octetstream');
         exit;
-    } else {
-        echo rex_view::error(rex_i18n::msg('multinewsletter_config_settings_export_error'));
     }
+        echo rex_view::error(rex_i18n::msg('multinewsletter_config_settings_export_error'));
+
 }
 ?>
 <form action="<?= rex_url::currentBackendPage() ?>" data-pjax="false" method="post">
@@ -21,7 +21,7 @@ if ('Export' == filter_input(INPUT_POST, 'btn_export')) {
         <div class="panel-body">
             <fieldset>
                 <dl class="m-0">
-                    <?= rex_i18n::msg('multinewsletter_config_settings_export_advice'); ?>
+                    <?= rex_i18n::msg('multinewsletter_config_settings_export_advice') ?>
                 </dl>
             </fieldset>
         </div>

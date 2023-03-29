@@ -7,22 +7,22 @@ if ('Import' == filter_input(INPUT_POST, 'btn_import')) {
     $sql_db->beginTransaction();
 
     try {
-        ### proof on null
-        if ($_FILES['config_import_file']['tmp_name'] === '') {
+        // proof on null
+        if ('' === $_FILES['config_import_file']['tmp_name']) {
             throw new Exception(rex_i18n::msg('multinewsletter_config_settings_import_null'));
         }
-        ### proof on JSON file
-        if ($_FILES['config_import_file']['type'] !== 'application/json') {
+        // proof on JSON file
+        if ('application/json' !== $_FILES['config_import_file']['type']) {
             throw new Exception(rex_i18n::msg('multinewsletter_config_settings_import_type'));
         }
-        ### delete existing settings
+        // delete existing settings
         if (rex_config::get('multinewsletter')) {
             rex_config::removeNamespace('multinewsletter');
             $sql_db->setTable('rex_config')->setWhere(['namespace' => 'multinewsletter'])->delete();
         }
-        $data = file_get_contents($_FILES['config_import_file']['tmp_name']); ### data read from json file
-        $import_data = json_decode($data);  //decode a data
-        $blacklist = ['default_test_article', 'link', 'link_abmeldung']; ### don't add quotes for link-fields
+        $data = file_get_contents($_FILES['config_import_file']['tmp_name']); // data read from json file
+        $import_data = json_decode($data);  // decode a data
+        $blacklist = ['default_test_article', 'link', 'link_abmeldung']; // don't add quotes for link-fields
         foreach ($import_data as $key => $value) {
             $import_value = (in_array($key, $blacklist)) ? $value : '"' . $value . '"';
             $sql_db->setTable('rex_config')->setValue('namespace', 'multinewsletter')->setValue('key', $key)->setValue('value', $import_value)->insert();
@@ -51,7 +51,7 @@ if ('Import' == filter_input(INPUT_POST, 'btn_import')) {
         <div class="panel-body">
             <fieldset>
                 <dl class="rex-form-group form-group">
-                    <?= rex_view::warning(rex_i18n::msg('multinewsletter_config_settings_import_advice')); ?>
+                    <?= rex_view::warning(rex_i18n::msg('multinewsletter_config_settings_import_advice')) ?>
                 </dl>
                 <dl class="rex-form-group form-group">
                     <dt><label for="config_import_file"><?= rex_i18n::msg('multinewsletter_config_settings_import_file') ?></label></dt>
