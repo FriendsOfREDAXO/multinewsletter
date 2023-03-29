@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.5.1</p>
+	<ul>
+		<li>Installer Action angepasst.</li>
+	</ul>
 	<p>3.5.0</p>
 	<ul>
 		<li>Import- und Exportfunktion der Einstellungen (@dpf-dd)</li>
