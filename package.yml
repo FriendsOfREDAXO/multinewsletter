@@ -15,7 +15,7 @@ page:
         settings:
             icon: rex-icon rex-icon-system
             title: 'translate:multinewsletter_menu_config'
-            itemclass: pull-right
+            itemClass: pull-right
             subpages:
                 settings: { title: 'translate:multinewsletter_menu_config', icon: rex-icon rex-icon-system }
                 export: { title: 'translate:multinewsletter_config_settings_export_long', icon: rex-icon fa-upload }
@@ -23,7 +23,7 @@ page:
         help:
             icon: rex-icon rex-icon-help
             title: 'translate:multinewsletter_menu_help'
-            itemclass: pull-right
+            itemClass: pull-right
             subpages:
                 import: { title: 'translate:multinewsletter_help_chapter_import', icon: rex-icon fa-download }
                 versand: { title: 'translate:multinewsletter_help_chapter_versand', icon: rex-icon fa-send}
