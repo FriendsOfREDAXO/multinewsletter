@@ -155,8 +155,7 @@ if ('Speichern' == filter_input(INPUT_POST, 'btn_save')) {
     $settings['link_abmeldung'] = !is_array($link_ids) ? 0 : $link_ids['REX_INPUT_LINK'][2];
     $settings['linkname_abmeldung'] = trim($link_names['REX_LINK_NAME'][2]);
     $settings['default_test_article'] = !is_array($link_ids) ? 0 : $link_ids['REX_INPUT_LINK'][3];
-    $settings['default_test_article_name'] = trim($link_names['REX_LINK_NAME'][3]);
-
+    
     $settings['autocleanup'] = array_key_exists('autocleanup', $settings) ? 'active' : 'inactive';
     $settings['autosend'] = array_key_exists('autosend', $settings) ? 'active' : 'inactive';
 

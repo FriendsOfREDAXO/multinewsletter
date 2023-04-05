@@ -84,7 +84,10 @@ $form_link = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FI
 if(!empty($form_link['REX_INPUT_LINK'])) {
     $_SESSION['multinewsletter']['newsletter']['article_id'] = $form_link['REX_INPUT_LINK'][1];
     $link_names = filter_input_array(INPUT_POST, ['REX_LINK_NAME' => ['flags' => FILTER_REQUIRE_ARRAY]]);
-    $_SESSION['multinewsletter']['newsletter']['article_name'] = $link_names['REX_LINK_NAME'][1];
+    $default_test_article = rex_article::get((int) $form_link['REX_INPUT_LINK'][1]);
+    if ($default_test_article instanceof rex_article) {
+        $_SESSION['multinewsletter']['newsletter']['article_name'] = $default_test_article->getName();
+    }
 } elseif(!isset($_SESSION['multinewsletter']['newsletter']['article_id'])) {
     if($newsletterManager->countRemainingUsers() > 0) {
         // If there is a non-autosend archive, take article name from archive, article ID is not relevant
@@ -94,7 +97,10 @@ if(!empty($form_link['REX_INPUT_LINK'])) {
     } else {
         // Otherwise take article and and article ID from settings
         $_SESSION['multinewsletter']['newsletter']['article_id'] = $this->getConfig('default_test_article');
-        $_SESSION['multinewsletter']['newsletter']['article_name'] = $this->getConfig('default_test_article_name');
+        $default_test_article = rex_article::get((int) $this->getConfig('default_test_article'));
+        if ($default_test_article instanceof rex_article) {
+            $_SESSION['multinewsletter']['newsletter']['article_name'] = $default_test_article->getName();
+        }
     }
 }
 
@@ -200,46 +206,47 @@ if(0 == $maxtimeout) {
 }
 
 // Send test mail
-if('' != filter_input(INPUT_POST, 'sendtestmail')) {
+if(null !== filter_input(INPUT_POST, 'sendtestmail')) {
+    $multinewsletter_session = $_SESSION['multinewsletter'];
     // Exists article and is it online
-    if((int) $_SESSION['multinewsletter']['newsletter']['article_id'] <= 0) {
+    if((int) $multinewsletter_session['newsletter']['article_id'] <= 0) {
         $messages[] = rex_i18n::msg('multinewsletter_error_noarticle');
     } else {
         $temp = rex_article::get(
-            $_SESSION['multinewsletter']['newsletter']['article_id'],
-            $_SESSION['multinewsletter']['newsletter']['testlanguage'],
+            $multinewsletter_session['newsletter']['article_id'],
+            $multinewsletter_session['newsletter']['testlanguage'],
         );
         if(!is_object($temp) || !$temp->isOnline()) {
             $messages[] = rex_i18n::msg('multinewsletter_error_articlenotfound',
-                $_SESSION['multinewsletter']['newsletter']['article_id'],
-                rex_clang::get($_SESSION['multinewsletter']['newsletter']['testlanguage'])->getName());
+                $multinewsletter_session['newsletter']['article_id'],
+                rex_clang::get($multinewsletter_session['newsletter']['testlanguage'])->getName());
         }
         unset($temp);
     }
 
     // Send
-    if(false === filter_var($_SESSION['multinewsletter']['newsletter']['testemail'], FILTER_SANITIZE_EMAIL)) {
+    if(false === filter_var($multinewsletter_session['newsletter']['testemail'], FILTER_SANITIZE_EMAIL)) {
         $messages[] = rex_i18n::msg('multinewsletter_error_invalidemail',
-            $_SESSION['multinewsletter']['newsletter']['testemail']);
+            $multinewsletter_session['newsletter']['testemail']);
     }
 
     if(empty($messages)) {
-        $testnewsletter = MultinewsletterNewsletter::factory($_SESSION['multinewsletter']['newsletter']['article_id'],
-            $_SESSION['multinewsletter']['newsletter']['testlanguage']);
+        $testnewsletter = MultinewsletterNewsletter::factory($multinewsletter_session['newsletter']['article_id'],
+            $multinewsletter_session['newsletter']['testlanguage']);
 
-        $testuser = MultinewsletterUser::factory($_SESSION['multinewsletter']['newsletter']['testemail'],
-            $_SESSION['multinewsletter']['newsletter']['testtitle'],
-            $_SESSION['multinewsletter']['newsletter']['testgrad'],
-            $_SESSION['multinewsletter']['newsletter']['testfirstname'],
-            $_SESSION['multinewsletter']['newsletter']['testlastname'],
-            $_SESSION['multinewsletter']['newsletter']['testlanguage']);
+        $testuser = MultinewsletterUser::factory($multinewsletter_session['newsletter']['testemail'],
+            $multinewsletter_session['newsletter']['testtitle'],
+            $multinewsletter_session['newsletter']['testgrad'],
+            $multinewsletter_session['newsletter']['testfirstname'],
+            $multinewsletter_session['newsletter']['testlastname'],
+            $multinewsletter_session['newsletter']['testlanguage']);
 
-        $testnewsletter->sender_email = $_SESSION['multinewsletter']['newsletter']['sender_email'];
-        $testnewsletter->sender_name = $_SESSION['multinewsletter']['newsletter']['sender_name'][$_SESSION['multinewsletter']['newsletter']['testlanguage']];
-        $testnewsletter->reply_to_email = $_SESSION['multinewsletter']['newsletter']['reply_to_email'];
+        $testnewsletter->sender_email = $multinewsletter_session['newsletter']['sender_email'];
+        $testnewsletter->sender_name = $multinewsletter_session['newsletter']['sender_name'][$multinewsletter_session['newsletter']['testlanguage']];
+        $testnewsletter->reply_to_email = false !== filter_var($multinewsletter_session['newsletter']['reply_to_email'], FILTER_SANITIZE_EMAIL) ? filter_var($multinewsletter_session['newsletter']['reply_to_email'], FILTER_SANITIZE_EMAIL) : $multinewsletter_session['newsletter']['sender_email'];
         $testnewsletter->attachments = is_array(explode(',', $attachments)) ? explode(',', $attachments) : [];
 
-        $sendresult = $testnewsletter->sendTestmail($testuser, $_SESSION['multinewsletter']['newsletter']['article_id']);
+        $sendresult = $testnewsletter->sendTestmail($testuser, $multinewsletter_session['newsletter']['article_id']);
 
         if(!$sendresult) {
             $messages[] = rex_i18n::msg('multinewsletter_error_senderror');
@@ -315,11 +322,12 @@ if(class_exists('rex_mailer')) {
 					<legend><?= rex_i18n::msg('multinewsletter_newsletter_send_step1') ?></legend>
 					<?php
                         if($_SESSION['multinewsletter']['newsletter']['status'] > 0) {
+                            $article = rex_article::get($_SESSION['multinewsletter']['newsletter']['article_id']);
                     ?>
 					<dl class="rex-form-group form-group">
 						<dt><label for="article_link"><?= rex_i18n::msg('multinewsletter_newsletter_article') ?></label></dt>
 						<dd><a href="<?= rex::getServer() . rex_getUrl($_SESSION['multinewsletter']['newsletter']['article_id'], 0) ?>" target="_blank">
-									<?= $_SESSION['multinewsletter']['newsletter']['article_name']?></a></dd>
+									<?= $article instanceof rex_article ? $article->getName() : rex_i18n::msg('multinewsletter_newsletter_article') ?></a></dd>
 					</dl>
 					<dl class="rex-form-group form-group">
 						<dt><label for="reset"></label></dt>
@@ -350,13 +358,14 @@ if(class_exists('rex_mailer')) {
                                     $sendernamen[$rex_clang->getId()] = $this->getConfig('lang_'. $rex_clang->getId() .'_sendername');
                                     $clang_ids[$rex_clang->getId()] = $rex_clang->getCode();
                                 }
+                                $default_test_article = rex_article::get((int) $this->getConfig('default_test_article'));
                                 $groups_default_settings[0] = [
                                     'id' => '0',
                                     'name' => rex_i18n::msg('multinewsletter_newsletter_aus_einstellungen'),
                                     'default_sender_email' => $this->getConfig('sender'),
                                     'reply_to_email' => $this->getConfig('reply_to'),
                                     'default_article_id' => $this->getConfig('default_test_article'),
-                                    'default_article_name' => $this->getConfig('default_test_article_name'),
+                                    'default_article_name' => $default_test_article instanceof rex_article ? $default_test_article->getName() : '',
                                 ];
                             ?>
 							<script>

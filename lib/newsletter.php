@@ -66,27 +66,27 @@ class MultinewsletterNewsletter
         $result->setQuery($query);
 
         if ($result->getRows() > 0) {
-            $this->id = $result->getValue('id');
-            $this->article_id = $result->getValue('article_id');
-            $this->clang_id = $result->getValue('clang_id');
-            $this->subject = stripslashes(htmlspecialchars_decode($result->getValue('subject')));
-            $this->htmlbody = base64_decode($result->getValue('htmlbody'));
-            $attachment_separator = str_contains($result->getValue('attachments'), '|') ? '|' : ',';
-            $attachments = preg_grep('/^\s*$/s', explode($attachment_separator, $result->getValue('attachments')), PREG_GREP_INVERT);
+            $this->id = (int) $result->getValue('id');
+            $this->article_id = (int) $result->getValue('article_id');
+            $this->clang_id = (int) $result->getValue('clang_id');
+            $this->subject = stripslashes(htmlspecialchars_decode((string) $result->getValue('subject')));
+            $this->htmlbody = base64_decode((string) $result->getValue('htmlbody'));
+            $attachment_separator = str_contains((string) $result->getValue('attachments'), '|') ? '|' : ',';
+            $attachments = preg_grep('/^\s*$/s', explode($attachment_separator, (string) $result->getValue('attachments')), PREG_GREP_INVERT);
             $this->attachments = is_array($attachments) ? $attachments : [];
-            $recipients_separator = str_contains($result->getValue('recipients'), '|') ? '|' : ',';
-            $recipients = preg_grep('/^\s*$/s', explode($recipients_separator, $result->getValue('recipients')), PREG_GREP_INVERT);
+            $recipients_separator = str_contains((string) $result->getValue('recipients'), '|') ? '|' : ',';
+            $recipients = preg_grep('/^\s*$/s', explode($recipients_separator, (string) $result->getValue('recipients')), PREG_GREP_INVERT);
             $this->recipients = is_array($recipients) ? $recipients : [];
-            $recipients_failure = preg_grep('/^\s*$/s', explode(',', $result->getValue('recipients_failure')), PREG_GREP_INVERT);
+            $recipients_failure = preg_grep('/^\s*$/s', explode(',', (string) $result->getValue('recipients_failure')), PREG_GREP_INVERT);
             $this->recipients_failure = is_array($recipients_failure) ? $recipients_failure : [];
-            $group_ids = preg_grep('/^\s*$/s', explode('|', $result->getValue('group_ids')), PREG_GREP_INVERT);
+            $group_ids = preg_grep('/^\s*$/s', explode('|', (string) $result->getValue('group_ids')), PREG_GREP_INVERT);
             $this->group_ids = is_array($group_ids) ? array_map('intval', $group_ids) : [];
-            $this->sender_email = $result->getValue('sender_email');
-            $this->sender_name = stripslashes($result->getValue('sender_name'));
-            $this->reply_to_email = $result->getValue('reply_to_email');
-            $this->setupdate = $result->getValue('setupdate');
-            $this->sentdate = $result->getValue('sentdate');
-            $this->sentby = $result->getValue('sentby');
+            $this->sender_email = (string) $result->getValue('sender_email');
+            $this->sender_name = stripslashes((string) $result->getValue('sender_name'));
+            $this->reply_to_email = (string) $result->getValue('reply_to_email');
+            $this->setupdate = (string) $result->getValue('setupdate');
+            $this->sentdate = (string) $result->getValue('sentdate');
+            $this->sentby = (string) $result->getValue('sentby');
         }
     }
 
@@ -354,7 +354,7 @@ class MultinewsletterNewsletter
             $mail->From = trim($this->sender_email);
             $mail->FromName = trim($this->sender_name);
             $mail->Sender = trim($this->sender_email);
-            if ('' != $this->reply_to_email) {
+            if ('' !== $this->reply_to_email) {
                 $mail->addReplyTo(trim($this->reply_to_email));
             }
             $mail->addAddress(trim($multinewsletter_user->email), $multinewsletter_user->getName());

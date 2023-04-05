@@ -3,7 +3,7 @@
 if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     // Web frontend
     rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) {
-        $multinewsletter_user = '' == rex_get('email', 'string') ? new MultinewsletterUser(0) : MultinewsletterUser::initByMail(rex_get('email', 'string'));
+        $multinewsletter_user = '' === (string) rex_get('email', 'string') ? new MultinewsletterUser(0) : MultinewsletterUser::initByMail(rex_get('email', 'string'));
         return MultinewsletterNewsletter::replaceVars($ep->getSubject(), $multinewsletter_user, rex_article::getCurrent());
     });
 } elseif (rex::isBackend() && rex::getUser()) {
@@ -19,11 +19,11 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
         $this->setProperty('page', $page);
     }
 
-    if ('multinewsletter/user' == rex_get('page', 'string')) {
+    if ('multinewsletter/user' === (string) rex_get('page', 'string')) {
         rex_extension::register('REX_FORM_SAVED', static function ($ep) {
 
             if (MultinewsletterMailchimp::isActive()) {
-                $user_id = rex_get('entry_id', 'int');
+                $user_id = (int) rex_get('entry_id', 'int');
                 $User = new MultinewsletterUser($user_id);
                 $User->save();
             }
@@ -58,7 +58,7 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
         $sql->delete();
 
         // Delete language settings
-        if (rex_config::get('multinewsletter', 'default_test_sprache') == $clang_id) {
+        if ((int) rex_config::get('multinewsletter', 'default_test_sprache') === $clang_id) {
             rex_config::set('multinewsletter', 'default_test_sprache', rex_clang::getStartId());
         }
         return $warning;
@@ -70,10 +70,10 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
         if (!($sql instanceof Exception)) {
             $action = $ep->getParam('action');
 
-            if ($ep->getParam('table') == rex::getTablePrefix() . '375_user') {
+            if ($ep->getParam('table') === rex::getTablePrefix() . '375_user') {
                 $user = new MultinewsletterUser($ep->getParam('id'));
 
-                if ('update' != $action) {
+                if ('update' !== $action) {
                     $user->subscriptiontype = 'backend';
                 }
                 $user->save();
@@ -111,7 +111,7 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
 
         // Settings
         $addon = rex_addon::get('multinewsletter');
-        if ($addon->hasConfig('default_test_article') && $addon->getConfig('default_test_article') == $article_id) {
+        if ($addon->hasConfig('default_test_article') && (int) $addon->getConfig('default_test_article') === $article_id) {
             $message = '<a href="index.php?page=multinewsletter/settings">'.
                  rex_i18n::msg('multinewsletter_addon_short_title') .' - '. rex_i18n::msg('multinewsletter_menu_config') . '</a>';
             if (!in_array($message, $warning, true)) {

@@ -8,28 +8,28 @@
 class MultinewsletterGroup
 {
     /** @var int Database ID */
-    public $id = 0;
+    public int $id = 0;
 
     /** @var string Name */
-    public $name = '';
+    public string $name = '';
 
     /** @var string Default sender email */
-    public $default_sender_email = '';
+    public string $default_sender_email = '';
 
     /** @var string Default sender name */
-    public $default_sender_name = '';
+    public string $default_sender_name = '';
 
     /** @var string Reply to email */
-    public $reply_to_email = '';
+    public string $reply_to_email = '';
 
     /** @var int Default Redaxo article id */
-    public $default_article_id = 0;
+    public int $default_article_id = 0;
 
     /** @var string Default Redaxo article name */
-    public $default_article_name = '';
+    public string $default_article_name = '';
 
     /** @var string Mailchimp list id */
-    public $mailchimp_list_id = '';
+    public string $mailchimp_list_id = '';
 
     /**
      * Fetch object data from database.
@@ -42,17 +42,17 @@ class MultinewsletterGroup
         $result->setQuery($query);
 
         if ($result->getRows() > 0) {
-            $this->id = $result->getValue('id');
-            $this->name = $result->getValue('name');
-            $this->default_sender_email = $result->getValue('default_sender_email');
-            $this->default_sender_name = $result->getValue('default_sender_name');
-            $this->reply_to_email = $result->getValue('reply_to_email');
-            $this->default_article_id = $result->getValue('default_article_id');
-            $default_article = rex_article::get($this->default_article_id);
+            $this->id = (int) $result->getValue('id');
+            $this->name = (string) $result->getValue('name');
+            $this->default_sender_email = (string) $result->getValue('default_sender_email');
+            $this->default_sender_name = (string) $result->getValue('default_sender_name');
+            $this->reply_to_email = (string) $result->getValue('reply_to_email');
+            $this->default_article_id = (string) $result->getValue('default_article_id');
+            $default_article = rex_article::get((int) $this->default_article_id);
             if ($default_article instanceof rex_article) {
                 $this->default_article_name = $default_article->getName();
             }
-            $this->mailchimp_list_id = $result->getValue('mailchimp_list_id');
+            $this->mailchimp_list_id = (string) $result->getValue('mailchimp_list_id');
         }
     }
 

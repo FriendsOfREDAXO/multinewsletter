@@ -76,8 +76,7 @@ rex_sql_table::get(rex::getTable('375_group'))
 if (!$this->hasConfig('default_test_email')) {
     $this->setConfig('default_test_email', rex::getProperty('ERROR_EMAIL'));
     $this->setConfig('default_test_article', rex_article::getSiteStartArticleId());
-    $this->setConfig('default_test_article_name', '');
-    $this->setConfig('default_test_sprache', $default_clang_id);
+    $this->setConfig('default_test_sprache', rex_config::get('d2u_helper', 'default_lang'));
 }
 
 // Update modules

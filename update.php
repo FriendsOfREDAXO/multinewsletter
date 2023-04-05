@@ -24,3 +24,6 @@ $this->includeFile(__DIR__.'/install.php'); /** @phpstan-ignore-line */
 if ($this->hasConfig('unsubscribe_action')) {
     $this->removeConfig('unsubscribe_action');
 }
+if ($this->hasConfig('default_test_article_name')) {
+    $this->removeConfig('default_test_article_name');
+}
