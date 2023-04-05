@@ -11,22 +11,22 @@ class MultinewsletterNewsletterManager
      * @var MultinewsletterNewsletter[] Archiv Objekte des Newsletters. ACHTUNG: der Index im Array
      * muss die Archiv ID sein.
      */
-    public $archives = [];
+    public array $archives = [];
 
     /** @var MultinewsletterUser[] empfänger des Newsletters */
-    public $recipients = [];
+    public array $recipients = [];
 
     /**
      * @var bool true if only autosend archives and receipients
      * should be managed
      */
-    public $autosend_only = false;
+    public bool $autosend_only = false;
 
     /** @var MultinewsletterUser[] users an die der Newsletter zuletzt versand wurde */
-    public $last_send_users = [];
+    public array $last_send_users = [];
 
     /** @var int Anzahl ausstehender Newsletter Mails */
-    public $remaining_users = 0;
+    public int $remaining_users = 0;
 
     /**
      * Stellt die Daten des Newsletters aus einem Archiv zusammen.
@@ -333,7 +333,9 @@ class MultinewsletterNewsletterManager
                 if (PHP_SESSION_NONE !== session_status() && isset($_SESSION['multinewsletter']) && isset($_SESSION['multinewsletter']['newsletter']) && isset($_SESSION['multinewsletter']['newsletter']['reply_to_email'])) {
                     $reply_to_email = $_SESSION['multinewsletter']['newsletter']['reply_to_email'];
                 }
-                $newsletter->reply_to_email = $reply_to_email;
+                if (null !== $reply_to_email) {
+                    $newsletter->reply_to_email = $reply_to_email;
+                }
                 $newsletter->sentby = rex::getUser() instanceof rex_user ? rex::getUser()->getLogin() : 'MultiNewsletter Cronjob API Call';
                 $newsletter->save();
 
@@ -466,7 +468,7 @@ class MultinewsletterNewsletterManager
 
             $mail->Subject = $subject;
             $mail->Body = $body;
-            $success = $mail->Send();
+            $success = $mail->send();
             if (!$success) {
                 echo rex_view::error('Error sending admin notification: '. $mail->ErrorInfo);
             }

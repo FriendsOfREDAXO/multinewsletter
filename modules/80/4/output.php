@@ -84,7 +84,7 @@ if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(I
 			html||<br><br>'. PHP_EOL;
     // Groups to be displayed
     $group_ids = (array) rex_var::toArray('REX_VALUE[1]');
-    if (1 == count($group_ids)) {
+    if (1 === count($group_ids)) {
         foreach ($group_ids as $group_id) {
             $form_data .= 'hidden|group_ids|'. $group_id . PHP_EOL;
         }

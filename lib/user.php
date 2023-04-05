@@ -338,7 +338,7 @@ class MultinewsletterUser
                 $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
             }
 
-            return $mail->Send();
+            return $mail->send();
         }
 
         return false;
@@ -383,7 +383,7 @@ class MultinewsletterUser
                 $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
             }
 
-            return $mail->Send();
+            return $mail->send();
         }
 
         return false;

@@ -166,7 +166,7 @@ if ($showform) {
 			<input class="form-control" name="email" id="lastname" value="<?= filter_input(INPUT_POST, 'email') ?>" type="email" maxlength="100" required>
 		</div>
 		<?php
-            if (1 == count($group_ids)) {
+            if (1 === count($group_ids)) {
                 foreach ($group_ids as $group_id) {
                     echo '<input type="hidden" name="groups['. $group_id.']" value="'. $group_id .'" />';
                 }
