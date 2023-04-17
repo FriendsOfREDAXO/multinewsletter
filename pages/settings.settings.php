@@ -214,8 +214,8 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         d2u_addon_backend_helper::form_input('multinewsletter_config_sender', 'settings[sender]', $this->getConfig('sender'), true, false, 'email');
                         d2u_addon_backend_helper::form_input('multinewsletter_config_reply_to', 'settings[reply_to]', $this->getConfig('reply_to'), false, false, 'email');
                         d2u_addon_backend_helper::form_select('multinewsletter_config_defaultlang', 'settings[lang_fallback]', [0 => rex_i18n::msg('multinewsletter_lang_no_fallback'), 1 => rex_i18n::msg('multinewsletter_lang_d2u_helper')], [$this->getConfig('lang_fallback')]);
-                        d2u_addon_backend_helper::form_linkfield('multinewsletter_config_link', 1, $this->getConfig('link'), rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
-                        d2u_addon_backend_helper::form_linkfield('multinewsletter_config_link_abmeldung', 2, $this->getConfig('link_abmeldung'), rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
+                        d2u_addon_backend_helper::form_linkfield('multinewsletter_config_link', 1, $this->getConfig('link'), (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
+                        d2u_addon_backend_helper::form_linkfield('multinewsletter_config_link_abmeldung', 2, $this->getConfig('link_abmeldung'), (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
 
                         d2u_addon_backend_helper::form_input('multinewsletter_config_admin_email', 'settings[admin_email]', $this->getConfig('admin_email'), true, false, 'email');
                         d2u_addon_backend_helper::form_input('multinewsletter_config_subscribe_meldung_email', 'settings[subscribe_meldung_email]', $this->getConfig('subscribe_meldung_email'), false, false, 'email');
