@@ -150,7 +150,7 @@ if ('Speichern' == filter_input(INPUT_POST, 'btn_save')) {
     $link_ids = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
     $link_names = filter_input_array(INPUT_POST, ['REX_LINK_NAME' => ['flags' => FILTER_REQUIRE_ARRAY]]);
 
-    $settings['link'] = !is_array($link_ids) ? 0 : $link_ids['REX_INPUT_LINK'][1];
+    $settings['link'] = is_array($link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][1] : 0;
     $settings['linkname'] = trim($link_names['REX_LINK_NAME'][1]);
     $settings['link_abmeldung'] = !is_array($link_ids) ? 0 : $link_ids['REX_INPUT_LINK'][2];
     $settings['linkname_abmeldung'] = trim($link_names['REX_LINK_NAME'][2]);
