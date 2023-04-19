@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.5.3-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.5.2</p>
 	<ul>
 		<li>Bugfix: Import Seite wird wieder angezeigt.</li>
