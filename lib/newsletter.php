@@ -294,7 +294,7 @@ class MultinewsletterNewsletter
                 }
             }
 
-            $this->attachments = explode(',', $article->getValue('art_newsletter_attachments'));
+            $this->attachments = explode(',', (string) $article->getValue('art_newsletter_attachments'));
             $this->subject = $article->getValue('name');
         }
     }

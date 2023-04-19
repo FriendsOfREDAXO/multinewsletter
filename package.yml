@@ -12,6 +12,7 @@ page:
         user: { title: 'translate:multinewsletter_menu_user', icon: rex-icon rex-icon-user }
         groups: { title: 'translate:multinewsletter_menu_groups', icon: rex-icon rex-icon-category }
         archive: { title: 'translate:multinewsletter_menu_archive', icon: rex-icon rex-icon-backup }
+        import: { title: 'translate:multinewsletter_menu_import', icon: rex-icon fa-download }
         settings:
             icon: rex-icon rex-icon-system
             title: 'translate:multinewsletter_menu_config'

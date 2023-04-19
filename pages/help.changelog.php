@@ -1,8 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.5.2-DEV</p>
+	<p>3.5.2</p>
 	<ul>
+		<li>Bugfix: Import Seite wird wieder angezeigt.</li>
 		<li>Bugfix: Wenn die Antwort An Adresse nicht gesetzt ist, kam es unter bestimmten Umständen beim versenden der Testnachricht zu einem Fatal Error.</li>
 	</ul>
 	<p>3.5.1</p>
