@@ -12,20 +12,13 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     rex_view::addCssFile($this->getAssetsUrl('general.css'));
     rex_perm::register('multinewsletter[]', rex_i18n::msg('multinewsletter_addon_short_title'));
 
-    if ($this->getConfig('use_yform')) {
-        $page = $this->getProperty('page');
-        unset($page['subpages']['user']);
-
-        $this->setProperty('page', $page);
-    }
-
     if ('multinewsletter/user' === (string) rex_get('page', 'string')) {
         rex_extension::register('REX_FORM_SAVED', static function ($ep) {
 
             if (MultinewsletterMailchimp::isActive()) {
                 $user_id = (int) rex_get('entry_id', 'int');
-                $User = new MultinewsletterUser($user_id);
-                $User->save();
+                $user = new MultinewsletterUser($user_id);
+                $user->save();
             }
             return $ep->getSubject();
         });
