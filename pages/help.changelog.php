@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.5.4-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.5.3</p>
 	<ul>
 		<li>Bugfix: Einige Einstellungen wurden nicht korrekt angezeigt, obwohl sie gespeichert waren.</li>
