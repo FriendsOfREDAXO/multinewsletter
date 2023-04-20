@@ -48,7 +48,7 @@ class MultinewsletterGroup
             $this->default_sender_name = (string) $result->getValue('default_sender_name');
             $this->reply_to_email = (string) $result->getValue('reply_to_email');
             $this->default_article_id = (int) $result->getValue('default_article_id');
-            $default_article = rex_article::get((int) $this->default_article_id);
+            $default_article = rex_article::get($this->default_article_id);
             if ($default_article instanceof rex_article) {
                 $this->default_article_name = $default_article->getName();
             }
