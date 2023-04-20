@@ -1,9 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.5.3-DEV</p>
+	<p>3.5.3</p>
 	<ul>
-		<li>...</li>
+		<li>Bugfix: Einige Einstellungen wurden nicht korrekt angezeigt, obwohl sie gespeichert waren.</li>
+		<li>Bugfix: Bei aktivierter Option "Usertabelle im YForm Table-Manager verfügbar machen" in den Einstellungen wird nun das Benutzer Tab trotzdem angezeigt, obwohl die Daten auch über den YForm Tablemanager bearbeitet werden können.</li>
 	</ul>
 	<p>3.5.2</p>
 	<ul>
