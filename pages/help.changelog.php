@@ -1,9 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.5.4-DEV</p>
+	<p>3.5.4</p>
 	<ul>
-		<li>...</li>
+		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Fehler im Spamschutz / CSRF Schutz behoben.</li>
+		<li>Modul 80-5 "MultiNewsletter YForm Abmeldung":  Fehler im Spamschutz / CSRF Schutz behoben.</li>
 	</ul>
 	<p>3.5.3</p>
 	<ul>
