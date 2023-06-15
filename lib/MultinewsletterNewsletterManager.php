@@ -8,21 +8,19 @@
 class MultinewsletterNewsletterManager
 {
     /**
-     * @var MultinewsletterNewsletter[] Archiv Objekte des Newsletters. ACHTUNG: der Index im Array
-     * muss die Archiv ID sein.
+     * @var array<MultinewsletterNewsletter> Archiv Objekte des Newsletters. ACHTUNG: der Index im Array muss die Archiv ID sein.
      */
     public array $archives = [];
 
-    /** @var MultinewsletterUser[] empfänger des Newsletters */
+    /** @var array<MultinewsletterUser> empfänger des Newsletters */
     public array $recipients = [];
 
     /**
-     * @var bool true if only autosend archives and receipients
-     * should be managed
+     * @var bool true if only autosend archives and receipients should be managed
      */
     public bool $autosend_only = false;
 
-    /** @var MultinewsletterUser[] users an die der Newsletter zuletzt versand wurde */
+    /** @var array<MultinewsletterUser> users an die der Newsletter zuletzt versand wurde */
     public array $last_send_users = [];
 
     /** @var int Anzahl ausstehender Newsletter Mails */

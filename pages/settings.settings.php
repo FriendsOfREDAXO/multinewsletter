@@ -155,7 +155,7 @@ if ('Speichern' == filter_input(INPUT_POST, 'btn_save')) {
     $settings['link_abmeldung'] = !is_array($link_ids) ? 0 : $link_ids['REX_INPUT_LINK'][2];
     $settings['linkname_abmeldung'] = trim($link_names['REX_LINK_NAME'][2]);
     $settings['default_test_article'] = !is_array($link_ids) ? 0 : $link_ids['REX_INPUT_LINK'][3];
-    
+
     $settings['autocleanup'] = array_key_exists('autocleanup', $settings) ? 'active' : 'inactive';
     $settings['autosend'] = array_key_exists('autosend', $settings) ? 'active' : 'inactive';
 
@@ -163,8 +163,7 @@ if ('Speichern' == filter_input(INPUT_POST, 'btn_save')) {
     if (1 === (int) $settings['use_yform'] && rex_plugin::get('yform', 'manager')->isAvailable() && !rex_yform_manager_table::get(rex::getTablePrefix() .'375_user')) {
         $content = file_get_contents($this->getPath('snippets') . '/yform_manager_tableset_user.json');
         \rex_yform_manager_table_api::importTablesets($content);
-    }
-    elseif (0 === (int) $settings['use_yform'] && rex_plugin::get('yform', 'manager')->isAvailable() && rex_yform_manager_table::get(rex::getTablePrefix() .'375_user')) {
+    } elseif (0 === (int) $settings['use_yform'] && rex_plugin::get('yform', 'manager')->isAvailable() && rex_yform_manager_table::get(rex::getTablePrefix() .'375_user')) {
         \rex_yform_manager_table_api::removeTable(rex::getTablePrefix() .'375_user');
     }
 

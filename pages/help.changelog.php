@@ -3,7 +3,7 @@
 
 	<p>3.5.5-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>Modul 80-3 "MultiNewsletter Anmeldung nur mit Mail": Fehler beim Zuweisen der Anrede des Users behoben.</li>
 	</ul>
 	<p>3.5.4</p>
 	<ul>

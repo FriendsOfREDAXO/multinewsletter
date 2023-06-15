@@ -80,7 +80,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
         } else {
             $user = MultinewsletterUser::factory(
                 filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
-                '',
+                0,
                 '',
                 '',
                 '',
