@@ -93,7 +93,7 @@ if ('' != filter_input(INPUT_POST, 'import_action')) {
                             $multinewsletter_user->createdate = time();
                         }
                         // IP Adresse (update)
-                        $multinewsletter_user->updateip = filter_input(INPUT_SERVER, 'REMOTE_ADDR');
+                        $multinewsletter_user->updateip = filter_input(INPUT_SERVER, 'REMOTE_ADDR') ?? '';
                         // Updatedatum
                         $multinewsletter_user->updatedate = time();
                         // Subscription type
