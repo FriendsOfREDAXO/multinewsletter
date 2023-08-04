@@ -3,6 +3,7 @@
 
 	<p>3.5.5-DEV</p>
 	<ul>
+		<li>Bugfix beim CSV Import: IP Adressfilter gab manchmal null zurück, erwartet wurde aber ein leerer String.</li>
 		<li>Modul 80-3 "MultiNewsletter Anmeldung nur mit Mail": Fehler beim Zuweisen der Anrede des Users behoben.</li>
 	</ul>
 	<p>3.5.4</p>

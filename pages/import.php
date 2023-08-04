@@ -86,7 +86,7 @@ if ('' != filter_input(INPUT_POST, 'import_action')) {
                         if ($fields['createip'] > -1 && false !== filter_var($csv_user[$fields['createip']], FILTER_VALIDATE_IP)) {
                             $multinewsletter_user->createip = filter_var($csv_user[$fields['createip']], FILTER_VALIDATE_IP);
                         } else {
-                            $multinewsletter_user->createip = filter_input(INPUT_SERVER, 'REMOTE_ADDR');
+                            $multinewsletter_user->createip = filter_input(INPUT_SERVER, 'REMOTE_ADDR') ?? '';
                         }
                         // Erstellungsdatum
                         if (0 == $multinewsletter_user->createdate) {
