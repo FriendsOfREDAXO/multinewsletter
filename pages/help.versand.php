@@ -22,6 +22,9 @@
 		<li>+++LINK_PRIVACY_POLICY+++ und +++LINK_IMPRESS+++ werden durch das D2U
 			Helper Addon im gesamten Frontend ersetzt.</li>
 	</ul>
+	<p>In seltenen Fällen werden die oben genannten Platzhalter leer ersetzt. Sollte
+		dieser Fehler auftreten, bitte in den Einstellungen die Option "Methode zum
+		Auslesen des Artikels" auf "Redaxo intern" umstellen.</p>
 	<p>Bitte beachten Sie, dass ab Version 2 des MultiNewsletters nach Schritt 3
 		Änderungen am Redaxo Artikel nicht mehr beim Versand berücksichtigt werden.
 		Der Artikel wird nicht mehr wie früher bei jedem Versandschritt neu ausgelesen,

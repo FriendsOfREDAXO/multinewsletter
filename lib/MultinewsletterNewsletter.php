@@ -227,9 +227,10 @@ class MultinewsletterNewsletter
                         '+++NEWSLETTERLINK+++' => $article ? self::getUrl($article->getId(), $clang_id) : '',
                         '+++LINK_PRIVACY_POLICY+++' => rex_getUrl((int) rex_config::get('d2u_helper', 'article_id_privacy_policy', rex_article::getSiteStartArticleId()), $clang_id),
                         '+++LINK_IMPRESS+++' => rex_getUrl((int) rex_config::get('d2u_helper', 'article_id_impress', rex_article::getSiteStartArticleId()), $clang_id),
-                    ]),
-            ),
-        ),
+                    ]
+                )
+            )
+        )
         );
     }
 
