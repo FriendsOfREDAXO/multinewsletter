@@ -117,7 +117,7 @@ class MultinewsletterUser
         $user->firstname = $firstname;
         $user->lastname = $lastname;
         $user->clang_id = $clang_id;
-        $user->status = 1;
+        $user->`status` = 1;
         $user->createdate = date('Y-m-d H:i:s');
         $user->createip = $_SERVER['REMOTE_ADDR'];
 
@@ -134,7 +134,7 @@ class MultinewsletterUser
         $this->activationip = $_SERVER['REMOTE_ADDR'];
         $this->updatedate = date('Y-m-d H:i:s');
         $this->updateip = $_SERVER['REMOTE_ADDR'];
-        $this->status = 1;
+        $this->`status` = 1;
         $this->save();
 
         rex_extension::registerPoint(new rex_extension_point('multinewsletter.userActivated', $this));

@@ -45,7 +45,7 @@ class MultinewsletterUserList
 
         if ($ignoreInactive) {
             $filter[] = 'email != ""';
-            $filter[] = 'status = 1';
+            $filter[] = '`status` = 1';
         }
         if ($clang_id > 0) {
             $where[] = 'clang_id = :clang_id';
