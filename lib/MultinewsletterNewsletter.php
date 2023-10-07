@@ -289,7 +289,7 @@ class MultinewsletterNewsletter
             if ('' == $this->htmlbody) {
                 // Fallback: read article using Redaxo internal method
                 if (function_exists('sprogdown')) {
-                    $this->htmlbody = sprogdown($article_content->getArticleTemplate());
+                     $this->htmlbody = sprogdown($article_content->getArticleTemplate());
                 } else {
                     $this->htmlbody = $article_content->getArticleTemplate();
                 }
@@ -346,7 +346,7 @@ class MultinewsletterNewsletter
      */
     private function send($multinewsletter_user, $article = null)
     {
-        if (strlen($this->htmlbody) && strlen($multinewsletter_user->email)) {
+        if (strlen($this->htmlbody) > 0 && strlen($multinewsletter_user->email) > 0) {
             $addon_multinewsletter = rex_addon::get('multinewsletter');
 
             $mail = new rex_mailer();
