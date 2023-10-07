@@ -4,12 +4,13 @@
 	<p>3.5.5-DEV</p>
 	<ul>
 		<li>Bugfix beim CSV Import: IP Adressfilter gab manchmal null zurück, erwartet wurde aber ein leerer String.</li>
+		<li>Bugfix: wenn in den Einstellungen festgelegt war, dass der Artikel per Socket ausgelesen werden soll, wurden personenbezogene Ersetzungen nicht ersetzt.</li>
 		<li>Modul 80-3 "MultiNewsletter Anmeldung nur mit Mail": Fehler beim Zuweisen der Anrede des Users behoben.</li>
 	</ul>
 	<p>3.5.4</p>
 	<ul>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Fehler im Spamschutz / CSRF Schutz behoben.</li>
-		<li>Modul 80-5 "MultiNewsletter YForm Abmeldung":  Fehler im Spamschutz / CSRF Schutz behoben.</li>
+		<li>Modul 80-5 "MultiNewsletter YForm Abmeldung": Fehler im Spamschutz / CSRF Schutz behoben.</li>
 	</ul>
 	<p>3.5.3</p>
 	<ul>

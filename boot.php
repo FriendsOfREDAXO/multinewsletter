@@ -2,10 +2,15 @@
 
 if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     // Web frontend
-    rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) {
-        $multinewsletter_user = '' === (string) rex_get('email', 'string') ? new MultinewsletterUser(0) : MultinewsletterUser::initByMail(rex_get('email', 'string'));
-        return MultinewsletterNewsletter::replaceVars($ep->getSubject(), $multinewsletter_user, rex_article::getCurrent());
-    });
+    $user_email = (string) rex_get('email', 'string');
+    if('' === $user_email) {
+        if(MultinewsletterUser::initByMail($user_email)) {
+            rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) {
+                $multinewsletter_user = MultinewsletterUser::initByMail(rex_get('email', 'string'));
+                return MultinewsletterNewsletter::replaceVars($ep->getSubject(), $multinewsletter_user, rex_article::getCurrent());
+            });
+        }
+    }
 } elseif (rex::isBackend() && rex::getUser()) {
 
     rex_view::addJsFile($this->getAssetsUrl('multinewsletter.js'));
@@ -23,9 +28,6 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
             return $ep->getSubject();
         });
     }
-
-    rex_extension::register('PACKAGES_INCLUDED', static function ($ep) {
-    });
 
     /**
      * Deletes language specific configurations and objects.
