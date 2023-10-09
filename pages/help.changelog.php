@@ -1,6 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
+	<p>3.5.6-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.5.5</p>
 	<ul>
 		<li>Bugfix beim CSV Import: IP Adressfilter gab manchmal null zurück, erwartet wurde aber ein leerer String.</li>
