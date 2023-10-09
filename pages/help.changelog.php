@@ -1,7 +1,7 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.5.5-DEV</p>
+	<p>3.5.5</p>
 	<ul>
 		<li>Bugfix beim CSV Import: IP Adressfilter gab manchmal null zurück, erwartet wurde aber ein leerer String.</li>
 		<li>Bugfix: wenn in den Einstellungen festgelegt war, dass der Artikel per Socket ausgelesen werden soll, wurden personenbezogene Ersetzungen nicht ersetzt.</li>
