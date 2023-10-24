@@ -111,8 +111,6 @@ class MultinewsletterNewsletterManager
                     . 'Fehler gab es beim Versand an folgende Nutzer:<br>'
                     . implode(', ', $archive->recipients_failure);
                 $newsletterManager->sendAdminNotification($subject, $body);
-                // Unset archive
-                unset($this->archives[$archive->id]);
             }
         }
 
