@@ -3,7 +3,7 @@
 
 	<p>3.5.6-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>E-Mails nach Cronjob Versand enthalten nun auch Vor- und Nachnamen der Empfänger, sofern diese vorhanden sind.</li>
 	</ul>
 	<p>3.5.5</p>
 	<ul>

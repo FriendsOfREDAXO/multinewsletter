@@ -153,8 +153,22 @@ class MultinewsletterNewsletterManager
                     .'<b>'. $archive->subject .'</b>'
                     .'<br><br>Anzahl erfolgreich versendete Empfänger: '. count($archive->recipients);
                 if (count($archive->recipients_failure) > 0) {
-                    $body .= '<br><br>Fehler gab es beim Versand an folgende Nutzer:<br>- '
-                        . implode('<br>- ', $archive->recipients_failure);
+                    $body .= '<br><br>Fehler gab es beim Versand an folgende Nutzer:<br>- ';
+                    foreach ($archive->recipients_failure as $recipient_email) {
+                        if (!filter_var($recipient_email, FILTER_VALIDATE_EMAIL)) {
+                            continue;
+                        }
+
+                        $recipient = MultinewsletterUser::initByMail($recipient_email);
+                        $recipient_text = '';
+                        if ('' !== $recipient->firstname) {
+                            $recipient_text = $recipient->firstname .' ';
+                        }
+                        if ('' !== $recipient->lastname) {
+                            $recipient_text = $recipient->lastname .' ';
+                        }
+                        $recipient_text .= '<'. $recipient_email .'><br>';
+                    }
                 }
                 $body .= '<br><br>Details finden Sie in den Archiven des MultiNewsletters und im Cronjob Log.';
                 $newsletterManager->sendAdminNotification($subject, $body);
