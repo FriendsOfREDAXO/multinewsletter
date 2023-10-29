@@ -1,5 +1,12 @@
 <fieldset>
 	<legend>MultiNewsletter Updatehinweise</legend>
+	<p>3.6.0</p>
+	<ul>
+		<li>WICHTIG: Anreden um die diverse Anrede Mx. und auch ohne Anrede erweitert.
+			In den Einstellungen -> Übersetzungen bitte für diese beiden Felder ergänzen
+			und speichern.</li>
+	</ul>
+
 	<p>3.2.1:</p>
 	<ul>
 		<li>Achtung Entwickler: Die Klasse MultiNewsletterAbstract gibt es nicht

@@ -20,13 +20,13 @@ class MultinewsletterUser
     /** @var string Last name */
     public string $lastname = '';
 
-    /** @var int Title 0 = male, 1 = female */
-    public int $title = 0;
+    /** @var int Title -1 without, 0 = Mr., 1 = Mrs., 2 = Mx */
+    public int $title = -1;
 
     /** @var int Redaxo language id */
     public int $clang_id = 0;
 
-    /** @var int Status. 0, = inactive, 1 =  active, 2 = not verified */
+    /** @var int Status. 0 = inactive, 1 = active, 2 = not verified */
     public int $status = 0;
 
     /** @var array<int> Array with group ids */
@@ -42,7 +42,7 @@ class MultinewsletterUser
     public string $createip = '';
 
     /** @var string Activation date (format: Y-m-d H:i:s) */
-    public $activationdate = '';
+    public string $activationdate = '';
 
     /** @var string Activation IP Address */
     public string $activationip = '';
@@ -100,7 +100,7 @@ class MultinewsletterUser
     /**
      * Create a new user.
      * @param string $email email address
-     * @param int $title title (0 = male, 1 = female)
+     * @param int $title title
      * @param string $grad academic degree
      * @param string $firstname First name
      * @param string $lastname Last name
@@ -229,7 +229,7 @@ class MultinewsletterUser
         $content = str_replace('+++GRAD+++', htmlspecialchars(stripslashes($this->grad), ENT_QUOTES), $content);
         $content = str_replace('+++LASTNAME+++', htmlspecialchars(stripslashes($this->lastname), ENT_QUOTES), $content);
         $content = str_replace('+++FIRSTNAME+++', htmlspecialchars(stripslashes($this->firstname), ENT_QUOTES), $content);
-        $content = str_replace('+++TITLE+++', htmlspecialchars(stripslashes($addon->getConfig('lang_' . $this->clang_id . '_title_' . $this->title)), ENT_QUOTES), $content);
+        $content = str_replace('+++TITLE+++', -1 === $this->title ? '' : htmlspecialchars(stripslashes($addon->getConfig('lang_' . $this->clang_id . '_title_' . $this->title)), ENT_QUOTES), $content);
         $content = preg_replace('/ {2,}/', ' ', $content);
 
         $subscribe_link = (\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer())
@@ -255,7 +255,7 @@ class MultinewsletterUser
                     ."grad = '". $this->grad ."', "
                     ."firstname = '". addslashes($this->firstname) ."', "
                     ."lastname = '". addslashes($this->lastname) ."', "
-                    .'title = '. ('' == $this->title ? 0 : $this->title) .', '
+                    .'title = '. ('' == $this->title ? -1 : $this->title) .', '
                     .'clang_id = '. $this->clang_id .', '
                     .'status = '. $this->status .', '
                     ."group_ids = '|". implode('|', (array) $this->group_ids) ."|', "

@@ -75,7 +75,7 @@ if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(I
 
 			html||<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_action') .'<br><br></p>'. PHP_EOL;
     if ($ask_name) {
-        $form_data .= 'choice|title|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_anrede', '') .'|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_0', '').'=0,'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_1', '').'=1|1|0|
+        $form_data .= 'choice|title|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_anrede', '') .'|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_-1', '').'=-1,'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_0', '').'=0,'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_1', '').'=1,'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_2', '').'=2|2|0|
 			text|grad|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_grad', '') .'
 			text|firstname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_firstname', '') .' *|||{"required":"required"}
 			text|lastname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_lastname', '') .' *|||{"required":"required"}'. PHP_EOL;

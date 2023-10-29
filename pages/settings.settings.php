@@ -5,8 +5,10 @@ $lang_presets = [
         'language' => 'Deutsch',
         'sendername' => '',
         'anrede' => 'Anrede',
+        'title_-1' => 'Ohne Anrede',
         'title_0' => 'Herr',
         'title_1' => 'Frau',
+        'title_2' => 'Mx.',
         'grad' => 'Titel',
         'firstname' => 'Vorname',
         'lastname' => 'Nachname',
@@ -51,8 +53,10 @@ $lang_presets = [
         'language' => 'English',
         'sendername' => '',
         'anrede' => 'Form of address',
+        'title_-1' => 'without',
         'title_0' => 'Mr.',
         'title_1' => 'Mrs.',
+        'title_2' => 'Mx.',
         'grad' => 'Academic title',
         'firstname' => 'First name',
         'lastname' => 'Last name',
@@ -99,8 +103,10 @@ I may withdraw your consent at any time from the contact information provided in
         'language' => 'Italiano',
         'sendername' => '',
         'anrede' => 'Titolo',
+        'title_-1' => 'Senza saluto',
         'title_0' => 'Signor',
         'title_1' => 'Signora',
+        'title_2' => 'Mx.',
         'grad' => 'Titolo accademico',
         'firstname' => 'Nome',
         'lastname' => 'Cognome',
@@ -306,8 +312,10 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         d2u_addon_backend_helper::form_linkfield('multinewsletter_config_default_test_article', 3, (int) $this->getConfig('default_test_article'), MultinewsletterNewsletter::getFallbackLang(rex_clang::getStartId()));
 
                         $options_anrede = [];
+                        $options_anrede[-1] = rex_i18n::msg('multinewsletter_config_lang_title_without');
                         $options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');
                         $options_anrede[1] = rex_i18n::msg('multinewsletter_config_lang_title_female');
+                        $options_anrede[2] = rex_i18n::msg('multinewsletter_config_lang_title_diverse');
                         d2u_addon_backend_helper::form_select('multinewsletter_config_default_test_anrede', 'settings[default_test_anrede]', $options_anrede, [(string) $this->getConfig('default_test_anrede')]);
 
                         d2u_addon_backend_helper::form_input('multinewsletter_config_default_test_vorname', 'settings[default_test_vorname]', (string) $this->getConfig('default_test_vorname'));
@@ -347,8 +355,10 @@ foreach (rex_clang::getAll() as $rex_clang) {
 					<?php
                         d2u_addon_backend_helper::form_input('multinewsletter_config_lang_anrede', 'settings[lang_'. $rex_clang->getId() .'_anrede]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_anrede', ''));
                         d2u_addon_backend_helper::form_select('multinewsletter_config_title', 'settings[lang_'. $rex_clang->getId() .'_title]', $options_anrede, [(int) $this->getConfig('lang_'. $rex_clang->getId() .'_title')]);
+                        d2u_addon_backend_helper::form_input('multinewsletter_config_lang_title_without', 'settings[lang_'. $rex_clang->getId() .'_title_-1]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_title_-1', ''));
                         d2u_addon_backend_helper::form_input('multinewsletter_config_lang_title_male', 'settings[lang_'. $rex_clang->getId() .'_title_0]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_title_0', ''));
                         d2u_addon_backend_helper::form_input('multinewsletter_config_lang_title_female', 'settings[lang_'. $rex_clang->getId() .'_title_1]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_title_1', ''));
+                        d2u_addon_backend_helper::form_input('multinewsletter_config_lang_title_diverse', 'settings[lang_'. $rex_clang->getId() .'_title_2]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_title_2', ''));
                         d2u_addon_backend_helper::form_input('multinewsletter_config_lang_grad', 'settings[lang_'. $rex_clang->getId() .'_grad]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_grad', ''));
                         d2u_addon_backend_helper::form_input('multinewsletter_config_lang_firstname', 'settings[lang_'. $rex_clang->getId() .'_firstname]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_firstname', ''));
                         d2u_addon_backend_helper::form_input('multinewsletter_config_lang_lastname', 'settings[lang_'. $rex_clang->getId() .'_lastname]', (string) $this->getConfig('lang_'. $rex_clang->getId() .'_lastname', ''));
@@ -481,8 +491,10 @@ foreach (rex_clang::getAll() as $rex_clang) {
 			var curLangPresetIndex = $(this).attr('data-langpreset-id');
 
 			$('[name="settings[lang_' + curClang + '_anrede]"]').val(langPresets[curLangPresetIndex]['anrede']);
+			$('[name="settings[lang_' + curClang + '_title_-1]"]').val(langPresets[curLangPresetIndex]['title_-1']);
 			$('[name="settings[lang_' + curClang + '_title_0]"]').val(langPresets[curLangPresetIndex]['title_0']);
 			$('[name="settings[lang_' + curClang + '_title_1]"]').val(langPresets[curLangPresetIndex]['title_1']);
+			$('[name="settings[lang_' + curClang + '_title_2]"]').val(langPresets[curLangPresetIndex]['title_2']);
 			$('[name="settings[lang_' + curClang + '_confirmsubject]"]').val(langPresets[curLangPresetIndex]['confirmsubject']);
 			$('[name="settings[lang_' + curClang + '_confirmcontent]"]').val(langPresets[curLangPresetIndex]['confirmcontent']);
 //			$('[name="settings[lang_' + curClang + '_sendername]"]').val(langPresets[curLangPresetIndex]['sendername']);

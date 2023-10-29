@@ -49,8 +49,10 @@ multinewsletter_newsletter_update = Update
 multinewsletter_newsletter_updateip = Update-IP
 multinewsletter_newsletter_subscriptiontype = Anmeldeart
 multinewsletter_newsletter_userdata = Benutzerdaten
-multinewsletter_newsletter_title0 = männlich
-multinewsletter_newsletter_title1 = weiblich
+multinewsletter_newsletter_title-1 = Ohne Anrede
+multinewsletter_newsletter_title0 = Herr
+multinewsletter_newsletter_title1 = Frau
+multinewsletter_newsletter_title2 = Mx.
 
 multinewsletter_newsletter_status = Status
 multinewsletter_newsletter_sendtestmail = Testmail verschicken
@@ -165,8 +167,10 @@ multinewsletter_mailchimp_lists = Mailchimp-Liste
 multinewsletter_expl_config_sync = Liste Synchronisieren
 
 multinewsletter_config_title = Standard-Anrede
-multinewsletter_config_lang_title_male = männlich
+multinewsletter_config_lang_title_diverse = divers
 multinewsletter_config_lang_title_female = weiblich
+multinewsletter_config_lang_title_male = männlich
+multinewsletter_config_lang_title_without = ohne
 multinewsletter_config_lang_sendername = Bezeichnung Absender
 
 multinewsletter_archive_sentdate = Sendedatum

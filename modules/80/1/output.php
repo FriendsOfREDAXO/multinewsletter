@@ -139,14 +139,12 @@ if ($showform) {
 		<div class="form-group yform-element" id="yform-formular-anrede">
 			<label class="select" for="anrede"><?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_anrede') ?></label>
 			<select class="select" id="anrede" name="anrede" size="1">
-				<option value="0"><?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_0') ?></option>
-				<?php
-                    $selected = '';
-                    if (1 == filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT)) {
-                        $selected = ' selected';
+                <?php
+                    $title_ids = [-1, 0, 1, 2];
+                    foreach ($title_ids as $title_id) {
+                        echo '<option value="'. $title_id .'" '. ($title_id === filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT) ? ' selected' : '') .'>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_'. $title_id) .'</option>';
                     }
                 ?>
-				<option value="1" <?= $selected ?>><?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_1') ?></option>
 			</select>
 		</div>
 		<div class="form-group yform-element" id="yform-formular-grad">

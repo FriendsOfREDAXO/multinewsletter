@@ -1,8 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.5.6-DEV</p>
+	<p>3.6.0</p>
 	<ul>
+		<li>WICHTIG: Anreden um die diverse Anrede Mx. und auch ohne Anrede erweitert. In den Einstellungen -> Übersetzungen bitte für diese beiden Felder ergänzen und speichern.</li>
 		<li>E-Mails nach Cronjob Versand enthalten nun auch Vor- und Nachnamen der Empfänger, sofern diese vorhanden sind.</li>
 	</ul>
 	<p>3.5.5</p>

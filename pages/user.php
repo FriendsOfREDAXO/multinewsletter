@@ -492,8 +492,10 @@ elseif ('edit' === $func || 'add' === $func) {
     $field->setLabel(rex_i18n::msg('multinewsletter_newsletter_title'));
     $select = $field->getSelect();
     $select->setSize(1);
+    $select->addOption(rex_i18n::msg('multinewsletter_newsletter_title-1'), -1);
     $select->addOption(rex_i18n::msg('multinewsletter_newsletter_title0'), 0);
     $select->addOption(rex_i18n::msg('multinewsletter_newsletter_title1'), 1);
+    $select->addOption(rex_i18n::msg('multinewsletter_newsletter_title2'), 2);
     $field->setAttribute('style', 'width: 25%');
 
     // Vorname

@@ -221,7 +221,7 @@ class MultinewsletterNewsletter
             new rex_extension_point(
                 'multinewsletter.replaceVars', array_merge(
                     $replaces, [
-                        '+++TITLE+++' => $addon->getConfig('lang_' . $clang_id . '_title_' . $user->title),
+                        '+++TITLE+++' => -1 === $user->title ? '' : $addon->getConfig('lang_' . $clang_id . '_title_' . $user->title),
                         '+++ABMELDELINK+++' => self::getUrl($addon->getConfig('link_abmeldung'), $clang_id, ['unsubscribe' => $user->email]),
                         '+++AKTIVIERUNGSLINK+++' => self::getUrl($addon->getConfig('link'), $clang_id, ['activationkey' => $user->activationkey, 'email' => $user->email]),
                         '+++NEWSLETTERLINK+++' => $article ? self::getUrl($article->getId(), $clang_id) : '',

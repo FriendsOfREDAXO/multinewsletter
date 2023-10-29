@@ -13,7 +13,7 @@
 				<li>grad: enthält den akademischen Grad</li>
 				<li>firstname: Vorname</li>
 				<li>lastname: Nachname</li>
-				<li>title: Anrede - entweder 0 für männlich oder 1 für weiblich</li>
+				<li>title: Anrede - entweder -1 für keine Anrede, 0 für Herr, 1 für Frau oder 2 für die geschlechterneutrale Anrede Mx.</li>
 				<li>clang_id: ID der Sprache in Redaxo, der der Nutzer zugeordnet werden soll.
 					Exisitiert die Sprache nicht, wird der Nutzer der Fallbacksprache aus den
 					Einstellungen zugeordnet. Ist diese nicht gesetzt wird der Nutzer der

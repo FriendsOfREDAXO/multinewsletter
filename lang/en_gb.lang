@@ -49,8 +49,10 @@ multinewsletter_newsletter_update = Update
 multinewsletter_newsletter_updateip = Update-IP
 multinewsletter_newsletter_subscriptiontype = Subscription type
 multinewsletter_newsletter_userdata = User data
-multinewsletter_newsletter_title0 = male
-multinewsletter_newsletter_title1 = female
+multinewsletter_newsletter_title-1 = Without title
+multinewsletter_newsletter_title0 = Mr.
+multinewsletter_newsletter_title1 = Mrs.
+multinewsletter_newsletter_title1 = MX.
 
 multinewsletter_newsletter_status = Status
 multinewsletter_newsletter_sendtestmail = Send testmail
@@ -165,8 +167,10 @@ multinewsletter_mailchimp_lists = Mailchimp list
 multinewsletter_expl_config_sync = sync list
 
 multinewsletter_config_title = Standard form of address
-multinewsletter_config_lang_title_male = male
+multinewsletter_config_lang_title_diverse = diverse
 multinewsletter_config_lang_title_female = female
+multinewsletter_config_lang_title_male = male
+multinewsletter_config_lang_title_without = without
 multinewsletter_config_lang_sendername = Sender name
 
 multinewsletter_archive_sentdate = Send date
