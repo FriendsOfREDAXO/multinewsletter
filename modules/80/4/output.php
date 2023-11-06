@@ -99,8 +99,6 @@ if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(I
     }
 
     $form_data .= 'checkbox|privacy_policy_accepted|'. preg_replace('#\\R+#', '<br>', $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_privacy_policy', '')) .' *<br><br>|0,1|0|{"required":"required"}
-			php|validate_timer|Spamprotection|<input name="validate_timer" type="hidden" value="'. microtime(true) .'" />|
-
 			html||<p>* '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_compulsory', '') .'<br><br></p>
 			html||<p> '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_safety', '') .'<br><br></p>
 
@@ -109,6 +107,11 @@ if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(I
         $form_data .= 'validate|empty|firstname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_firstname', '') .'
 			validate|empty|lastname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_name', '') . PHP_EOL;
     }
+    if (rex_addon::get('yform_spam_protection')->isAvailable()) {
+        $form_data .= '
+            spam_protection|honeypot|Bitte nicht ausfüllen|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_spam_detected') .'|0';
+    }
+
     $form_data .= 'validate|empty|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'
 			validate|type|email|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'
 			validate|unique|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_subscribed', '') .'|rex_375_user
