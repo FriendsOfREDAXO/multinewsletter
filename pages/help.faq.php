@@ -89,5 +89,12 @@
 					Newsletter Templates verhindern. Wie?</strong></p>
 			<p>Füge im Template im body Tag die Klasse "prevent_d2u_helper_styles" hinzu.
 				Dazu muss mindestens D2U Helper Version 1.5.0 installiert sein.</p>
+		</li>
+		<li>
+			<p><strong>Frage: Im Newsletter Template wird die Artikel-ID nicht korrekt ersetzt.
+				Was ist zu tun?
+			</strong></p>
+			<p>In den Einstellungen muss die Art wie der Artikel ausgelesen wird auf Socket umgestellt werden.</p>
+		</li>
 	</ul>
 </fieldset>
