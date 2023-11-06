@@ -423,8 +423,10 @@ if(class_exists('rex_mailer')) {
                         d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', 'testemail', $_SESSION['multinewsletter']['newsletter']['testemail'], true, false, 'email');
 
                         $options_anrede = [];
+                        $options_anrede[-1] = rex_i18n::msg('multinewsletter_config_lang_title_without');
                         $options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');
                         $options_anrede[1] = rex_i18n::msg('multinewsletter_config_lang_title_female');
+                        $options_anrede[2] = rex_i18n::msg('multinewsletter_config_lang_title_diverse');
                         d2u_addon_backend_helper::form_select('multinewsletter_newsletter_title', 'testtitle', $options_anrede, [$_SESSION['multinewsletter']['newsletter']['testtitle']]);
 
                         d2u_addon_backend_helper::form_input('multinewsletter_newsletter_grad', 'testgrad', $_SESSION['multinewsletter']['newsletter']['testgrad']);
