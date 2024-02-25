@@ -230,8 +230,7 @@ class MultinewsletterNewsletter
                     ]
                 )
             )
-        )
-        );
+        ));
     }
 
     /**
