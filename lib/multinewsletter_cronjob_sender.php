@@ -2,7 +2,7 @@
 /**
  * Administrates background send CronJob for MultiNewsletter.
  */
-class multinewsletter_cronjob_sender extends D2U_Helper\ACronJob
+class multinewsletter_cronjob_sender extends TobiasKrais\D2UHelper\ACronJob
 {
     /**
      * Create a new instance of object.

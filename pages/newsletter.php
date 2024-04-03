@@ -312,7 +312,7 @@ foreach($messages as $msg) {
     echo rex_view::error($msg);
 }
 
-if(class_exists('rex_mailer')) {
+if(class_exists(rex_mailer::class)) {
 ?>
 	<form action="<?= rex_url::currentBackendPage() ?>" method="post" name="MULTINEWSLETTER">
 		<div class="panel panel-edit">
@@ -395,9 +395,9 @@ if(class_exists('rex_mailer')) {
 						</dd>
 					</dl>
 					<?php
-                            d2u_addon_backend_helper::form_linkfield('multinewsletter_newsletter_article', 1, $_SESSION['multinewsletter']['newsletter']['article_id'], $_SESSION['multinewsletter']['newsletter']['testlanguage']);
-                            d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', 'sender_email', $_SESSION['multinewsletter']['newsletter']['sender_email'], true, false, 'email');
-                            d2u_addon_backend_helper::form_input('multinewsletter_config_reply_to', 'reply_to_email', $_SESSION['multinewsletter']['newsletter']['reply_to_email'], false, false, 'email');
+                            \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('multinewsletter_newsletter_article', 1, $_SESSION['multinewsletter']['newsletter']['article_id'], $_SESSION['multinewsletter']['newsletter']['testlanguage']);
+                            \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_email', 'sender_email', $_SESSION['multinewsletter']['newsletter']['sender_email'], true, false, 'email');
+                            \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_reply_to', 'reply_to_email', $_SESSION['multinewsletter']['newsletter']['reply_to_email'], false, false, 'email');
                             foreach(rex_clang::getAll() as $rex_clang) {
                                 echo '<dl class="rex-form-group form-group">';
                                 echo '<dt><label>'. rex_i18n::msg('multinewsletter_group_default_sender_name') .' '. $rex_clang->getName() .'</label></dt>';
@@ -420,25 +420,25 @@ if(class_exists('rex_mailer')) {
 						<dd><?= rex_i18n::msg('multinewsletter_expl_testmail') ?></dd>
 					</dl>
 					<?php
-                        d2u_addon_backend_helper::form_input('multinewsletter_newsletter_email', 'testemail', $_SESSION['multinewsletter']['newsletter']['testemail'], true, false, 'email');
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_email', 'testemail', $_SESSION['multinewsletter']['newsletter']['testemail'], true, false, 'email');
 
                         $options_anrede = [];
                         $options_anrede[-1] = rex_i18n::msg('multinewsletter_config_lang_title_without');
                         $options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');
                         $options_anrede[1] = rex_i18n::msg('multinewsletter_config_lang_title_female');
                         $options_anrede[2] = rex_i18n::msg('multinewsletter_config_lang_title_diverse');
-                        d2u_addon_backend_helper::form_select('multinewsletter_newsletter_title', 'testtitle', $options_anrede, [$_SESSION['multinewsletter']['newsletter']['testtitle']]);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_newsletter_title', 'testtitle', $options_anrede, [$_SESSION['multinewsletter']['newsletter']['testtitle']]);
 
-                        d2u_addon_backend_helper::form_input('multinewsletter_newsletter_grad', 'testgrad', $_SESSION['multinewsletter']['newsletter']['testgrad']);
-                        d2u_addon_backend_helper::form_input('multinewsletter_newsletter_firstname', 'testfirstname', $_SESSION['multinewsletter']['newsletter']['testfirstname']);
-                        d2u_addon_backend_helper::form_input('multinewsletter_newsletter_lastname', 'testlastname', $_SESSION['multinewsletter']['newsletter']['testlastname']);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_grad', 'testgrad', $_SESSION['multinewsletter']['newsletter']['testgrad']);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_firstname', 'testfirstname', $_SESSION['multinewsletter']['newsletter']['testfirstname']);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_lastname', 'testlastname', $_SESSION['multinewsletter']['newsletter']['testlastname']);
 
                         if(count(rex_clang::getAll()) > 1) {
                             $langs = [];
                             foreach(rex_clang::getAll() as $rex_clang) {
                                 $langs[$rex_clang->getId()] = $rex_clang->getName();
                             }
-                            d2u_addon_backend_helper::form_select('multinewsletter_newsletter_clang', 'testlanguage', $langs, [$_SESSION['multinewsletter']['newsletter']['testlanguage']]);
+                            \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_newsletter_clang', 'testlanguage', $langs, [$_SESSION['multinewsletter']['newsletter']['testlanguage']]);
                         } else {
                             foreach(rex_clang::getAll() as $rex_clang) {
                                 echo '<input type="hidden" name="testlanguage" value="'. $rex_clang->getId() .'" />';

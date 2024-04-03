@@ -2,26 +2,32 @@
 
 if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     // Web frontend
-    $user_email = (string) rex_get('email', 'string');
+    $user_email = rex_get('email', 'string');
     if('' === $user_email) {
-        if(MultinewsletterUser::initByMail($user_email)) {
+        if(MultinewsletterUser::initByMail($user_email) instanceof MultinewsletterUser) {
             rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) {
-                $multinewsletter_user = MultinewsletterUser::initByMail(rex_get('email', 'string'));
-                return MultinewsletterNewsletter::replaceVars($ep->getSubject(), $multinewsletter_user, rex_article::getCurrent());
+                $user_email = rex_get('email', 'string');
+                $multinewsletter_user = MultinewsletterUser::initByMail($user_email);
+                if($multinewsletter_user instanceof MultinewsletterUser) {
+                    return MultinewsletterNewsletter::replaceVars((string) $ep->getSubject(), $multinewsletter_user, rex_article::getCurrent());
+                }
+                else {
+                    return $ep->getSubject();
+                }
             });
         }
     }
-} elseif (rex::isBackend() && rex::getUser()) {
-
-    rex_view::addJsFile($this->getAssetsUrl('multinewsletter.js'));
-    rex_view::addCssFile($this->getAssetsUrl('general.css'));
+} elseif (rex::isBackend() && rex::getUser() instanceof rex_user) {
+    $multinewsletter = rex_addon::get('multinewsletter');
+    rex_view::addJsFile($multinewsletter->getAssetsUrl('multinewsletter.js'));
+    rex_view::addCssFile($multinewsletter->getAssetsUrl('general.css'));
     rex_perm::register('multinewsletter[]', rex_i18n::msg('multinewsletter_addon_short_title'));
 
-    if ('multinewsletter/user' === (string) rex_get('page', 'string')) {
+    if ('multinewsletter/user' === rex_get('page', 'string')) {
         rex_extension::register('REX_FORM_SAVED', static function ($ep) {
 
             if (MultinewsletterMailchimp::isActive()) {
-                $user_id = (int) rex_get('entry_id', 'int');
+                $user_id = rex_get('entry_id', 'int');
                 $user = new MultinewsletterUser($user_id);
                 $user->save();
             }
@@ -66,7 +72,7 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
             $action = $ep->getParam('action');
 
             if ($ep->getParam('table') === rex::getTablePrefix() . '375_user') {
-                $user = new MultinewsletterUser($ep->getParam('id'));
+                $user = new MultinewsletterUser((int) $ep->getParam('id'));
 
                 if ('update' !== $action) {
                     $user->subscriptiontype = 'backend';

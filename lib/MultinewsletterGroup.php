@@ -2,6 +2,7 @@
 
 /**
  * MultiNewsletter User Group.
+ * @api
  *
  * @author Tobias Krais
  */
@@ -62,7 +63,7 @@ class MultinewsletterGroup
     public function delete(): void
     {
         $result = rex_sql::factory();
-        $result->setQuery('DELETE FROM '. \rex::getTablePrefix() .'375_group WHERE id = '. $$this->id);
+        $result->setQuery('DELETE FROM '. \rex::getTablePrefix() .'375_group WHERE id = '. $this->id);
     }
 
     /**
@@ -76,7 +77,7 @@ class MultinewsletterGroup
         $result->setQuery('SELECT id FROM '. rex::getTablePrefix() .'375_group ORDER BY name');
 
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $groups[$result->getValue('id')] = new self($result->getValue('id'));
+            $groups[(int) $result->getValue('id')] = new self((int) $result->getValue('id'));
             $result->next();
         }
         return $groups;

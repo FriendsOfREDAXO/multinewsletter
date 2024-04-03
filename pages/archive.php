@@ -1,7 +1,7 @@
 <?php
 
 $func = rex_request('func', 'string');
-$entry_id = (int) rex_request('entry_id', 'int');
+$entry_id = rex_request('entry_id', 'int');
 $resend_failure = rex_request('resend-failure', 'int', 0);
 
 if ($resend_failure > 0) {

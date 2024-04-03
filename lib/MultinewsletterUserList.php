@@ -1,6 +1,7 @@
 <?php
 /**
  * MultiNewsletters user list object.
+ * @api
  */
 class MultinewsletterUserList
 {
@@ -8,8 +9,8 @@ class MultinewsletterUserList
     public $users = [];
 
     /**
-     * Stellt die Daten des Benutzers aus der Datenbank zusammen.
-     * @param MultinewsletterUser[] $user_ids array mit UserIds aus der Datenbank
+     * Collects user objects from the database.
+     * @param array<int> $user_ids array with user ids
      */
     public function __construct($user_ids)
     {
@@ -19,7 +20,8 @@ class MultinewsletterUserList
     }
 
     /**
-     * Exportiert die Benutzerliste als CSV und sendet das Dokument als CSV.
+     * Count all users.
+     * @return int number of users
      */
     public static function countAll()
     {
@@ -27,14 +29,14 @@ class MultinewsletterUserList
         $result = rex_sql::factory();
         $result->setQuery($query);
 
-        return $result->getValue('total');
+        return (int) $result->getValue('total');
     }
 
     /**
      * Get all users.
-     * @param bool $ignoreInactive only online news
+     * @param bool $ignoreInactive only active users
      * @param int $clang_id redaxo clang id
-     * @return News[] array with User objects
+     * @return array<int,MultinewsletterUser> array with User objects
      */
     public static function getAll($ignoreInactive = true, $clang_id = null)
     {
@@ -48,7 +50,6 @@ class MultinewsletterUserList
             $filter[] = '`status` = 1';
         }
         if ($clang_id > 0) {
-            $where[] = 'clang_id = :clang_id';
             $params['clang_id'] = $clang_id;
         }
         $query = 'SELECT id FROM ' . rex::getTablePrefix() . '375_user WHERE ' . implode(' AND ', $filter) . ' ORDER BY firstname, lastname';
@@ -56,7 +57,7 @@ class MultinewsletterUserList
         $num_rows = $sql->getRows();
 
         for ($i = 0; $i < $num_rows; ++$i) {
-            $users[] = new MultinewsletterUser($sql->getValue('id'));
+            $users[] = new MultinewsletterUser((int) $sql->getValue('id'));
             $sql->next();
         }
         return $users;
@@ -65,9 +66,9 @@ class MultinewsletterUserList
     /**
      * Exportiert die Benutzerliste als CSV und sendet das Dokument als CSV.
      */
-    public function exportCSV()
+    public function exportCSV(): void
     {
-        if (count($this->users)) {
+        if (count($this->users) > 0) {
             $cols = [
                 'id',
                 'email',

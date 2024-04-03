@@ -9,19 +9,17 @@ $showform = true;
 
 // Deactivate emailobfuscator for POST od GET mail address
 if (rex_addon::get('emailobfuscator')->isAvailable()) {
-    if ('' != filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
+    if (filter_var(rex_request('email'), FILTER_VALIDATE_EMAIL)) {
         emailobfuscator::whitelistEmail(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
-    } elseif ('' != filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL)) {
-        emailobfuscator::whitelistEmail(filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
     }
 }
 
-if (filter_input(INPUT_GET, 'activationkey', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]) > 0 && '' != filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL)) {
-    $user = MultinewsletterUser::initByMail(filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
-    if ($user->activationkey == filter_input(INPUT_GET, 'activationkey', FILTER_VALIDATE_INT)) {
+if (filter_input(INPUT_GET, 'activationkey', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]) > 0 && '' !== filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL)) {
+    $user = MultinewsletterUser::initByMail((string) filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
+    if ($user instanceof MultinewsletterUser && $user->activationkey == filter_input(INPUT_GET, 'activationkey', FILTER_VALIDATE_INT)) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful') .'</p>';
         $user->activate();
-    } elseif (0 == $user->activationkey) {
+    } elseif ($user instanceof MultinewsletterUser && '' === $user->activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_confirmed') .'</p>';
     } else {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key') .'</p>';
@@ -32,16 +30,16 @@ if (filter_input(INPUT_GET, 'activationkey', FILTER_VALIDATE_INT, ['options' => 
 $form_groups = filter_input_array(INPUT_POST, ['groups' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
 $messages = [];
 
-if ('' != filter_input(INPUT_POST, 'submit')) {
+if ('' !== filter_input(INPUT_POST, 'submit')) {
     $save = true;
     // Fehlermeldungen finden
-    if ('' == filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
+    if ('' === filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email');
     }
-    if ('' == filter_input(INPUT_POST, 'firstname') || strlen(filter_input(INPUT_POST, 'firstname')) > 30) {
+    if ('' === filter_input(INPUT_POST, 'firstname') || strlen(filter_input(INPUT_POST, 'firstname')) > 30) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_firstname');
     }
-    if ('' == filter_input(INPUT_POST, 'lastname') || strlen(filter_input(INPUT_POST, 'lastname')) > 30) {
+    if ('' === filter_input(INPUT_POST, 'lastname') || strlen(filter_input(INPUT_POST, 'lastname')) > 30) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_lastname');
     }
     if (0 === count($form_groups['groups'])) {
@@ -60,7 +58,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
         echo '<br>';
 
         $save = false;
-    } elseif ('' != filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
+    } elseif ('' !== filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
         // Ist Benutzer schon in der Newslettergruppe?
         $user = MultinewsletterUser::initByMail(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
         if (false !== $user && $user->id > 0 && 1 == $user->status) {
@@ -72,7 +70,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
                     }
                 }
             }
-            if (count($form_groups['groups']) > 0 && empty($not_already_subscribed) && 1 == $user->privacy_policy_accepted) {
+            if (count($form_groups['groups']) > 0 && empty($not_already_subscribed) && 1 === $user->privacy_policy_accepted) {
                 echo '<p><b>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_subscribed') .'</b></p>';
                 $save = false;
             }
@@ -101,7 +99,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
                 );
             }
             $user->createdate = date('Y-m-d H:i:s');
-            $user->createip = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
+            $user->createip = rex_request::server('REMOTE_ADDR', 'string');
             $user->group_ids = $form_groups['groups'];
             $user->status = 0;
             $user->subscriptiontype = 'web';
@@ -173,7 +171,7 @@ if ($showform) {
 
                 foreach ($group_ids as $group_id) {
                     $group = new MultinewsletterGroup($group_id);
-                    if ('' != $group->name) {
+                    if ('' !== $group->name) {
                         echo '<p class="formcheckbox formlabel-group" id="yform-formular">';
                         $checked = '';
                         if (isset($form_groups[$group_id]) && $form_groups[$group_id] > 0) {
@@ -188,14 +186,14 @@ if ($showform) {
             // Privacy policy
             echo '<div class="form-group yform-element" id="yform-formular">';
             echo '<label class="control-label" for="privacy_policy">';
-            echo '<input class="checkbox" name="privacy_policy" id="yform-formular-privacy-policy" value="1" type="checkbox"'. (1 == filter_input(INPUT_POST, 'privacy_policy', FILTER_VALIDATE_INT) ? ' checked="checked"' : '') .' required>';
-            echo $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_privacy_policy') .' *</label>';
+            echo '<input class="checkbox" name="privacy_policy" id="yform-formular-privacy-policy" value="1" type="checkbox"'. (1 === filter_input(INPUT_POST, 'privacy_policy', FILTER_VALIDATE_INT) ? ' checked="checked"' : '') .' required>';
+            echo (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_privacy_policy') .' *</label>';
             echo '</div>';
         ?>
-		<p><?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_compulsory') ?></p>
-		<p><?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_safety') ?></p>
+		<p><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_compulsory') ?></p>
+		<p><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_safety') ?></p>
 		<div class="form-group yform-element">
-			<input class="btn btn-primary" name="submit" id="submit" value="<?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_subscribe') ?>" type="submit">
+			<input class="btn btn-primary" name="submit" id="submit" value="<?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_subscribe') ?>" type="submit">
 		</div>
 	</form>
 <?php

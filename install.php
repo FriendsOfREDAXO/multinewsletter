@@ -73,31 +73,31 @@ rex_sql_table::get(rex::getTable('375_group'))
     ->alter();
 
 // Standartkonfiguration erstellen
-if (!$this->hasConfig('default_test_email')) {
-    $this->setConfig('default_test_email', rex::getProperty('ERROR_EMAIL'));
-    $this->setConfig('default_test_article', rex_article::getSiteStartArticleId());
-    $this->setConfig('default_test_sprache', rex_config::get('d2u_helper', 'default_lang'));
+if (!rex_config::has('multinewsletter', 'default_test_email')) {
+    rex_config::set('multinewsletter', 'default_test_email', rex::getProperty('ERROR_EMAIL'));
+    rex_config::set('multinewsletter', 'default_test_article', rex_article::getSiteStartArticleId());
+    rex_config::set('multinewsletter', 'default_test_sprache', rex_config::get('d2u_helper', 'default_lang'));
 }
 
 // Update modules
-if (class_exists('D2UModuleManager')) {
+if (class_exists(TobiasKrais\D2UHelper\ModuleManager::class)) {
     $d2u_multinewsletter_modules = [];
-    $d2u_multinewsletter_modules[] = new D2UModule('80-1',
+    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-1',
         'MultiNewsletter Anmeldung mit Name und Anrede',
         7);
-    $d2u_multinewsletter_modules[] = new D2UModule('80-2',
+    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-2',
         'MultiNewsletter Abmeldung',
         7);
-    $d2u_multinewsletter_modules[] = new D2UModule('80-3',
+    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-3',
         'MultiNewsletter Anmeldung nur mit Mail',
         7);
-    $d2u_multinewsletter_modules[] = new D2UModule('80-4',
+    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-4',
         'MultiNewsletter YForm Anmeldung',
         9);
-    $d2u_multinewsletter_modules[] = new D2UModule('80-5',
+    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-5',
         'MultiNewsletter YForm Abmeldung',
         4);
 
-    $d2u_module_manager = new D2UModuleManager($d2u_multinewsletter_modules, '', 'multinewsletter');
+    $d2u_module_manager = new \TobiasKrais\D2UHelper\ModuleManager($d2u_multinewsletter_modules, '', 'multinewsletter');
     $d2u_module_manager->autoupdate();
 }

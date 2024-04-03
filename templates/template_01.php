@@ -82,7 +82,7 @@
 	<header>
 		<center>
 			<?php
-            if ('' != rex_config::get('d2u_helper', 'template_logo', '')) {
+            if ('' !== rex_config::get('d2u_helper', 'template_logo', '')) {
                 echo '<img class="logo" src="'. rex_url::media(rex_config::get('d2u_helper', 'template_logo')) .'" alt="Logo">';
             }
             ?>

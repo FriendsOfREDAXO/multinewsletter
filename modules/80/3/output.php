@@ -88,7 +88,7 @@ if ('' != filter_input(INPUT_POST, 'submit')) {
             );
         }
         $user->createdate = date('Y-m-d H:i:s');
-        $user->createip = filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP);
+        $user->createip = rex_request::server('REMOTE_ADDR', 'string');
         $user->group_ids = $form_groups['groups'];
         $user->status = 0;
         $user->subscriptiontype = 'web';

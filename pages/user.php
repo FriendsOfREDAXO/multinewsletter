@@ -1,6 +1,6 @@
 <?php
 $func = rex_request('func', 'string');
-$entry_id = (int) rex_request('entry_id', 'int');
+$entry_id = rex_request('entry_id', 'int');
 
 if ('' != filter_input(INPUT_POST, 'newsletter_exportusers')) {
     $func = 'export';
@@ -577,12 +577,12 @@ elseif ('edit' === $func || 'add' === $func) {
         $field->setValue(date('Y-m-d H:i:s'));
 
         $field = $form->addHiddenField('updateip');
-        $field->setValue(filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP));
+        $field->setValue(rex_request::server('REMOTE_ADDR', 'string'));
 
         $form->addParam('entry_id', $entry_id);
     } elseif ('add' == $func) {
         $field = $form->addHiddenField('createip');
-        $field->setValue(filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP));
+        $field->setValue(rex_request::server('REMOTE_ADDR', 'string'));
 
         $field = $form->addHiddenField('subscriptiontype');
         $field->setValue('backend');

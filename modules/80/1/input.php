@@ -13,7 +13,7 @@
 
             $group_ids = [];
             for ($i = 0; $i < $num_rows; ++$i) {
-                $group_ids[$result->getValue('id')] = $result->getValue('name');
+                $group_ids[(int) $result->getValue('id')] = (string) $result->getValue('name');
                 $result->next();
             }
             $select_feature = new rex_select();
@@ -23,8 +23,8 @@
             $select_feature->setAttribute('class', 'form-control');
 
             // Daten
-            foreach ($group_ids as $group_ids => $name) {
-              $select_feature->addOption($name, $group_ids);
+            foreach ($group_ids as $group_id => $name) {
+              $select_feature->addOption($name, $group_id);
             }
 
             // Vorselektierung
@@ -35,7 +35,7 @@
                 }
             }
 
-            echo $select_feature->show();
+            $select_feature->show();
         ?>
 	</div>
 </div>

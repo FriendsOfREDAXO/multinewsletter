@@ -109,7 +109,10 @@ class MultinewsletterUser
      */
     public static function factory($email, $title, $grad, $firstname, $lastname, $clang_id)
     {
-        $user = self::initByMail($email) ?: new self(0);
+        $user = self::initByMail($email);
+        if(!$user instanceof MultinewsletterUser) {
+            $user = new self(0);
+        } 
 
         $user->email = $email;
         $user->title = $title;
@@ -119,7 +122,7 @@ class MultinewsletterUser
         $user->clang_id = $clang_id;
         $user->status = 1;
         $user->createdate = date('Y-m-d H:i:s');
-        $user->createip = $_SERVER['REMOTE_ADDR'];
+        $user->createip = rex_request::server('REMOTE_ADDR', 'string');
 
         return $user;
     }
@@ -127,13 +130,13 @@ class MultinewsletterUser
     /**
      * Activate user.
      */
-    public function activate()
+    public function activate(): void
     {
         $this->activationkey = '0';
         $this->activationdate = date('Y-m-d H:i:s');
-        $this->activationip = $_SERVER['REMOTE_ADDR'];
+        $this->activationip = rex_request::server('REMOTE_ADDR', 'string');
         $this->updatedate = date('Y-m-d H:i:s');
-        $this->updateip = $_SERVER['REMOTE_ADDR'];
+        $this->updateip = rex_request::server('REMOTE_ADDR', 'string');
         $this->status = 1;
         $this->save();
 
@@ -154,7 +157,7 @@ class MultinewsletterUser
                 foreach ($this->group_ids as $group_id) {
                     $group = new MultinewsletterGroup($group_id);
 
-                    if (strlen($group->mailchimp_list_id)) {
+                    if (strlen($group->mailchimp_list_id) > 0) {
                         $Mailchimp->unsubscribe($this, $group->mailchimp_list_id);
                     }
                 }
@@ -191,7 +194,7 @@ class MultinewsletterUser
             .($autosend_only ? ' AND autosend = 1' : ''));
 
         for ($i = 0; $result->getRows() > $i; ++$i) {
-            $archive_ids[] = $result->getValue('archive_id');
+            $archive_ids[] = (int) $result->getValue('archive_id');
             $result->next();
         }
 
@@ -210,7 +213,7 @@ class MultinewsletterUser
         $result->setQuery($query);
 
         if ($result->getRows() > 0) {
-            return new self($result->getValue('id'));
+            return new self((int) $result->getValue('id'));
         }
         return false;
 
@@ -229,11 +232,11 @@ class MultinewsletterUser
         $content = str_replace('+++GRAD+++', htmlspecialchars(stripslashes($this->grad), ENT_QUOTES), $content);
         $content = str_replace('+++LASTNAME+++', htmlspecialchars(stripslashes($this->lastname), ENT_QUOTES), $content);
         $content = str_replace('+++FIRSTNAME+++', htmlspecialchars(stripslashes($this->firstname), ENT_QUOTES), $content);
-        $content = str_replace('+++TITLE+++', -1 === $this->title ? '' : htmlspecialchars(stripslashes($addon->getConfig('lang_' . $this->clang_id . '_title_' . $this->title)), ENT_QUOTES), $content);
-        $content = preg_replace('/ {2,}/', ' ', $content);
+        $content = str_replace('+++TITLE+++', -1 === $this->title ? '' : htmlspecialchars(stripslashes((string) $addon->getConfig('lang_' . $this->clang_id . '_title_' . $this->title)), ENT_QUOTES), $content);
+        $content = (string) preg_replace('/ {2,}/', ' ', $content);
 
         $subscribe_link = (\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer())
-            . trim(trim(rex_getUrl($addon->getConfig('link'), $this->clang_id, ['activationkey' => $this->activationkey, 'email' => rawurldecode($this->email)], '&'), '/'), './');
+            . trim(trim(rex_getUrl((int) $addon->getConfig('link'), $this->clang_id, ['activationkey' => $this->activationkey, 'email' => rawurldecode($this->email)], '&'), '/'), './');
         if (rex_addon::get('yrewrite')->isAvailable()) {
             // Use YRewrite, support for Redaxo installations in subfolders: https://github.com/TobiasKrais/multinewsletter/issues/7
             $subscribe_link = \rex_yrewrite::getFullUrlByArticleId($addon->getConfig('link'), $this->clang_id, ['activationkey' => $this->activationkey, 'email' => rawurldecode($this->email)], '&');
@@ -255,28 +258,28 @@ class MultinewsletterUser
                     ."grad = '". $this->grad ."', "
                     ."firstname = '". addslashes($this->firstname) ."', "
                     ."lastname = '". addslashes($this->lastname) ."', "
-                    .'title = '. ('' == $this->title ? -1 : $this->title) .', '
+                    .'title = '. $this->title .', '
                     .'clang_id = '. $this->clang_id .', '
                     .'status = '. $this->status .', '
-                    ."group_ids = '|". implode('|', (array) $this->group_ids) ."|', "
+                    ."group_ids = '|". implode('|', $this->group_ids) ."|', "
                     ."mailchimp_id = '". $this->mailchimp_id ."', "
-                    ."createdate = '". ('' == $this->createdate ? date('Y-m-d H:i:s') : $this->createdate) ."', "
-                    ."createip = '". ('' == $this->createip ? $_SERVER['REMOTE_ADDR'] : $this->createip) ."', "
+                    ."createdate = '". ('' === $this->createdate ? date('Y-m-d H:i:s') : $this->createdate) ."', "
+                    ."createip = '". ('' === $this->createip ? rex_request::server('REMOTE_ADDR', 'string') : $this->createip) ."', "
                     ."activationdate = '". $this->activationdate ."', "
                     ."activationip = '". $this->activationip ."', "
                     ."activationkey = '". $this->activationkey ."', "
                     ."updatedate = '". date('Y-m-d H:i:s') ."', "
-                    ."updateip = '". $_SERVER['REMOTE_ADDR'] ."', "
+                    ."updateip = '". rex_request::server('REMOTE_ADDR', 'string') ."', "
                     ."subscriptiontype = '". $this->subscriptiontype ."', "
                     .'privacy_policy_accepted = '. $this->privacy_policy_accepted .' ';
-        if (0 == $this->id) {
+        if (0 === $this->id) {
             $query = 'INSERT INTO '. $query;
         } else {
             $query = 'UPDATE '. $query .' WHERE id = '. $this->id;
         }
         $result = \rex_sql::factory();
         $result->setQuery($query);
-        if (0 == $this->id) {
+        if (0 === $this->id) {
             $this->id = (int) $result->getLastId();
             $error = !$result->hasError();
         }
@@ -284,13 +287,13 @@ class MultinewsletterUser
         // Don't forget Mailchimp
         if (MultinewsletterMailchimp::isActive()) {
             $Mailchimp = MultinewsletterMailchimp::factory();
-            $_status = 2 == $this->status ? 'unsubscribed' : (1 == $this->status ? 'subscribed' : 'pending');
+            $_status = 2 === $this->status ? 'unsubscribed' : (1 === $this->status ? 'subscribed' : 'pending');
 
             try {
                 foreach ($this->group_ids as $group_id) {
                     $group = new MultinewsletterGroup($group_id);
 
-                    if (strlen($group->mailchimp_list_id)) {
+                    if (strlen($group->mailchimp_list_id) > 0) {
                         $result = $Mailchimp->addUserToList($this, $group->mailchimp_list_id, $_status);
                         $this->mailchimp_id = $result['id'];
                     }
@@ -312,7 +315,7 @@ class MultinewsletterUser
      */
     public function sendActivationMail($sender_mail, $sender_name, $subject, $body)
     {
-        if (!empty($body) && strlen($this->email) && false !== filter_var($sender_mail, FILTER_VALIDATE_EMAIL)) {
+        if ('' !== $body && strlen($this->email) > 0 && false !== filter_var($sender_mail, FILTER_VALIDATE_EMAIL)) {
             $mail = new rex_mailer();
             $mail->isHTML(true);
             $mail->CharSet = 'utf-8';
@@ -328,14 +331,14 @@ class MultinewsletterUser
             ]));
 
             $addon_multinewsletter = rex_addon::get('multinewsletter');
-            if ($addon_multinewsletter->getConfig('use_smtp')) {
+            if (1 === (int) $addon_multinewsletter->getConfig('use_smtp')) {
                 $mail->Mailer = 'smtp';
-                $mail->Host = $addon_multinewsletter->getConfig('smtp_host');
-                $mail->Port = $addon_multinewsletter->getConfig('smtp_port');
-                $mail->SMTPSecure = $addon_multinewsletter->getConfig('smtp_crypt');
-                $mail->SMTPAuth = $addon_multinewsletter->getConfig('smtp_auth');
-                $mail->Username = $addon_multinewsletter->getConfig('smtp_user');
-                $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
+                $mail->Host = (string) $addon_multinewsletter->getConfig('smtp_host');
+                $mail->Port = (int) $addon_multinewsletter->getConfig('smtp_port');
+                $mail->SMTPSecure = (string) $addon_multinewsletter->getConfig('smtp_crypt');
+                $mail->SMTPAuth = (bool) $addon_multinewsletter->getConfig('smtp_auth');
+                $mail->Username = (string) $addon_multinewsletter->getConfig('smtp_user');
+                $mail->Password = (string) $addon_multinewsletter->getConfig('smtp_password');
             }
 
             return $mail->send();
@@ -358,13 +361,13 @@ class MultinewsletterUser
             $mail = new rex_mailer();
             $mail->isHTML(true);
             $mail->CharSet = 'utf-8';
-            $mail->From = $addon->getConfig('sender');
-            $mail->FromName = $addon->getConfig('lang_' . $this->clang_id . '_sendername');
-            $mail->Sender = $addon->getConfig('sender');
+            $mail->From = (string) $addon->getConfig('sender');
+            $mail->FromName = (string) $addon->getConfig('lang_' . $this->clang_id . '_sendername');
+            $mail->Sender = (string) $addon->getConfig('sender');
 
-            $mail->addAddress($addon->getConfig('subscribe_meldung_email'));
+            $mail->addAddress((string) $addon->getConfig('subscribe_meldung_email'));
 
-            if ('subscribe' == $type) {
+            if ('subscribe' === $type) {
                 $mail->Subject = 'Neue Anmeldung zum Newsletter';
                 $mail->Body = 'Neue Anmeldung zum Newsletter: ' . $this->email;
             } else {
@@ -373,14 +376,14 @@ class MultinewsletterUser
             }
 
             $addon_multinewsletter = rex_addon::get('multinewsletter');
-            if ($addon_multinewsletter->getConfig('use_smtp')) {
+            if (1 === (int) $addon_multinewsletter->getConfig('use_smtp')) {
                 $mail->Mailer = 'smtp';
-                $mail->Host = $addon_multinewsletter->getConfig('smtp_host');
-                $mail->Port = $addon_multinewsletter->getConfig('smtp_port');
-                $mail->SMTPSecure = $addon_multinewsletter->getConfig('smtp_crypt');
-                $mail->SMTPAuth = $addon_multinewsletter->getConfig('smtp_auth');
-                $mail->Username = $addon_multinewsletter->getConfig('smtp_user');
-                $mail->Password = $addon_multinewsletter->getConfig('smtp_password');
+                $mail->Host = (string) $addon_multinewsletter->getConfig('smtp_host');
+                $mail->Port = (int) $addon_multinewsletter->getConfig('smtp_port');
+                $mail->SMTPSecure = (string) $addon_multinewsletter->getConfig('smtp_crypt');
+                $mail->SMTPAuth = (bool) $addon_multinewsletter->getConfig('smtp_auth');
+                $mail->Username = (string) $addon_multinewsletter->getConfig('smtp_user');
+                $mail->Password = (string) $addon_multinewsletter->getConfig('smtp_password');
             }
 
             return $mail->send();
@@ -392,10 +395,11 @@ class MultinewsletterUser
 
     /**
      * Unsubcribe user.
+     * @param string $action Either "delete" or "status_unsubscribed"
      */
-    public function unsubscribe($action = 'delete')
+    public function unsubscribe($action = 'delete'): void
     {
-        if ('delete' == $action) {
+        if ('delete' === $action) {
             $this->delete();
         } else {
             // $action = "status_unsubscribed"
