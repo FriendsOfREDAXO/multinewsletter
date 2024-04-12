@@ -6,14 +6,16 @@ $import_action = filter_input(INPUT_POST, 'import_action');
 // Wenn Formular schon ausgefüllt wurde
 if (false !== $import_action && '' !== $import_action) {
     $import_file_raw = rex_request::files('newsletter_file');
-    $import_filename = is_array($import_file_raw) && array_key_exists('tmp_name', $import_file_raw) ? $import_file_raw['tmp_name'] : '';
+    $import_filename = is_array($import_file_raw) && array_key_exists('tmp_name', $import_file_raw) ? (string) $import_file_raw['tmp_name'] : '';
     if ('' !== $import_filename && file_exists($import_filename)) {
         $csv_users = [];
         $csv_handle = fopen($import_filename, "r");
-        while (($data = fgetcsv($csv_handle, 100000, ";")) !== FALSE) {
-            $csv_users[] = $data;
+        if(false !== $csv_handle) {
+            while (($data = fgetcsv($csv_handle, 100000, ";")) !== FALSE) {
+                $csv_users[] = $data;
+            }
+            fclose($csv_handle);
         }
-        fclose($csv_handle);
 
         if (count($csv_users) > 0) {
             $fields = [
@@ -30,11 +32,10 @@ if (false !== $import_action && '' !== $import_action) {
                 'group_ids' => -1,
             ];
             // Überschriften auslesen
-            if(is_array($csv_users[0])) {
-                foreach ($csv_users[0] as $id => $name) {
-                    $fields[$name] = $id;
-                }
+            foreach ($csv_users[0] as $id => $name) {
+                $fields[$name] = $id;
             }
+
             // Spalte "email" muss existieren
             if ($fields['email'] > -1) {
                 $multinewsletter_list = new MultinewsletterUserList([]);

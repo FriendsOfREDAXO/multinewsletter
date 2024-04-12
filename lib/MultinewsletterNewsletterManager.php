@@ -330,7 +330,7 @@ class MultinewsletterNewsletterManager
             if (0 === strlen($newsletter->htmlbody)) {
                 $offline_lang_ids[] = $clang_id;
             } else {
-                if(null !== $attachments && '' !== $attachments) {
+                if('' !== $attachments) {
                     $newsletter->attachments = explode(',', $attachments);
                 }
                 $newsletter->group_ids = $group_ids;

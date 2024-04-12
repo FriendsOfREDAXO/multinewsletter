@@ -1,8 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
 
-	<p>3.6.0</p>
+	<p>3.6.0-DEV</p>
 	<ul>
+		<li>Addon komplett mit rexstan Level 9 überarbeitet.</li>
 		<li>WICHTIG: Anreden um die diverse Anrede Mx. und auch ohne Anrede erweitert. In den Einstellungen -> Übersetzungen bitte für diese beiden Felder ergänzen und speichern.</li>
 		<li>E-Mails nach Cronjob Versand enthalten nun auch Vor- und Nachnamen der Empfänger, sofern diese vorhanden sind.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": unterstützt jetzt auch das Addon YForm Spamprotection.</li>
