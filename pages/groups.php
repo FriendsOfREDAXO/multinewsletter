@@ -27,7 +27,7 @@ if ('edit' === $func || 'add' === $func) {
     $field = $form->addLinkmapField('default_article_id');
     $field->setLabel(rex_i18n::msg('multinewsletter_group_default_article_id'));
 
-    if ('edit' == $func) {
+    if ('edit' === $func) {
         $form->addParam('entry_id', $entry_id);
     }
 
@@ -41,8 +41,10 @@ if ('edit' === $func || 'add' === $func) {
         $select->setSize(1);
         $select->addOption('-', '');
 
-        foreach ($lists as $list) {
-            $select->addOption($list['name'], $list['id']);
+        if(count($lists) > 0) {
+            foreach ($lists as $list) {
+                $select->addOption($list['name'], $list['id']);
+            }
         }
     }
 
@@ -51,7 +53,7 @@ if ('edit' === $func || 'add' === $func) {
     echo '<br>';
 }
 // Eintrag löschen
-elseif ('delete' == $func) {
+elseif ('delete' === $func) {
     $query = 'DELETE FROM '. rex::getTablePrefix() .'375_group '
         .'WHERE id = '. $entry_id;
     $result = rex_sql::factory();

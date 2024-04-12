@@ -43,7 +43,7 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     rex_extension::register('CLANG_DELETED', static function (rex_extension_point $ep) {
         $warning = $ep->getSubject();
         $params = $ep->getParams();
-        $clang_id = $params['id'];
+        $clang_id = (int) $params['id'];
 
         // Update users
         $sql = rex_sql::factory();

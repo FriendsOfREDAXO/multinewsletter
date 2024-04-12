@@ -1,15 +1,15 @@
 <?php
 
 // export settings
-if ('Export' == filter_input(INPUT_POST, 'btn_export')) {
-    if (rex_config::get('multinewsletter')) {
-        $export_config = json_encode(rex_config::get('multinewsletter'));
+if ('Export' === rex_request::get('btn_export', 'string')) {
+    $export_config = json_encode(rex_config::get('multinewsletter'));
+    if (false !== $export_config) {
         $filename = 'export_multinewsletter_config_' . date('YmdHis') . '.json';
         header('Content-Disposition: attachment; filename="' . $filename . '"; charset=utf-8');
         rex_response::sendContent($export_config, 'application/octetstream');
         exit;
     }
-        echo rex_view::error(rex_i18n::msg('multinewsletter_config_settings_export_error'));
+    echo rex_view::error(rex_i18n::msg('multinewsletter_config_settings_export_error'));
 
 }
 ?>

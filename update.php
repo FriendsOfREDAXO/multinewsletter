@@ -21,9 +21,9 @@ if (rex_sql_table::get(rex::getTable('375_archive'))->hasColumn('archive_id')) {
 $this->includeFile(__DIR__.'/install.php'); /** @phpstan-ignore-line */
 
 // 3.1.6 GDPR update
-if ($this->hasConfig('unsubscribe_action')) {
-    $this->removeConfig('unsubscribe_action');
+if (rex_config::has('multinewsletter', 'unsubscribe_action')) {
+    rex_config::remove('multinewsletter', 'unsubscribe_action');
 }
-if ($this->hasConfig('default_test_article_name')) {
-    $this->removeConfig('default_test_article_name');
+if (rex_config::has('multinewsletter', 'default_test_article_name')) {
+    rex_config::remove('multinewsletter', 'default_test_article_name');
 }

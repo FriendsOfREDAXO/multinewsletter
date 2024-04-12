@@ -6,8 +6,7 @@
 <?php
     if (\rex_addon::get('yrewrite')->isAvailable()) {
         $yrewrite = new \rex_yrewrite_seo();
-        echo $yrewrite->getRobotsTag();
-        echo $yrewrite->getTitleTag();
+        echo $yrewrite->getTags();
     }
     if (file_exists(rex_path::media('favicon.ico'))) {
         echo '<link rel="icon" href="'. rex_url::media('favicon.ico') .'">';
@@ -83,7 +82,7 @@
 		<center>
 			<?php
             if ('' !== rex_config::get('d2u_helper', 'template_logo', '')) {
-                echo '<img class="logo" src="'. rex_url::media(rex_config::get('d2u_helper', 'template_logo')) .'" alt="Logo">';
+                echo '<img class="logo" src="'. rex_url::media((string) rex_config::get('d2u_helper', 'template_logo')) .'" alt="Logo">';
             }
             ?>
 			<p class="onlinelink"><a href="+++NEWSLETTERLINK+++">Wenn dieser
@@ -106,7 +105,7 @@
 		<div class="container">
 			<div class="row">
 				<?php
-                    $impressum = rex_article::get(rex_config::get('d2u_helper', 'article_id_impress'));
+                    $impressum = rex_article::get((int) rex_config::get('d2u_helper', 'article_id_impress'));
                     if ($impressum instanceof rex_article) {
                         echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">';
                         echo '<div class="footer-box"><a href="'. $impressum->getUrl() .'">'. $impressum->getName() .'</a></div>';

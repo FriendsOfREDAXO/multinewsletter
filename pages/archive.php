@@ -8,21 +8,23 @@ if ($resend_failure > 0) {
     $query_archive = 'SELECT recipients_failure FROM ' . rex::getTablePrefix() . '375_archive WHERE id = ' . $resend_failure;
     $result_archive = rex_sql::factory();
     $result_archive->setQuery($query_archive);
+    $result_recipients_failure = (string) $result_archive->getValue('recipients_failure');
     $recipients_failure = [];
-    if (str_contains($result_archive->getValue('recipients_failure'), '|')) {
-        $recipients_failure = preg_grep('/^\s*$/s', explode('|', $result_archive->getValue('recipients_failure')), PREG_GREP_INVERT);
-    } elseif (str_contains($result_archive->getValue('recipients_failure'), ',')) {
-        $recipients_failure = preg_grep('/^\s*$/s', explode(',', $result_archive->getValue('recipients_failure')), PREG_GREP_INVERT);
-    } elseif (filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
-        $recipients_failure[] = $result_archive->getValue('recipients_failure');
+    if (str_contains($result_recipients_failure, '|')) {
+        $recipients_failure = preg_grep('/^\s*$/s', explode('|', $result_recipients_failure), PREG_GREP_INVERT);
+    } elseif (str_contains($result_recipients_failure, ',')) {
+        $recipients_failure = preg_grep('/^\s*$/s', explode(',', $result_recipients_failure), PREG_GREP_INVERT);
+    } elseif (false !== filter_var($result_recipients_failure, FILTER_VALIDATE_EMAIL)) {
+        $recipients_failure[] = $result_recipients_failure;
     }
-    if (is_array($recipient_failure)) {
+    if (is_array($recipients_failure)) {
         foreach ($recipients_failure as $recipient_failure) {
             $result_resend = rex_sql::factory();
-            if (filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
+            if (false !== filter_var($recipient_failure, FILTER_VALIDATE_EMAIL)) {
                 $result_resend->setQuery('SELECT id FROM ' . rex::getTablePrefix() . "375_user WHERE email = '". $recipient_failure ."';");
-                if ($result_resend->getValue('id')) {
-                    $result_resend->setQuery('REPLACE INTO ' . rex::getTablePrefix() . '375_sendlist SET archive_id = '. $resend_failure .', user_id = '. $result_resend->getValue('id'));
+                $user_id = (int) $result_resend->getValue('id');
+                if ($user_id > 0) {
+                    $result_resend->setQuery('REPLACE INTO ' . rex::getTablePrefix() . '375_sendlist SET archive_id = '. $resend_failure .', user_id = '. $user_id);
                 }
             }
         }
@@ -33,114 +35,122 @@ if ($resend_failure > 0) {
 
     // Set correct Newsletter article Name
     $archives = MultinewsletterNewsletterManager::getArchivesToSend(true);
-    $_SESSION['multinewsletter']['newsletter']['article_id'] = 0;
-    $_SESSION['multinewsletter']['newsletter']['article_name'] = $archives[0]->subject;
+    $newsletter_session = rex_request::session('multinewsletter', 'array');
+    $newsletter_session['newsletter']['article_id'] = 0;
+    $newsletter_session['newsletter']['article_name'] = $archives[0]->subject;
+    rex_request::setSession('multinewsletter', $newsletter_session);
 
     // Forward to send page
     header('Location: '. rex_url::backendPage('multinewsletter/newsletter'));
     exit;
 }
 // Eingabeformular
-if ('edit' == $func) {
+if ('edit' === $func) {
     $form = rex_form::factory(rex::getTablePrefix() . '375_archive', rex_i18n::msg('multinewsletter_menu_archive'), 'id = ' . $entry_id, 'post', false);
 
     $query_archive = 'SELECT * FROM ' . rex::getTablePrefix() . '375_archive WHERE id = ' . $entry_id;
     $result_archive = rex_sql::factory();
     $result_archive->setQuery($query_archive);
+    $archive_clang_id = (int) $result_archive->getValue('clang_id');
 
     // Sprach ID
-    $sprache = '(' . $result_archive->getValue('clang_id') . ')';
-    if (rex_clang::exists($result_archive->getValue('clang_id'))) {
-        $sprache = rex_clang::get($result_archive->getValue('clang_id'))->getName() . ' ' . $sprache;
+    $language = '(' . $archive_clang_id . ')';
+    if (rex_clang::exists($archive_clang_id)) {
+        $rex_clang = rex_clang::get($archive_clang_id);
+        if ($rex_clang instanceof rex_clang) {
+            $language = $rex_clang->getName() . ' ' . $language;
+        }
     }
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_language'), $sprache));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_language'), $language));
 
     // Betreff
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_subject'), html_entity_decode($result_archive->getValue('subject'))));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_subject'), html_entity_decode((string) $result_archive->getValue('subject'))));
 
     // Inhalt
     $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_htmlbody'), '<a href="' . rex_url::currentBackendPage() . '&func=shownewsletter&shownewsletter=' . $entry_id . '" target="_blank">' . rex_i18n::msg('multinewsletter_archive_output_details') . '</a>'));
 
     // Empfänger
+    $recipients_raw = (string) $result_archive->getValue('recipients');
     $recipients = [];
-    if (str_contains($result_archive->getValue('recipients'), '|')) {
-        $recipients = preg_grep('/^\s*$/s', explode('|', $result_archive->getValue('recipients')), PREG_GREP_INVERT);
-    } elseif (str_contains($result_archive->getValue('recipients'), ',')) {
-        $recipients = preg_grep('/^\s*$/s', explode(',', $result_archive->getValue('recipients')), PREG_GREP_INVERT);
+    if (str_contains($recipients_raw, '|')) {
+        $recipients = preg_grep('/^\s*$/s', explode('|', $recipients_raw), PREG_GREP_INVERT);
+    } elseif (str_contains($recipients_raw, ',')) {
+        $recipients = preg_grep('/^\s*$/s', explode(',', $recipients_raw), PREG_GREP_INVERT);
     } else {
-        $recipients[] = $result_archive->getValue('recipients');
+        $recipients[] = $recipients_raw;
     }
     $recipients_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; padding:8px;"><table width="100%"><tr>';
     if (is_array($recipients)) {
         foreach ($recipients as $key => $recipient) {
+            $key = (int) $key;
             $recipients_html .= "<td width='33%'>" . $recipient . '</td>';
-            if ($key > 1 && 2 == $key % 3) {
+            if ($key > 1 && 2 === $key % 3) {
                 $recipients_html .= '</tr><tr>';
             }
         }
     }
     $recipients_html .= '</tr></table></div>';
-    if (count($recipients) > 0 && !str_contains($recipients[0], 'Addresses deleted')) {
-        $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_count'), count($recipients)));
+    if (is_array($recipients) && count($recipients) > 0 && !str_contains((string) $recipients[0], 'Addresses deleted')) {
+        $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_count'), (string) count($recipients)));
     }
     $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients'), $recipients_html));
 
     // Recipients with send failures
+    $recipients_failure_raw = (string) $result_archive->getValue('recipients_failure');
     $recipients_failure = [];
-    if (str_contains($result_archive->getValue('recipients_failure'), '|')) {
-        $recipients_failure = preg_grep('/^\s*$/s', explode('|', $result_archive->getValue('recipients_failure')), PREG_GREP_INVERT);
-    } elseif (str_contains($result_archive->getValue('recipients_failure'), ',')) {
-        $recipients_failure = preg_grep('/^\s*$/s', explode(',', $result_archive->getValue('recipients_failure')), PREG_GREP_INVERT);
-    } elseif (filter_var($recipients_failure, FILTER_VALIDATE_EMAIL)) {
-        $recipients_failure[] = $result_archive->getValue('recipients_failure');
+    if (str_contains($recipients_failure_raw, '|')) {
+        $recipients_failure = preg_grep('/^\s*$/s', explode('|', $recipients_failure_raw), PREG_GREP_INVERT);
+    } elseif (str_contains($recipients_failure_raw, ',')) {
+        $recipients_failure = preg_grep('/^\s*$/s', explode(',', $recipients_failure_raw), PREG_GREP_INVERT);
+    } elseif (false !== filter_var($recipients_failure_raw, FILTER_VALIDATE_EMAIL)) {
+        $recipients_failure[] = $recipients_failure_raw;
     }
     $recipients_failure_html = '<div style="font-size: 0.75em; width: 100%; max-height: 400px; overflow:auto; background-color: white; padding:8px;"><table width="100%"><tr>';
-    if (is_array($recipient_failure)) {
+    if (is_array($recipients_failure)) {
         foreach ($recipients_failure as $key_failure => $recipient_failure) {
+            $key_failure = (int) $key_failure;
             $recipients_failure_html .= "<td width='33%'>" . $recipient_failure . '</td>';
-            if ($key_failure > 1 && 2 == $key_failure % 3) {
+            if ($key_failure > 1 && 2 === $key_failure % 3) {
                 $recipients_failure_html .= '</tr><tr>';
             }
         }
     }
     $recipients_failure_html .= '</tr></table></div>';
-    if (count($recipients) > 0 && isset($recipients_failure[0]) && !str_contains($recipients_failure[0], 'Addresses deleted')) {
-        $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure_count'), count($recipients_failure)));
+    if (is_array($recipients_failure) && count($recipients_failure) > 0 && isset($recipients_failure[0]) && !str_contains((string) $recipients_failure[0], 'Addresses deleted')) {
+        $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure_count'), (string) count($recipients_failure)));
     }
 
-    if (count($recipients_failure) > 0) {
+    if (is_array($recipients_failure) && count($recipients_failure) > 0) {
         $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure'), $recipients_failure_html));
         $form->addRawField(raw_field('', '<a href="'. rex_url::currentBackendPage(['resend-failure' => $entry_id]) .'">'. rex_i18n::msg('multinewsletter_archive_recipients_failure_resend') .'</a>'));
     }
 
     // E-Mail-Adresse Absender
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_group_default_sender_email'), $result_archive->getValue('sender_email')));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_group_default_sender_email'), (string) $result_archive->getValue('sender_email')));
 
     // Empfänger Gruppen
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_groupname'), $result_archive->getValue('group_ids')));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_groupname'), (string) $result_archive->getValue('group_ids')));
 
     // Name Absender
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_group_default_sender_name'), $result_archive->getValue('sender_name')));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_group_default_sender_name'), (string) $result_archive->getValue('sender_name')));
 
     // Erstellungsdatum
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_newsletter_preparedate'), $result_archive->getValue('setupdate')));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_newsletter_preparedate'), (string) $result_archive->getValue('setupdate')));
 
     // Sendedatum
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_sentdate'), $result_archive->getValue('sentdate')));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_sentdate'), (string) $result_archive->getValue('sentdate')));
 
     // Redaxo Benutzer vom Versand
-    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_redaxo_sender'), $result_archive->getValue('sentby')));
+    $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_redaxo_sender'), (string) $result_archive->getValue('sentby')));
 
-    if ('edit' == $func) {
-        $form->addParam('entry_id', $entry_id);
-    }
+    $form->addParam('entry_id', $entry_id);
 
     $form->show();
 
     echo '<br><style>#rex-375-archive-archiv-save, #rex-375-archive-archiv-apply {visibility:hidden}</style>';
 }
 // Newsletter anzeigen
-elseif ('shownewsletter' == $func) {
+elseif ('shownewsletter' === $func) {
     // Zuerst bisherige Ausgabe von Redaxo löschen
     ob_end_clean();
     header_remove();
@@ -149,11 +159,11 @@ elseif ('shownewsletter' == $func) {
     $result_archive = rex_sql::factory();
     $result_archive->setQuery($query_archive);
 
-    echo base64_decode($result_archive->getValue('htmlbody'));
+    echo base64_decode((string) $result_archive->getValue('htmlbody'), true);
     exit;
 }
 // Delete entry and in case also remaining sendlist users
-elseif ('delete' == $func) {
+elseif ('delete' === $func) {
     $result = rex_sql::factory();
     $result->setQuery('DELETE FROM ' . rex::getTablePrefix() . '375_archive WHERE id = ' . $entry_id);
     $result->setQuery('DELETE FROM ' . rex::getTablePrefix() . '375_sendlist WHERE archive_id = ' . $entry_id);
@@ -184,7 +194,7 @@ if ('' === $func) {
     $list->setColumnFormat('clang_id', 'custom', static function ($params) {
         $list_params = $params['list'];
         $clang = rex_clang::get($list_params->getValue('clang_id'));
-        if ($clang) {
+        if ($clang instanceof rex_clang) {
             return $clang->getCode();
         }
         return $list_params->getValue('clang_id');

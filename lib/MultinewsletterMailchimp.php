@@ -51,12 +51,26 @@ class MultinewsletterMailchimp
 
     /**
      * Get all lists
-     * @return array<string,string>|string Decoded JSON API response
+     * @return array<array<string,string>> Decoded JSON API response
      */
     public function getLists()
     {
         $result = $this->request('/lists');
-        return $result['lists'];
+
+        if(array_key_exists('lists', $result) && is_array($result['lists'])) {
+            $lists = $result['lists'];
+            foreach ($lists as $key => $value) {
+                if(is_array($value) && array_key_exists('id', $value) && array_key_exists('name', $value)) {
+                    $lists[$key] = [
+                        'id' => (string) $value['id'],
+                        'name' => (string) $value['name'],
+                    ];
+                }
+            }
+            return $lists;
+        }
+
+        return [];
     }
 
     /**
@@ -64,7 +78,7 @@ class MultinewsletterMailchimp
      * @param MultinewsletterUser $user
      * @param string $listId
      * @param string $status
-     * @return array<string,string> Decoded JSON API response
+     * @return string list id
      */
     public function addUserToList(MultinewsletterUser $user, $listId, $status = 'pending')
     {
@@ -84,14 +98,17 @@ class MultinewsletterMailchimp
                 ],
             ]);
         }
-        return $result;
+        if(array_key_exists('id', $result) && !is_array($result['id'])) {
+            return (string) $result['id'];
+        }
+        return '';
     }
 
     /**
      * Unsubscribe a user from a list
      * @param MultinewsletterUser $User
      * @param string $listId
-     * @return array<string,string|array<string,string>> Decoded JSON API response
+     * @return array<string,mixed> Decoded JSON API response
      */
     public function unsubscribe(MultinewsletterUser $User, $listId)
     {
@@ -107,7 +124,7 @@ class MultinewsletterMailchimp
      * @param string $path
      * @param string $type
      * @param array<string,string|array<string,string>> $fields
-     * @return array<string,string|array<string,string>> Decoded JSON API response
+     * @return array<string,mixed> Decoded JSON API response
      * @throws MultinewsletterMailchimpException
      */
     public function request($path, $type = 'GET', $fields = [])

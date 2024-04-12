@@ -3,26 +3,26 @@
 if (!function_exists('sendActivationMail')) {
     /**
      * Send activation mail.
-     * @param string[] $yform YForm data
+     * @param \rex_yform_action_callback $yform YForm data
      */
-    function sendActivationMail($yform)
+    function sendActivationMail($yform): void
     {
         if (isset($yform->params['values'])) {
             $fields = [];
             foreach ($yform->params['values'] as $value) {
-                if ('' != $value->name) {
+                if ('' !== $value->name) {
                     $fields[$value->name] = $value->value;
                 }
             }
 
             $addon = rex_addon::get('multinewsletter');
             $user = MultinewsletterUser::initByMail($fields['email']);
-            if ($addon->hasConfig('sender')) {
+            if ($addon->hasConfig('sender') && $user instanceof MultinewsletterUser) {
                 $user->sendActivationMail(
-                    $addon->getConfig('sender'),
-                    $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_sendername'),
-                    $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmsubject'),
-                    $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmcontent'),
+                    (string) $addon->getConfig('sender'),
+                    (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_sendername'),
+                    (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmsubject'),
+                    (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmcontent')
                 );
                 // Save to replace "," in group_ids list with pipes
                 $user->save();
@@ -31,13 +31,12 @@ if (!function_exists('sendActivationMail')) {
     }
 }
 
+$email = filter_var(rex_request('email', 'string'), FILTER_VALIDATE_EMAIL);
+$activationkey = rex_request('activationkey', 'string');
+
 // Deactivate emailobfuscator for POST od GET mail address
-if (rex_addon::get('emailobfuscator')->isAvailable()) {
-    if ('' != filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
-        emailobfuscator::whitelistEmail(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
-    } elseif ('' != filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL)) {
-        emailobfuscator::whitelistEmail(filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
-    }
+if (rex_addon::get('emailobfuscator')->isAvailable() && false !== $email) {
+    emailobfuscator::whitelistEmail($email);
 }
 
 $cols_sm = 0 === (int) 'REX_VALUE[20]' ? 12 : (int) 'REX_VALUE[20]'; /** @phpstan-ignore-line */
@@ -49,13 +48,13 @@ echo '<div class="col-12 col-sm-'. $cols_sm .' col-md-'. $cols_md .' col-lg-'. $
 
 $addon = rex_addon::get('multinewsletter');
 
-if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL)) {
+if (strlen($activationkey) > 5 && false !== $email) {
     // Handle activation key
-    $user = MultinewsletterUser::initByMail(filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
-    if ($user->activationkey == filter_input(INPUT_GET, 'activationkey')) {
+    $user = MultinewsletterUser::initByMail($email);
+    if ($user instanceof MultinewsletterUser && $user->activationkey === $activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful', '') .'</p>';
         $user->activate();
-    } elseif (0 == $user->activationkey) {
+    } elseif ($user instanceof MultinewsletterUser && '0' === $user->activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_confirmed', '') .'</p>';
     } else {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key', '') .'</p>';
@@ -74,7 +73,7 @@ if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(I
 			generate_key|activationkey
 
 			html||<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_action') .'<br><br></p>'. PHP_EOL;
-    if ($ask_name) {
+    if ($ask_name) { /** @phpstan-ignore-line */
         $form_data .= 'choice|title|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_anrede', '') .'|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_-1', '').'=-1,'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_0', '').'=0,'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_1', '').'=1,'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_2', '').'=2|2|0|
 			text|grad|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_grad', '') .'
 			text|firstname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_firstname', '') .' *|||{"required":"required"}
@@ -98,12 +97,12 @@ if (strlen(filter_input(INPUT_GET, 'activationkey')) > 5 && '' != filter_input(I
 			html||<br><br>'. PHP_EOL;
     }
 
-    $form_data .= 'checkbox|privacy_policy_accepted|'. preg_replace('#\\R+#', '<br>', $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_privacy_policy', '')) .' *<br><br>|0,1|0|{"required":"required"}
+    $form_data .= 'checkbox|privacy_policy_accepted|'. preg_replace('#\\R+#', '<br>', (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_privacy_policy', '')) .' *<br><br>|0,1|0|{"required":"required"}
 			html||<p>* '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_compulsory', '') .'<br><br></p>
 			html||<p> '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_safety', '') .'<br><br></p>
 
 			submit|submit|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_subscribe', 'Send') .'|no_db'. PHP_EOL;
-    if ($ask_name) {
+    if ($ask_name) { /** @phpstan-ignore-line */
         $form_data .= 'validate|empty|firstname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_firstname', '') .'
 			validate|empty|lastname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_name', '') . PHP_EOL;
     }

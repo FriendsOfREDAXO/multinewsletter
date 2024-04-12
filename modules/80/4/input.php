@@ -135,8 +135,8 @@
         $select_feature->setAttribute('class', 'form-control');
 
         // Daten
-        foreach ($group_ids as $group_ids => $name) {
-          $select_feature->addOption($name, $group_ids);
+        foreach ($group_ids as $group_id => $name) {
+          $select_feature->addOption((string) $name, $group_id);
         }
 
         // Vorselektierung
@@ -147,7 +147,7 @@
             }
         }
 
-        echo $select_feature->show();
+        $select_feature->show();
     ?>
 	</div>
 </div>

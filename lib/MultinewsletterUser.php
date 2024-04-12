@@ -33,7 +33,7 @@ class MultinewsletterUser
     public array $group_ids = [];
 
     /** @var string Mailchimp ID */
-    public $mailchimp_id = '';
+    public string $mailchimp_id = '';
 
     /** @var string Create date (format: Y-m-d H:i:s) */
     public string $createdate = '';
@@ -204,7 +204,7 @@ class MultinewsletterUser
     /**
      * Fetch user from database.
      * @param string $email email address
-     * @return MultinewsletterUser|bool initialized MultinewsletterUser object
+     * @return MultinewsletterUser|null initialized MultinewsletterUser object
      */
     public static function initByMail($email)
     {
@@ -215,7 +215,7 @@ class MultinewsletterUser
         if ($result->getRows() > 0) {
             return new self((int) $result->getValue('id'));
         }
-        return false;
+        return null;
 
     }
 
@@ -294,8 +294,7 @@ class MultinewsletterUser
                     $group = new MultinewsletterGroup($group_id);
 
                     if (strlen($group->mailchimp_list_id) > 0) {
-                        $result = $Mailchimp->addUserToList($this, $group->mailchimp_list_id, $_status);
-                        $this->mailchimp_id = $result['id'];
+                        $this->mailchimp_id = $Mailchimp->addUserToList($this, $group->mailchimp_list_id, $_status);
                     }
                 }
             } catch (MultinewsletterMailchimpException $ex) {

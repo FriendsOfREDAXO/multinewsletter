@@ -3,14 +3,14 @@
 if (!function_exists('unsubscribeYForm')) {
     /**
      * Unsubscribe user.
-     * @param string[] $yform YForm data
+     * @param \rex_yform_action_callback $yform YForm data
      */
-    function unsubscribeYForm($yform)
+    function unsubscribeYForm($yform): void
     {
         if (isset($yform->params['values'])) {
             $fields = [];
             foreach ($yform->params['values'] as $value) {
-                if ('' != $value->name) {
+                if ('' !== $value->name) {
                     $fields[$value->name] = $value->value;
                 }
             }
@@ -25,12 +25,12 @@ if (!function_exists('unsubscribe')) {
      * Unsubscribe user.
      * @param string $email Email Address
      */
-    function unsubscribe($email)
+    function unsubscribe($email): void
     {
         $addon = rex_addon::get('multinewsletter');
-        if ('' != filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (false !== filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $user = MultinewsletterUser::initByMail($email);
-            if (false !== $user) {
+            if ($user instanceof MultinewsletterUser) {
                 $user->unsubscribe();
                 echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_status0', '') .'</p><br />';
             } else {
@@ -42,8 +42,10 @@ if (!function_exists('unsubscribe')) {
     }
 }
 
+$unsubscribe_mail = filter_var(rex_request('email', 'unsubscribe'), FILTER_VALIDATE_EMAIL);
+
 // Deactivate emailobfuscator for POST od GET mail address
-if (rex_addon::get('emailobfuscator')->isAvailable()) {
+if (rex_addon::get('emailobfuscator')->isAvailable() && false !== $unsubscribe_mail) {
     emailobfuscator::whitelistEmail($unsubscribe_mail);
 }
 
@@ -63,12 +65,11 @@ if (rex::isBackend()) {
     echo '<h2>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_unsubscribe', '') .'</h2>';
     echo '<br>';
 
-    $unsubscribe_mail = filter_input(INPUT_GET, 'unsubscribe', FILTER_VALIDATE_EMAIL);
-    if ('' != $unsubscribe_mail) {
+    if (false !== $unsubscribe_mail) {
         unsubscribe($unsubscribe_mail);
     } else {
         // Show form
-        $form_data .= 'text|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email', '') .' *|||{"required":"required"}
+        $form_data = 'text|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email', '') .' *|||{"required":"required"}
 				html||<br><br>
 				html||<p>* '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_compulsory', '') .'<br><br></p>
 

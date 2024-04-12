@@ -1,13 +1,9 @@
 <?php
-// Abmeldung aus Formular holen
-$unsubscribe_mail = filter_input(INPUT_POST, 'unsubscribe_email', FILTER_VALIDATE_EMAIL);
-if ('' == $unsubscribe_mail) {
-    // Abmeldung aus URL holen
-    $unsubscribe_mail = filter_input(INPUT_GET, 'unsubscribe', FILTER_VALIDATE_EMAIL);
-}
+// Abmeldung holen
+$unsubscribe_mail = filter_var(rex_request('unsubscribe', 'string'), FILTER_VALIDATE_EMAIL);
 
 // Deactivate emailobfuscator for POST od GET mail address
-if (rex_addon::get('emailobfuscator')->isAvailable()) {
+if (rex_addon::get('emailobfuscator')->isAvailable() && false !== $unsubscribe_mail) {
     emailobfuscator::whitelistEmail($unsubscribe_mail);
 }
 
@@ -23,10 +19,9 @@ if (rex::isBackend()) {
     echo '<br>';
 
     $showform = true;
-    if ('' != $unsubscribe_mail) {
+    if (false !== $unsubscribe_mail) {
         $user = MultinewsletterUser::initByMail($unsubscribe_mail);
-        // dump($user,$unsubscribe_mail);die;
-        if (false !== $user && $user->id > 0) {
+        if ($user instanceof MultinewsletterUser && $user->id > 0) {
             $user->unsubscribe();
 
             echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_status0') .'</p><br />';
@@ -36,7 +31,7 @@ if (rex::isBackend()) {
         }
     }
 
-    if ('' == $unsubscribe_mail && ('' != filter_input(INPUT_POST, 'unsubscribe_email') || filter_input(INPUT_GET, 'unsubscribe'))) {
+    if (false === $unsubscribe_mail) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email') .'</p><br />';
     }
 
@@ -44,13 +39,13 @@ if (rex::isBackend()) {
 ?>
 		<form id="unsubscribe" action="<?= rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId()) ?>" method="post" name="unsubscribe" class="rex-yform">
 			<div class="form-group yform-element">
-				<label class="control-label" for="unsubscribe_email"><?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?></label>
-				<input type="email" class="form-control" name="unsubscribe_email" value="" required>
+				<label class="control-label" for="unsubscribe"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?></label>
+				<input type="email" class="form-control" name="unsubscribe" value="" required>
 			</div>
 			<br />
 			<div class="form-group yform-element">
 				<input type="submit" class="btn btn-primary" name="unsubscribe_newsletter"
-					value="<?= $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_unsubscribe') ?>" />
+					value="<?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_unsubscribe') ?>" />
 			</div>
 		</form>
 <?php
