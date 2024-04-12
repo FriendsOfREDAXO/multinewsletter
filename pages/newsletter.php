@@ -79,10 +79,10 @@ elseif(null !== filter_input(INPUT_POST, 'sendtestmail')) {
 }
 
 // Ausgewählter Artikel
-$form_link = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-if(null !== $form_link && is_array($form_link['REX_INPUT_LINK']) && array_key_exists(1, $form_link['REX_INPUT_LINK'])) {
+$form_link = rex_request::request('REX_INPUT_LINK', 'array', []);
+if(array_key_exists('REX_INPUT_LINK', $form_link) && is_array($form_link['REX_INPUT_LINK']) && array_key_exists(1, $form_link['REX_INPUT_LINK'])) {
     $session_multinewsletter['newsletter']['article_id'] = $form_link['REX_INPUT_LINK'][1];
-    $default_test_article = rex_article::get($form_link['REX_INPUT_LINK'][1]);
+    $default_test_article = rex_article::get((int) $form_link['REX_INPUT_LINK'][1]);
     if ($default_test_article instanceof rex_article) {
         $session_multinewsletter['newsletter']['article_name'] = $default_test_article->getName();
     }
@@ -175,9 +175,9 @@ if(rex_request::request('testlanguage', 'int') > 0) {
 }
 
 // Für den Versand ausgewählte Gruppen
-$form_groups = filter_input_array(INPUT_POST, ['group' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-if(null !== $form_groups && is_array($form_groups['group']) && count($form_groups['group']) > 0) {
-    $session_multinewsletter['newsletter']['groups'] = $form_groups['group'];
+$form_groups = rex_request::request('group', 'array', []);
+if(count($form_groups) > 0) {
+    $session_multinewsletter['newsletter']['groups'] = $form_groups;
 } elseif(!array_key_exists('groups', $session_multinewsletter['newsletter']) || !is_array($session_multinewsletter['newsletter']['groups'])) {
     $session_multinewsletter['newsletter']['groups'] = [$session_multinewsletter['newsletter']['preselect_group']];
 }
@@ -192,9 +192,7 @@ if('' !== $attachments) {
 
 // Für den Versand ausgewählte Empfänger
 $recipients = array_filter(rex_post('recipients', 'array', []));
-if(count($recipients) > 0) {
-    $session_multinewsletter['newsletter']['man_recipients'] = $recipients;
-}
+$session_multinewsletter['newsletter']['man_recipients'] = count($recipients) > 0 ? $recipients : [];
 
 rex_request::setSession('multinewsletter', $session_multinewsletter);
 
@@ -208,7 +206,7 @@ if(0 === $maxtimeout) {
 }
 
 // Send test mail
-if('' === rex_request('sendtestmail', 'string')) {
+if('' !== rex_request('sendtestmail', 'string')) {
     // Exists article and is it online
     if((int) $session_multinewsletter['newsletter']['article_id'] <= 0) {
         $messages[] = rex_i18n::msg('multinewsletter_error_noarticle');

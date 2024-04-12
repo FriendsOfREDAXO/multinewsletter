@@ -330,7 +330,9 @@ class MultinewsletterNewsletterManager
             if (0 === strlen($newsletter->htmlbody)) {
                 $offline_lang_ids[] = $clang_id;
             } else {
-                $newsletter->attachments = explode(',', $attachments);
+                if(null !== $attachments && '' !== $attachments) {
+                    $newsletter->attachments = explode(',', $attachments);
+                }
                 $newsletter->group_ids = $group_ids;
                 $newsletter->sender_email = (string) rex_config::get('multinewsletter', 'sender');
                 $newsletter->sender_name = (string) rex_config::get('multinewsletter', 'lang_1_sendername');

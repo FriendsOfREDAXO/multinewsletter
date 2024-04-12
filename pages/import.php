@@ -7,10 +7,13 @@ $import_action = filter_input(INPUT_POST, 'import_action');
 if (false !== $import_action && '' !== $import_action) {
     $import_file_raw = rex_request::files('newsletter_file');
     $import_filename = is_array($import_file_raw) && array_key_exists('tmp_name', $import_file_raw) ? $import_file_raw['tmp_name'] : '';
-    if ('' === $import_filename && file_exists($import_filename)) {
-        $CSV = new CSV();
-        $CSV->fImport($import_filename, (int) filesize($import_filename));
-        $csv_users = $CSV->data;
+    if ('' !== $import_filename && file_exists($import_filename)) {
+        $csv_users = [];
+        $csv_handle = fopen($import_filename, "r");
+        while (($data = fgetcsv($csv_handle, 100000, ";")) !== FALSE) {
+            $csv_users[] = $data;
+        }
+        fclose($csv_handle);
 
         if (count($csv_users) > 0) {
             $fields = [
@@ -131,7 +134,7 @@ if (false !== $import_action && '' !== $import_action) {
                                 ++$counter;
                             }
                         } elseif ('add_new' === $import_action) {
-                            if ($user->id > 0) {
+                            if (0 === $user->id) {
                                 $user->save();
                                 ++$counter;
                             }

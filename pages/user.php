@@ -28,7 +28,7 @@ if ('' === $func) {
     // Sortierung
     if ('' !== rex_request::request('orderby', 'string')) {
         $session_multinewsletter['user']['orderby'] = rex_request::request('orderby', 'string');
-        $session_multinewsletter['user']['direction'] = rex_request::request('orderby', 'direction');
+        $session_multinewsletter['user']['direction'] = rex_request::request('direction', 'string');
     } elseif (!array_key_exists('oderby', $session_multinewsletter['user']) || '' === $session_multinewsletter['user']['orderby']) {
         $session_multinewsletter['user']['orderby'] = 'email';
     }
@@ -39,22 +39,22 @@ if ('' === $func) {
     // Anzahl anzuzeigender User
     $session_multinewsletter['user']['itemsperpage'] = rex_request::request('itemsperpage', 'int', 25);
 
-    // Seitennummer
+    // Page number
     $session_multinewsletter['user']['pagenumber'] = rex_request::request('pagenumber', 'int', 0) > 0 ? rex_request::request('pagenumber', 'int') - 1 : 0;
 
-    // Gewählte Gruppe
+    // Group
     $session_multinewsletter['user']['showgroup'] = rex_request::request('showgroup', 'string', 'all');
 
-    // Gewählter Status
-    $session_multinewsletter['user']['showstatus'] = rex_request::request('showstatus', 'int') >= -1 ? rex_request::request('showstatus', 'int') : -1;
+    // Status
+    $session_multinewsletter['user']['showstatus'] = rex_request::post('showstatus', 'int', -1);
 
-    // Gewählte Sprache
-    $session_multinewsletter['user']['showclang'] = rex_request::request('showclang', 'int') >= -1 ? rex_request::request('showclang', 'int') : -1;
+    // Language
+    $session_multinewsletter['user']['showclang'] = rex_request::post('showclang', 'int', -1);
 
     // Wenn Filter zurückgesetzt wurde
     if ('' !== rex_request::request('newsletter_showall', 'string')) {
         $session_multinewsletter['user']['search_query'] = '';
-        $session_multinewsletter['user']['showgroup'] = -1;
+        $session_multinewsletter['user']['showgroup'] = 'all';
         $session_multinewsletter['user']['showstatus'] = -1;
         $session_multinewsletter['user']['showclang'] = -1;
     }
@@ -153,7 +153,7 @@ if ('' === $func) {
             group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . ",%'
         ";
     } elseif ('no' === $session_multinewsletter['user']['showgroup']) {
-        $where[] = "(group_ids = '' OR group_ids IS NULL)";
+        $where[] = "(group_ids = '' OR group_ids = '||' OR group_ids IS NULL)";
     }
     if ($session_multinewsletter['user']['showstatus'] >= 0) {
         $where[] = 'status = '. $session_multinewsletter['user']['showstatus'];
@@ -503,10 +503,10 @@ elseif ('edit' === $func || 'add' === $func) {
     $field = $form->addSelectField('group_ids');
     $field->setLabel(rex_i18n::msg('multinewsletter_newsletter_group'));
     $select = $field->getSelect();
-    $select->setSize(5);
     $select->setMultiple(true);
     $query = 'SELECT name, id FROM '. rex::getTablePrefix() .'375_group ORDER BY name';
     $select->addSqlOptions($query);
+    $field->setAttribute('class', 'form-control selectpicker');
     $field->setAttribute('required', 'required');
 
     if ('edit' === $func) {
