@@ -1,9 +1,9 @@
 <?php
 $newsletterManager = new MultinewsletterNewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'));
 // First do reset action
-if('' !== rex_request::get('reset', 'string')) {
+if('' !== rex_request::request('reset', 'string')) {
     // 0 = reset complete sendlist
-    $newsletterManager->reset(rex_request::get('reset', 'int', 0));
+    $newsletterManager->reset(rex_request::request('reset', 'int', 0));
 }
 
 // Autosend stuff
@@ -53,8 +53,8 @@ if(!array_key_exists('sender_name', $session_multinewsletter['newsletter'])) {
 
 
 // Vorauswahl der Gruppe
-if(rex_request::get('preselect_group', 'int', 0) > 0) {
-    $session_multinewsletter['newsletter']['preselect_group'] = rex_request::get('preselect_group', 'int');
+if(rex_request::request('preselect_group', 'int', 0) > 0) {
+    $session_multinewsletter['newsletter']['preselect_group'] = rex_request::request('preselect_group', 'int');
 } elseif(!array_key_exists('preselect_group', $session_multinewsletter['newsletter'])
     || $session_multinewsletter['newsletter']['preselect_group'] < 0
     || '' === $session_multinewsletter['newsletter']['preselect_group']) {
@@ -103,8 +103,8 @@ if(null !== $form_link && is_array($form_link['REX_INPUT_LINK']) && array_key_ex
 }
 
 // Ausgewählter Sender E-Mail
-if('' !== rex_request::get('sender_email', 'string') && false !== filter_var(rex_request::get('sender_email', 'string'), FILTER_VALIDATE_EMAIL)) {
-    $session_multinewsletter['newsletter']['sender_email'] = rex_request::get('sender_email', 'string');
+if('' !== rex_request::request('sender_email', 'string') && false !== filter_var(rex_request::request('sender_email', 'string'), FILTER_VALIDATE_EMAIL)) {
+    $session_multinewsletter['newsletter']['sender_email'] = rex_request::request('sender_email', 'string');
 } elseif(!array_key_exists('sender_email', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['sender_email'] = rex_config::get('multinewsletter', 'sender');
 }
@@ -124,52 +124,52 @@ foreach(rex_clang::getAll() as $rex_clang) {
 }
 
 // Reply-to E-Mail
-if('' !== rex_request::get('reply_to_email', 'string')) {
-    $reply_to_email = filter_var(rex_request::get('reply_to_email', 'string'), FILTER_VALIDATE_EMAIL);
+if('' !== rex_request::request('reply_to_email', 'string')) {
+    $reply_to_email = filter_var(rex_request::request('reply_to_email', 'string'), FILTER_VALIDATE_EMAIL);
     $session_multinewsletter['newsletter']['reply_to_email'] = false !== $reply_to_email ? $reply_to_email : '';
 } elseif(!array_key_exists('reply_to_email', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['reply_to_email'] = rex_config::get('multinewsletter', 'reply_to');
 }
 
 // Testmail Empfäger E-Mail
-if('' !== rex_request::get('testemail', 'string')) {
-    $testemail = filter_var(rex_request::get('testemail', 'string'), FILTER_VALIDATE_EMAIL);
+if('' !== rex_request::request('testemail', 'string')) {
+    $testemail = filter_var(rex_request::request('testemail', 'string'), FILTER_VALIDATE_EMAIL);
     $session_multinewsletter['newsletter']['testemail'] = false !== $testemail ? $testemail : '';
 } elseif(!array_key_exists('testemail', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['testemail'] = rex_config::get('multinewsletter', 'default_test_email');
 }
 
 // Testmail Empfäger Titel
-if(rex_request::get('testtitle', 'int') > 0) {
-    $session_multinewsletter['newsletter']['testtitle'] = rex_request::get('testtitle', 'int');
+if(rex_request::request('testtitle', 'int') > 0) {
+    $session_multinewsletter['newsletter']['testtitle'] = rex_request::request('testtitle', 'int');
 } elseif(!array_key_exists('testtitle', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['testtitle'] = rex_config::get('multinewsletter', 'default_test_anrede');
 }
 
 // Testmail Empfäger Akademischer Grad
-if('' !== rex_request::get('testgrad', 'string')) {
-    $session_multinewsletter['newsletter']['testgrad'] = rex_request::get('testgrad', 'string');
+if('' !== rex_request::request('testgrad', 'string')) {
+    $session_multinewsletter['newsletter']['testgrad'] = rex_request::request('testgrad', 'string');
 } elseif(!array_key_exists('testgrad', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['testgrad'] = '';
 }
 
 // Testmail Empfäger Vorname
-if('' !== rex_request::get('testfirstname', 'string')) {
-    $session_multinewsletter['newsletter']['testfirstname'] = rex_request::get('testfirstname', 'string');
+if('' !== rex_request::request('testfirstname', 'string')) {
+    $session_multinewsletter['newsletter']['testfirstname'] = rex_request::request('testfirstname', 'string');
 } elseif(!array_key_exists('testfirstname', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['testfirstname'] = rex_config::get('multinewsletter', 'default_test_vorname');
 }
 
 // Testmail Empfäger Nachname
-if('' !== rex_request::get('testlastname', 'string')) {
-    $session_multinewsletter['newsletter']['testlastname'] = rex_request::get('testlastname', 'string');
+if('' !== rex_request::request('testlastname', 'string')) {
+    $session_multinewsletter['newsletter']['testlastname'] = rex_request::request('testlastname', 'string');
 } elseif(!array_key_exists('testlastname', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['testlastname'] = rex_config::get('multinewsletter', 'default_test_nachname');
 }
 
 // Testmail Empfäger Sprache
-if(rex_request::get('testlanguage', 'int') > 0) {
-    $session_multinewsletter['newsletter']['testlanguage'] = rex_request::get('testlanguage', 'int');
+if(rex_request::request('testlanguage', 'int') > 0) {
+    $session_multinewsletter['newsletter']['testlanguage'] = rex_request::request('testlanguage', 'int');
 } elseif(!array_key_exists('testlanguage', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['testlanguage'] = (int) rex_config::get('multinewsletter', 'default_test_sprache');
 }
@@ -257,7 +257,7 @@ if('' === rex_request('sendtestmail', 'string')) {
     }
 }
 // Adressen vorbereiten
-elseif('' !== rex_request::get('prepare', 'string')) {
+elseif('' !== rex_request::request('prepare', 'string')) {
     if(0 === count($session_multinewsletter['newsletter']['groups']) && 0 === count($session_multinewsletter['newsletter']['man_recipients'])) {
         $messages[] = rex_i18n::msg('multinewsletter_error_nogroupselected');
     }
@@ -286,7 +286,7 @@ elseif('' !== rex_request::get('prepare', 'string')) {
     }
 }
 // Versand des Newsletters
-elseif('' !== rex_request::get('send', 'string')) {
+elseif('' !== rex_request::request('send', 'string')) {
     $number_mails_send = $newsletterManager->countRemainingUsers() % (int) rex_config::get('multinewsletter', 'max_mails');
     if(0 === $number_mails_send) {
         $number_mails_send = (int) rex_config::get('multinewsletter', 'max_mails');
@@ -550,7 +550,7 @@ if(class_exists(rex_mailer::class)) {
 						<?php
                             echo '<p>'. rex_i18n::msg('multinewsletter_expl_send') .'</p>';
                             echo '<p>'. rex_i18n::msg('multinewsletter_newsletter_2send', $newsletterManager->countRemainingUsers()) .'</p>';
-                            if('' !== rex_request::get('send', 'string')) {
+                            if('' !== rex_request::request('send', 'string')) {
                                 echo '<br /><p id="newsletter_reloadinp">'. rex_i18n::rawMsg('multinewsletter_newsletter_reloadin')
                                     .'<br />(<a href="javascript:void(0)" onclick="stopreload()">'.
                                     rex_i18n::msg('multinewsletter_newsletter_stop_reload') .'</a>)</p>';

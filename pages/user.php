@@ -2,7 +2,7 @@
 $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
 
-if ('' !== rex_request::get('newsletter_exportusers', 'string')) {
+if ('' !== rex_request::request('newsletter_exportusers', 'string')) {
     $func = 'export';
 }
 
@@ -20,15 +20,15 @@ if ('' === $func) {
 
     // Suchkriterien in Session schreiben
     // Suchbegriff
-    $session_multinewsletter['user']['search_query'] = rex_request::get('search_query', 'string');
-    if ('' !== rex_request::get('search_query', 'string')) {
+    $session_multinewsletter['user']['search_query'] = rex_request::request('search_query', 'string');
+    if ('' !== rex_request::request('search_query', 'string')) {
         $session_multinewsletter['user']['pagenumber'] = 1;
     }
 
     // Sortierung
-    if ('' !== rex_request::get('orderby', 'string')) {
-        $session_multinewsletter['user']['orderby'] = rex_request::get('orderby', 'string');
-        $session_multinewsletter['user']['direction'] = rex_request::get('orderby', 'direction');
+    if ('' !== rex_request::request('orderby', 'string')) {
+        $session_multinewsletter['user']['orderby'] = rex_request::request('orderby', 'string');
+        $session_multinewsletter['user']['direction'] = rex_request::request('orderby', 'direction');
     } elseif (!array_key_exists('oderby', $session_multinewsletter['user']) || '' === $session_multinewsletter['user']['orderby']) {
         $session_multinewsletter['user']['orderby'] = 'email';
     }
@@ -37,22 +37,22 @@ if ('' === $func) {
     }
 
     // Anzahl anzuzeigender User
-    $session_multinewsletter['user']['itemsperpage'] = rex_request::get('itemsperpage', 'int', 25);
+    $session_multinewsletter['user']['itemsperpage'] = rex_request::request('itemsperpage', 'int', 25);
 
     // Seitennummer
-    $session_multinewsletter['user']['pagenumber'] = rex_request::get('pagenumber', 'int', 0) > 0 ? rex_request::get('pagenumber', 'int') - 1 : 0;
+    $session_multinewsletter['user']['pagenumber'] = rex_request::request('pagenumber', 'int', 0) > 0 ? rex_request::request('pagenumber', 'int') - 1 : 0;
 
     // Gewählte Gruppe
-    $session_multinewsletter['user']['showgroup'] = rex_request::get('showgroup', 'string', 'all');
+    $session_multinewsletter['user']['showgroup'] = rex_request::request('showgroup', 'string', 'all');
 
     // Gewählter Status
-    $session_multinewsletter['user']['showstatus'] = rex_request::get('showstatus', 'int') >= -1 ? rex_request::get('showstatus', 'int') : -1;
+    $session_multinewsletter['user']['showstatus'] = rex_request::request('showstatus', 'int') >= -1 ? rex_request::request('showstatus', 'int') : -1;
 
     // Gewählte Sprache
-    $session_multinewsletter['user']['showclang'] = rex_request::get('showclang', 'int') >= -1 ? rex_request::get('showclang', 'int') : -1;
+    $session_multinewsletter['user']['showclang'] = rex_request::request('showclang', 'int') >= -1 ? rex_request::request('showclang', 'int') : -1;
 
     // Wenn Filter zurückgesetzt wurde
-    if ('' !== rex_request::get('newsletter_showall', 'string')) {
+    if ('' !== rex_request::request('newsletter_showall', 'string')) {
         $session_multinewsletter['user']['search_query'] = '';
         $session_multinewsletter['user']['showgroup'] = -1;
         $session_multinewsletter['user']['showstatus'] = -1;
@@ -61,21 +61,21 @@ if ('' === $func) {
 
     // Aktionen gewählter oder einzelner Benutzer
     $multidelete = false;
-    if ('X' === rex_request::get('newsletter_delete_items', 'string')) {
+    if ('X' === rex_request::request('newsletter_delete_items', 'string')) {
         $multidelete = true;
     }
-    $multistatus = rex_request::get('newsletter_item_status_all', 'int');
-    $multiclang = rex_request::get('newsletter_item_clang_all', 'int');
-    $multigroup = rex_request::get('addtogroup', 'string');
+    $multistatus = rex_request::request('newsletter_item_status_all', 'int');
+    $multiclang = rex_request::request('newsletter_item_clang_all', 'int');
+    $multigroup = rex_request::request('addtogroup', 'string');
 
     $selected_users = [];
-    if (count(rex_request::get('newsletter_select_item', 'array')) > 0) {
-        $selected_users = array_keys(rex_request::get('newsletter_select_item', 'array'));
+    if (count(rex_request::request('newsletter_select_item', 'array')) > 0) {
+        $selected_users = array_keys(rex_request::request('newsletter_select_item', 'array'));
         $selected_users = array_map('intval', $selected_users);
     }
     $form_users = [];
-    if (count(rex_request::get('newsletter_item', 'array')) > 0) {
-        $form_users = rex_request::get('newsletter_item', 'array');
+    if (count(rex_request::request('newsletter_item', 'array')) > 0) {
+        $form_users = rex_request::request('newsletter_item', 'array');
     }
     
     $aktion = false;
@@ -190,8 +190,8 @@ if ('' === $func) {
     $users = new MultinewsletterUserList($user_ids);
 
     // Ausgabe der Meldung vom Speichern eines Datensatzes
-    if ('' !== rex_request::get('_msg', 'string')) {
-        echo rex_view::success(rex_request::get('_msg', 'string'));
+    if ('' !== rex_request::request('_msg', 'string')) {
+        echo rex_view::success(rex_request::request('_msg', 'string'));
     }
 ?>
 	<form action="<?= rex_url::currentBackendPage() ?>" method="post" name="MULTINEWSLETTER">

@@ -1,7 +1,6 @@
 <?php
-
 // export settings
-if ('Export' === rex_request::get('btn_export', 'string')) {
+if ('export' === rex_request::request('btn_export', 'string')) {
     $export_config = json_encode(rex_config::get('multinewsletter'));
     if (false !== $export_config) {
         $filename = 'export_multinewsletter_config_' . date('YmdHis') . '.json';
@@ -10,7 +9,6 @@ if ('Export' === rex_request::get('btn_export', 'string')) {
         exit;
     }
     echo rex_view::error(rex_i18n::msg('multinewsletter_config_settings_export_error'));
-
 }
 ?>
 <form action="<?= rex_url::currentBackendPage() ?>" data-pjax="false" method="post">
@@ -28,7 +26,7 @@ if ('Export' === rex_request::get('btn_export', 'string')) {
         <footer class="panel-footer">
             <div class="rex-form-panel-footer">
                 <div class="btn-toolbar">
-                    <button class="btn btn-save" type="submit" name="btn_export" id="btn_export" value="Export"><?= rex_i18n::msg('multinewsletter_config_settings_export_btn') ?></button>
+                    <button class="btn btn-save" type="submit" name="btn_export" id="btn_export" value="export"><?= rex_i18n::msg('multinewsletter_config_settings_export_btn') ?></button>
                 </div>
             </div>
         </footer>

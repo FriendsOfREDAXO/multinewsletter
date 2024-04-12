@@ -149,7 +149,7 @@ Posso ritirare il tuo consenso in qualsiasi momento dalle informazioni di contat
 ];
 
 // save settings
-if ('Speichern' === rex_request::get('btn_save', 'string')) {
+if ('Speichern' === rex_request::request('btn_save', 'string')) {
     $settings = rex_post('settings', 'array', []);
 
     // Linkmap Link braucht besondere Behandlung
@@ -241,8 +241,8 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_bcc', 'settings[smtp_bcc]', (string) rex_config::get('multinewsletter', 'smtp_bcc'));
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_host', 'settings[smtp_host]', (string) rex_config::get('multinewsletter', 'smtp_host'));
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_port', 'settings[smtp_port]', (int) rex_config::get('multinewsletter', 'smtp_port'), false, false, 'number');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('phpmailer_smtp_secure', 'settings[smtp_crypt]', ['' => rex_i18n::msg('no'), 'ssl' => 'ssl', 'tls' => 'tls'], [(string) rex_config::get('multinewsletter', 'smtp_crypt', [])]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('phpmailer_smtp_auth', 'settings[smtp_auth]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(string) rex_config::get('multinewsletter', 'smtp_auth', [])]);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_select('phpmailer_smtp_secure', 'settings[smtp_crypt]', ['' => rex_i18n::msg('no'), 'ssl' => 'ssl', 'tls' => 'tls'], [(string) rex_config::get('multinewsletter', 'smtp_crypt')]);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_select('phpmailer_smtp_auth', 'settings[smtp_auth]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(string) rex_config::get('multinewsletter', 'smtp_auth')]);
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_smtp_username', 'settings[smtp_user]', (string) rex_config::get('multinewsletter', 'smtp_user'));
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_smtp_password', 'settings[smtp_password]', (string) rex_config::get('multinewsletter', 'smtp_password'));
                     ?>
