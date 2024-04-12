@@ -5,8 +5,7 @@ if ('Import' === rex_request::request('btn_import', 'string')) {
 
     $sql_db = rex_sql::factory();
     try {
-        $sql_db->transactional(static function () {
-            $sql_db = rex_sql::factory();
+        $sql_db->transactional(static function () use ($sql_db) {
             // proof on null
             $import_file_raw = rex_request::files('config_import_file');
             $import_filename = is_array($import_file_raw) && array_key_exists('tmp_name', $import_file_raw) ? (string) $import_file_raw['tmp_name'] : '';
