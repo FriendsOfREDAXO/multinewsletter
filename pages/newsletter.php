@@ -80,7 +80,7 @@ elseif(null !== filter_input(INPUT_POST, 'sendtestmail')) {
 
 // Ausgewählter Artikel
 $form_link = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-if(is_array($form_link['REX_INPUT_LINK']) && array_key_exists(1, $form_link['REX_INPUT_LINK'])) {
+if(null !== $form_link && is_array($form_link['REX_INPUT_LINK']) && array_key_exists(1, $form_link['REX_INPUT_LINK'])) {
     $session_multinewsletter['newsletter']['article_id'] = $form_link['REX_INPUT_LINK'][1];
     $default_test_article = rex_article::get($form_link['REX_INPUT_LINK'][1]);
     if ($default_test_article instanceof rex_article) {
@@ -176,7 +176,7 @@ if(rex_request::get('testlanguage', 'int') > 0) {
 
 // Für den Versand ausgewählte Gruppen
 $form_groups = filter_input_array(INPUT_POST, ['group' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-if(is_array($form_groups['group']) && count($form_groups['group']) > 0) {
+if(null !== $form_groups && is_array($form_groups['group']) && count($form_groups['group']) > 0) {
     $session_multinewsletter['newsletter']['groups'] = $form_groups['group'];
 } elseif(!array_key_exists('groups', $session_multinewsletter['newsletter']) || !is_array($session_multinewsletter['newsletter']['groups'])) {
     $session_multinewsletter['newsletter']['groups'] = [$session_multinewsletter['newsletter']['preselect_group']];
