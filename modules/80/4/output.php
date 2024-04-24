@@ -16,8 +16,8 @@ if (!function_exists('sendActivationMail')) {
             }
 
             $addon = rex_addon::get('multinewsletter');
-            $user = MultinewsletterUser::initByMail($fields['email']);
-            if ($addon->hasConfig('sender') && $user instanceof MultinewsletterUser) {
+            $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($fields['email']);
+            if ($addon->hasConfig('sender') && $user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
                 $user->sendActivationMail(
                     (string) $addon->getConfig('sender'),
                     (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_sendername'),
@@ -50,11 +50,11 @@ $addon = rex_addon::get('multinewsletter');
 
 if (strlen($activationkey) > 5 && false !== $email) {
     // Handle activation key
-    $user = MultinewsletterUser::initByMail($email);
-    if ($user instanceof MultinewsletterUser && $user->activationkey === $activationkey) {
+    $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($email);
+    if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->activationkey === $activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful', '') .'</p>';
         $user->activate();
-    } elseif ($user instanceof MultinewsletterUser && '0' === $user->activationkey) {
+    } elseif ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && '0' === $user->activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_confirmed', '') .'</p>';
     } else {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key', '') .'</p>';
@@ -90,7 +90,7 @@ if (strlen($activationkey) > 5 && false !== $email) {
     } elseif (count($group_ids) > 1) {
         $group_options = [];
         foreach ($group_ids as $group_id) {
-            $group = new MultinewsletterGroup($group_id);
+            $group = new FriendsOfRedaxo\MultiNewsletter\Group($group_id);
             $group_options[] = $group->name .'='. $group_id;
         }
         $form_data .= 'choice|group_ids|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter', '') .'|'. implode(',', $group_options) .'|1|1|

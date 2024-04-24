@@ -1,7 +1,7 @@
 package: multinewsletter
 version: '3.6.0'
-author: Tobias Krais
-supportpage: https://github.com/TobiasKrais/multinewsletter/issues/
+author: FriendsOfREDAXO
+supportpage: https://github.com/FriendsOfREDAXO/multinewsletter/issues/
 
 page:
     title: MultiNewsletter

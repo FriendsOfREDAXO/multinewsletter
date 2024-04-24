@@ -1,7 +1,11 @@
 <?php
 
+namespace FriendsOfRedaxo\MultiNewsletter;
+
+use rex_addon;
+
 /**
- * This file is part of the Kreatif\Project package.
+ * This file was part of the Kreatif\Project package.
  *
  * @author Kreatif GmbH
  * @author a.platter@kreatif.it
@@ -10,10 +14,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-class MultinewsletterMailchimp
+class Mailchimp
 {
-    /** @var ?MultinewsletterMailchimp static instance of this class */
-    private static ?MultinewsletterMailchimp $inst;
+    /** @var ?self static instance of this class */
+    private static ?self $inst;
 
     /** @var string Mailchimp API key */
     private static string $api_key = '';
@@ -22,13 +26,13 @@ class MultinewsletterMailchimp
     private static string $data_center = '';
 
     /**
-     * MultinewsletterMailchimp constructor.
+     * Constructor.
      */
     private function __construct() {}
 
     /**
      * Creating a new instance of the class.
-     * @return MultinewsletterMailchimp
+     * @return self
      */
     public static function factory(): self
     {
@@ -75,12 +79,12 @@ class MultinewsletterMailchimp
 
     /**
      * Add a user to a list
-     * @param MultinewsletterUser $user
+     * @param User $user
      * @param string $listId
      * @param string $status
      * @return string list id
      */
-    public function addUserToList(MultinewsletterUser $user, $listId, $status = 'pending')
+    public function addUserToList(User $user, $listId, $status = 'pending')
     {
         $hash = md5($user->email);
 
@@ -88,7 +92,7 @@ class MultinewsletterMailchimp
         try {
             $this->request("/lists/{$listId}/members/{$hash}");
             $result = $this->request("/lists/{$listId}/members/{$hash}", 'PATCH', ['status' => $status]);
-        } catch (MultinewsletterMailchimpException $ex) {
+        } catch (MailchimpException $ex) {
             $result = $this->request("/lists/{$listId}/members/", 'POST', [
                 'email_address' => $user->email,
                 'status' => $status,
@@ -106,11 +110,11 @@ class MultinewsletterMailchimp
 
     /**
      * Unsubscribe a user from a list
-     * @param MultinewsletterUser $User
+     * @param User $User
      * @param string $listId
      * @return array<string,mixed> Decoded JSON API response
      */
-    public function unsubscribe(MultinewsletterUser $User, $listId)
+    public function unsubscribe(User $User, $listId)
     {
         $hash = md5($User->email);
 
@@ -125,7 +129,7 @@ class MultinewsletterMailchimp
      * @param string $type
      * @param array<string,string|array<string,string>> $fields
      * @return array<string,mixed> Decoded JSON API response
-     * @throws MultinewsletterMailchimpException
+     * @throws MailchimpException
      */
     public function request($path, $type = 'GET', $fields = [])
     {
@@ -152,7 +156,7 @@ class MultinewsletterMailchimp
         // close connection
         curl_close($ch);
         if(is_bool($result)) {
-            throw new MultinewsletterMailchimpException('Mailchimp: Request Failed', 0);
+            throw new MailchimpException('Mailchimp: Request Failed', 0);
         }
 
         $decoded_json = (array) json_decode($result, true);
@@ -160,15 +164,13 @@ class MultinewsletterMailchimp
         if (JSON_ERROR_NONE === json_last_error()) {
             $result = $decoded_json;
         } else {
-            throw new MultinewsletterMailchimpException('Mailchimp: Request Not Found', 1);
+            throw new MailchimpException('Mailchimp: Request Not Found', 1);
         }
         if ('404' === $result['status']) {
-            throw new MultinewsletterMailchimpException('Mailchimp: ' . $result['detail'], 2);
+            throw new MailchimpException('Mailchimp: ' . $result['detail'], 2);
         }
         return $result;
     }
 }
 
-class MultinewsletterMailchimpException extends Exception
-{
-}
+class MailchimpException extends \Exception {}

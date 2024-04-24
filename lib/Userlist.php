@@ -1,11 +1,17 @@
 <?php
+
+namespace FriendsOfRedaxo\MultiNewsletter;
+
+use rex;
+use rex_sql;
+
 /**
  * MultiNewsletters user list object.
  * @api
  */
-class MultinewsletterUserList
+class Userlist
 {
-    /** @var MultinewsletterUser[] array mit Benutzerobjekten */
+    /** @var array<User> array mit Benutzerobjekten */
     public $users = [];
 
     /**
@@ -15,7 +21,7 @@ class MultinewsletterUserList
     public function __construct($user_ids)
     {
         foreach ($user_ids as $id) {
-            $this->users[] = new MultinewsletterUser($id);
+            $this->users[] = new User($id);
         }
     }
 
@@ -36,7 +42,7 @@ class MultinewsletterUserList
      * Get all users.
      * @param bool $ignoreInactive only active users
      * @param int $clang_id redaxo clang id
-     * @return array<int,MultinewsletterUser> array with User objects
+     * @return array<int,User> array with User objects
      */
     public static function getAll($ignoreInactive = true, $clang_id = null)
     {
@@ -57,7 +63,7 @@ class MultinewsletterUserList
         $num_rows = $sql->getRows();
 
         for ($i = 0; $i < $num_rows; ++$i) {
-            $users[] = new MultinewsletterUser((int) $sql->getValue('id'));
+            $users[] = new User((int) $sql->getValue('id'));
             $sql->next();
         }
         return $users;

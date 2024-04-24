@@ -15,11 +15,11 @@ if (rex_addon::get('emailobfuscator')->isAvailable()) {
 }
 
 if (filter_input(INPUT_GET, 'activationkey', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]) > 0 && false !== filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL)) {
-    $user = MultinewsletterUser::initByMail((string) filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
-    if ($user instanceof MultinewsletterUser && $user->activationkey === filter_input(INPUT_GET, 'activationkey')) {
+    $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail((string) filter_input(INPUT_GET, 'email', FILTER_VALIDATE_EMAIL));
+    if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->activationkey === filter_input(INPUT_GET, 'activationkey')) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful') .'</p>';
         $user->activate();
-    } elseif ($user instanceof MultinewsletterUser && '' === $user->activationkey) {
+    } elseif ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && '' === $user->activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_confirmed') .'</p>';
     } else {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key') .'</p>';
@@ -62,8 +62,8 @@ if ('' !== filter_input(INPUT_POST, 'submit')) {
         $save = false;
     } elseif (false !== filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL) && null !== filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
         // Ist Benutzer schon in der Newslettergruppe?
-        $user = MultinewsletterUser::initByMail(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
-        if ($user instanceof MultinewsletterUser && $user->id > 0 && 1 === $user->status) {
+        $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
+        if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->id > 0 && 1 === $user->status) {
             $not_already_subscribed = [];
             if (count($user->group_ids) > 0 && count($group_ids) > 0) {
                 foreach ($group_ids as $group_id) {
@@ -85,13 +85,13 @@ if ('' !== filter_input(INPUT_POST, 'submit')) {
         // nur, wenn noch nicht gesendet
         if (1 !== rex_request::session('newsletteranmeldung_gesendet', 'int')) {
             // Benutzer speichern
-            if ($user instanceof MultinewsletterUser) {
+            if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
                 $user->title = rex_request::post('anrede', 'int');
                 $user->firstname = rex_request::post('firstname', 'string');
                 $user->lastname = rex_request::post('lastname', 'string');
                 $user->clang_id = rex_clang::getCurrentId();
             } else {
-                $user = MultinewsletterUser::factory(
+                $user = FriendsOfRedaxo\MultiNewsletter\User::factory(
                     (string) filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
                     rex_request::post('anrede', 'int'),
                     rex_request::post('grad', 'string'),
@@ -172,7 +172,7 @@ if ($showform) {
                 echo '<br clear="all"><p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter') .'</p>';
 
                 foreach ($group_ids as $group_id) {
-                    $group = new MultinewsletterGroup($group_id);
+                    $group = new FriendsOfRedaxo\MultiNewsletter\Group($group_id);
                     if ('' !== $group->name) {
                         echo '<p class="formcheckbox formlabel-group" id="yform-formular">';
                         $checked = '';

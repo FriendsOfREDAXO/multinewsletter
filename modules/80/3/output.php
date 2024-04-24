@@ -16,11 +16,11 @@ if (rex_addon::get('emailobfuscator')->isAvailable() && false !== $email) {
 }
 
 if ('' === $activationkey && false !== $email) {
-    $user = MultinewsletterUser::initByMail($email);
-    if ($user instanceof MultinewsletterUser && $user->activationkey === $activationkey) {
+    $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($email);
+    if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->activationkey === $activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful') .'</p>';
         $user->activate();
-    } elseif ($user instanceof MultinewsletterUser && '0' === $user->activationkey) {
+    } elseif ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && '0' === $user->activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_confirmed') .'</p>';
     } else {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key') .'</p>';
@@ -54,8 +54,8 @@ if ('' !== filter_input(INPUT_POST, 'submit')) {
         $save = false;
     } elseif (false !== $email) {
         // Ist Benutzer schon in der Newslettergruppe?
-        $user = MultinewsletterUser::initByMail($email);
-        if ($user instanceof MultinewsletterUser && $user->id > 0 && 1 === $user->status) {
+        $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($email);
+        if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->id > 0 && 1 === $user->status) {
             $not_already_subscribed = [];
             if (count($user->group_ids) > 0 && count($group_ids) > 0) {
                 foreach ($group_ids as $group_id) {
@@ -75,10 +75,10 @@ if ('' !== filter_input(INPUT_POST, 'submit')) {
 
     if ($save) {
         // Benutzer speichern
-        if ($user instanceof MultinewsletterUser) {
+        if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
             $user->clang_id = rex_clang::getCurrentId();
         } else {
-            $user = MultinewsletterUser::factory(
+            $user = FriendsOfRedaxo\MultiNewsletter\User::factory(
                 (string) filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
                 0,
                 '',
@@ -128,7 +128,7 @@ if ($showform) {
                 echo '<br clear="all"><p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter') .'</p>';
 
                 foreach ($group_ids as $group_id) {
-                    $group = new MultinewsletterGroup($group_id);
+                    $group = new FriendsOfRedaxo\MultiNewsletter\Group($group_id);
                     if ('' !== $group->name) {
                         echo '<div class="form-group yform-element" id="yform-formular">';
                         $checked = '';

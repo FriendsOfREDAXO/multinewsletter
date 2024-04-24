@@ -66,7 +66,7 @@
 			<p>Ja. Hierzu muss das CronJob Addon aktiviert sein und in den Einstellungen
 				eine Admin E-Mail-Adresse hinterlegt sein, sowie die Autosend Option
 				aktiviert werden. Durch folgende Methode kann der Versand gestartet werden:</p>
-			<pre>MultinewsletterNewsletterManager::autosend($group_ids, $article_id, $fallback_clang_id, $recipient_ids = [], $attachments = '')</pre>
+			<pre>FriendsOfRedaxo\MultiNewsletter\NewsletterManager::autosend($group_ids, $article_id, $fallback_clang_id, $recipient_ids = [], $attachments = '')</pre>
 			<p>Hinweise zu den Parametern:</p>
 			<ul>
 				<li>$group_ids: Array mit IDs der Gruppen an die der Newsletter versendet

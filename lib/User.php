@@ -1,9 +1,19 @@
 <?php
 
+namespace FriendsOfRedaxo\MultiNewsletter;
+
+use rex;
+use rex_addon;
+use rex_extension;
+use rex_extension_point;
+use rex_mailer;
+use rex_request;
+use rex_sql;
+
 /**
  * Benutzer des MultiNewsletters.
  */
-class MultinewsletterUser
+class User
 {
     /** @var int Database ID */
     public int $id = 0;
@@ -105,12 +115,12 @@ class MultinewsletterUser
      * @param string $firstname First name
      * @param string $lastname Last name
      * @param int $clang_id Redaxo clang id
-     * @return MultinewsletterUser initialized user
+     * @return self initialized user
      */
     public static function factory($email, $title, $grad, $firstname, $lastname, $clang_id)
     {
         $user = self::initByMail($email);
-        if(!$user instanceof MultinewsletterUser) {
+        if(!$user instanceof User) {
             $user = new self(0);
         } 
 
@@ -150,18 +160,18 @@ class MultinewsletterUser
      */
     public function delete(): void
     {
-        if (MultinewsletterMailchimp::isActive()) {
-            $Mailchimp = MultinewsletterMailchimp::factory();
+        if (Mailchimp::isActive()) {
+            $Mailchimp = Mailchimp::factory();
 
             try {
                 foreach ($this->group_ids as $group_id) {
-                    $group = new MultinewsletterGroup($group_id);
+                    $group = new Group($group_id);
 
                     if (strlen($group->mailchimp_list_id) > 0) {
                         $Mailchimp->unsubscribe($this, $group->mailchimp_list_id);
                     }
                 }
-            } catch (MultinewsletterMailchimpException $ex) {
+            } catch (MailchimpException $ex) {
             }
         }
 
@@ -204,7 +214,7 @@ class MultinewsletterUser
     /**
      * Fetch user from database.
      * @param string $email email address
-     * @return MultinewsletterUser|null initialized MultinewsletterUser object
+     * @return User|null initialized User object
      */
     public static function initByMail($email)
     {
@@ -285,19 +295,19 @@ class MultinewsletterUser
         }
 
         // Don't forget Mailchimp
-        if (MultinewsletterMailchimp::isActive()) {
-            $Mailchimp = MultinewsletterMailchimp::factory();
+        if (Mailchimp::isActive()) {
+            $Mailchimp = Mailchimp::factory();
             $_status = 2 === $this->status ? 'unsubscribed' : (1 === $this->status ? 'subscribed' : 'pending');
 
             try {
                 foreach ($this->group_ids as $group_id) {
-                    $group = new MultinewsletterGroup($group_id);
+                    $group = new Group($group_id);
 
                     if (strlen($group->mailchimp_list_id) > 0) {
                         $this->mailchimp_id = $Mailchimp->addUserToList($this, $group->mailchimp_list_id, $_status);
                     }
                 }
-            } catch (MultinewsletterMailchimpException $ex) {
+            } catch (MailchimpException $ex) {
             }
         }
 

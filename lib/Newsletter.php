@@ -1,12 +1,33 @@
 <?php
 
+namespace FriendsOfRedaxo\MultiNewsletter;
+
+use rex;
+use rex_addon;
+use rex_article;
+use rex_article_content;
+use rex_clang;
+use rex_config;
+use rex_extension;
+use rex_extension_point;
+use rex_i18n;
+use rex_mailer;
+use rex_media;
+use rex_path;
+use rex_socket;
+use rex_socket_exception;
+use rex_socket_response;
+use rex_sql;
+use rex_view;
+use rex_yrewrite;
+
 /**
  * MultiNewsletter Newsletter (stored in database table rex_375_archive).
  * @api
  *
  * @author Tobias Krais
  */
-class MultinewsletterNewsletter
+class Newsletter
 {
     /** @var int Database ID */
     public int $id = 0;
@@ -141,7 +162,7 @@ class MultinewsletterNewsletter
     /**
      * Personalizes a string.
      * @param string $content Content that has to be personalized
-     * @param MultinewsletterUser $user Recipient user object
+     * @param User $user Recipient user object
      * @param rex_article|null $article Redaxo article
      * @return string Personalized string
      */
@@ -206,7 +227,7 @@ class MultinewsletterNewsletter
     /**
      * Personalized string.
      * @param string $content Content
-     * @param MultinewsletterUser $user Recipient user object
+     * @param User $user Recipient user object
      * @param rex_article $article Redaxo article
      * @return string Personalized content
      */
@@ -345,7 +366,7 @@ class MultinewsletterNewsletter
 
     /**
      * Sends Newsletter to user.
-     * @param MultinewsletterUser $multinewsletter_user Recipient user
+     * @param User $multinewsletter_user Recipient user
      * @param rex_article $article Redaxo article
      * @return bool true if successful, otherwise false
      */
@@ -405,7 +426,7 @@ class MultinewsletterNewsletter
 
     /**
      * Sends newsletter mail to recipient and stores in database.
-     * @param MultinewsletterUser $multinewsletter_user Recipient object
+     * @param User $multinewsletter_user Recipient object
      * @param ?rex_article $article Redaxo article
      * @return bool true, if successful, otherwise false
      */
@@ -427,7 +448,7 @@ class MultinewsletterNewsletter
 
     /**
      * Sends newsletter test mail.
-     * @param MultinewsletterUser $testuser test user object
+     * @param User $testuser test user object
      * @param int $article_id Redaxo article id
      * @return bool true, if successful, otherwise false
      */
@@ -449,7 +470,7 @@ class MultinewsletterNewsletter
         }
 
         // Turn on autosend
-        multinewsletter_cronjob_sender::factory()->activate();
+        CronjobSender::factory()->activate();
 
         return true;
     }

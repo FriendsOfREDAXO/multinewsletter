@@ -38,12 +38,12 @@ if (false !== $import_action && '' !== $import_action) {
 
             // Spalte "email" muss existieren
             if ($fields['email'] > -1) {
-                $multinewsletter_list = new MultinewsletterUserList([]);
+                $multinewsletter_list = new FriendsOfRedaxo\MultiNewsletter\Userlist([]);
                 foreach ($csv_users as $csv_user) {
                     if (false !== filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL)) {
-                        $multinewsletter_user = MultinewsletterUser::initByMail(strtolower($csv_user[$fields['email']]));
-                        if (!$multinewsletter_user instanceof MultinewsletterUser) {
-                            $multinewsletter_user = new MultinewsletterUser(0);
+                        $multinewsletter_user = FriendsOfRedaxo\MultiNewsletter\User::initByMail(strtolower($csv_user[$fields['email']]));
+                        if (!$multinewsletter_user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
+                            $multinewsletter_user = new FriendsOfRedaxo\MultiNewsletter\User(0);
                             $multinewsletter_user->email = filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL);
                         }
 
@@ -55,7 +55,7 @@ if (false !== $import_action && '' !== $import_action) {
                             $user_clang_id = $csv_user[$fields['clang_id']];
                         } else {
                             // Default langugage
-                            $user_clang_id = MultinewsletterNewsletter::getFallbackLang(rex_clang::getStartId());
+                            $user_clang_id = FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang(rex_clang::getStartId());
                         }
                         if (false !== filter_var($user_clang_id, FILTER_VALIDATE_INT)) {
                             // Falls ID der Sprache im CSV festgelegt wurde

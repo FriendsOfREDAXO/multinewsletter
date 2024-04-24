@@ -31,8 +31,8 @@ if ('edit' === $func || 'add' === $func) {
         $form->addParam('entry_id', $entry_id);
     }
 
-    if (MultinewsletterMailchimp::isActive()) {
-        $Mailchimp = MultinewsletterMailchimp::factory();
+    if (FriendsOfRedaxo\MultiNewsletter\Mailchimp::isActive()) {
+        $Mailchimp = FriendsOfRedaxo\MultiNewsletter\Mailchimp::factory();
 
         $lists = $Mailchimp->getLists();
         $field = $form->addSelectField('mailchimp_list_id');

@@ -80,24 +80,6 @@ if (!rex_config::has('multinewsletter', 'default_test_email')) {
 }
 
 // Update modules
-if (class_exists(TobiasKrais\D2UHelper\ModuleManager::class)) {
-    $d2u_multinewsletter_modules = [];
-    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-1',
-        'MultiNewsletter Anmeldung mit Name und Anrede',
-        7);
-    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-2',
-        'MultiNewsletter Abmeldung',
-        7);
-    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-3',
-        'MultiNewsletter Anmeldung nur mit Mail',
-        7);
-    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-4',
-        'MultiNewsletter YForm Anmeldung',
-        9);
-    $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-5',
-        'MultiNewsletter YForm Abmeldung',
-        4);
-
-    $d2u_module_manager = new \TobiasKrais\D2UHelper\ModuleManager($d2u_multinewsletter_modules, '', 'multinewsletter');
-    $d2u_module_manager->autoupdate();
-}
+include __DIR__ . DIRECTORY_SEPARATOR .'lib'. DIRECTORY_SEPARATOR .'Module.php';
+$d2u_module_manager = new \TobiasKrais\D2UHelper\ModuleManager(\FriendsOfRedaxo\MultiNewsletter\Module::getModules(), '', 'multinewsletter');
+$d2u_module_manager->autoupdate();

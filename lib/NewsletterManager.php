@@ -1,19 +1,31 @@
 <?php
 
+namespace FriendsOfRedaxo\MultiNewsletter;
+
+use rex;
+use rex_addon;
+use rex_article;
+use rex_config;
+use rex_mailer;
+use rex_request;
+use rex_sql;
+use rex_user;
+use rex_view;
+
 /**
  * MultiNewsletter Newletter (noch zu versenden).
  * @api
  *
  * @author Tobias Krais
  */
-class MultinewsletterNewsletterManager
+class NewsletterManager
 {
     /**
-     * @var array<int,MultinewsletterNewsletter> Archiv Objekte des Newsletters. ACHTUNG: der Index im Array muss die Archiv ID sein.
+     * @var array<int,Newsletter> Archiv Objekte des Newsletters. ACHTUNG: der Index im Array muss die Archiv ID sein.
      */
     public array $archives = [];
 
-    /** @var array<MultinewsletterUser> empfänger des Newsletters */
+    /** @var array<User> empfänger des Newsletters */
     public array $recipients = [];
 
     /**
@@ -21,7 +33,7 @@ class MultinewsletterNewsletterManager
      */
     public bool $autosend_only = false;
 
-    /** @var array<MultinewsletterUser> users an die der Newsletter zuletzt versand wurde */
+    /** @var array<User> users an die der Newsletter zuletzt versand wurde */
     public array $last_send_users = [];
 
     /** @var int Anzahl ausstehender Newsletter Mails */
@@ -55,7 +67,7 @@ class MultinewsletterNewsletterManager
         $result->setQuery($query);
 
         for ($i = 0; $result->getRows() > $i; ++$i) {
-            $newsletter = new MultinewsletterNewsletter((int) $result->getValue('id'));
+            $newsletter = new Newsletter((int) $result->getValue('id'));
             $newsletter->recipients = [count($newsletter->recipients) .' recipients. Addresses deleted.'];
             $newsletter->recipients_failure = [count($newsletter->recipients_failure) .' recipients with send failure. Addresses deleted.'];
             $newsletter->save();
@@ -69,7 +81,7 @@ class MultinewsletterNewsletterManager
             ."WHERE (activationkey IS NOT NULL AND activationkey != '' AND activationkey != '0') AND createdate < '". date('Y-m-d H:i:s', strtotime('-4 weeks')) ."'";
         $result->setQuery($query);
         for ($i = 0; $result->getRows() > $i; ++$i) {
-            $user = new MultinewsletterUser((int) $result->getValue('id'));
+            $user = new User((int) $result->getValue('id'));
             $user->delete();
             echo rex_view::success($user->email .' deleted, because not activated for more than 4 weeks.'. PHP_EOL);
 
@@ -93,7 +105,7 @@ class MultinewsletterNewsletterManager
         $newsletterManager->autosend_only = true;
         $newsletterManager->prepare($group_ids, $article_id, $fallback_clang_id, $recipient_ids, $attachments);
 
-        $cronjob_sender = multinewsletter_cronjob_sender::factory();
+        $cronjob_sender = CronjobSender::factory();
         if ($cronjob_sender->isInstalled() && count($newsletterManager->archives) > 0) {
             // Activate Cronjob
             $cronjob_sender->activate();
@@ -161,12 +173,12 @@ class MultinewsletterNewsletterManager
                             continue;
                         }
 
-                        $recipient = MultinewsletterUser::initByMail($recipient_email);
+                        $recipient = User::initByMail($recipient_email);
                         $recipient_text = '';
-                        if ($recipient instanceof MultinewsletterUser && '' !== $recipient->firstname) {
+                        if ($recipient instanceof User && '' !== $recipient->firstname) {
                             $recipient_text = $recipient->firstname .' ';
                         }
-                        if ($recipient instanceof MultinewsletterUser && '' !== $recipient->lastname) {
+                        if ($recipient instanceof User && '' !== $recipient->lastname) {
                             $recipient_text = $recipient->lastname .' ';
                         }
                         $recipient_text .= '<'. $recipient_email .'><br>';
@@ -182,7 +194,7 @@ class MultinewsletterNewsletterManager
 
         // Deactivate Cronjob
         if (0 === count($newsletterManager->archives)) {
-            multinewsletter_cronjob_sender::factory()->deactivate();
+            CronjobSender::factory()->deactivate();
         }
 
         echo rex_view::success('Step completed.');
@@ -191,7 +203,7 @@ class MultinewsletterNewsletterManager
     /**
      * Get newsletter archives which are on send list.
      * @param bool $manual_send_only if true, autosend archives are excluded
-     * @return \MultinewsletterNewsletter[] Array with MultinewsletterNewsletter archives
+     * @return \Newsletter[] Array with Newsletter archives
      */
     public static function getArchivesToSend($manual_send_only = true)
     {
@@ -203,7 +215,7 @@ class MultinewsletterNewsletterManager
 
         $newsletter_archives = [];
         for ($i = 0; $result->getRows() > $i; ++$i) {
-            $newsletter_archives[] = new MultinewsletterNewsletter((int) $result->getValue('archive_id'));
+            $newsletter_archives[] = new Newsletter((int) $result->getValue('archive_id'));
 
             $result->next();
         }
@@ -212,8 +224,8 @@ class MultinewsletterNewsletterManager
     }
 
     /**
-     * Creates a blank, uninitialized MultinewsletterNewsletterManager object.
-     * @return MultinewsletterNewsletterManager empty MultinewsletterNewsletterManager object
+     * Creates a blank, uninitialized self object.
+     * @return self empty self object
      */
     public static function factory()
     {
@@ -237,7 +249,7 @@ class MultinewsletterNewsletterManager
 
         for ($i = 0; $num_rows > $i; ++$i) {
             $archive_id = (int) $result->getValue('archive_id');
-            $this->archives[$archive_id] = new MultinewsletterNewsletter($archive_id);
+            $this->archives[$archive_id] = new Newsletter($archive_id);
             $result->next();
         }
     }
@@ -261,7 +273,7 @@ class MultinewsletterNewsletterManager
         $result->setQuery($query);
         $num_rows = $result->getRows();
         for ($i = 0; $num_rows > $i; ++$i) {
-            $this->recipients[] = new MultinewsletterUser((int) $result->getValue('id'));
+            $this->recipients[] = new User((int) $result->getValue('id'));
             $result->next();
         }
     }
@@ -325,7 +337,7 @@ class MultinewsletterNewsletterManager
         // Read article
         $new_archives = [];
         foreach ($clang_ids as $clang_id) {
-            $newsletter = MultinewsletterNewsletter::factory($article_id, $clang_id);
+            $newsletter = Newsletter::factory($article_id, $clang_id);
 
             if (0 === strlen($newsletter->htmlbody)) {
                 $offline_lang_ids[] = $clang_id;

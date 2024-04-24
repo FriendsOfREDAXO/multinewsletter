@@ -4,12 +4,12 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     // Web frontend
     $user_email = rex_get('email', 'string');
     if('' === $user_email) {
-        if(MultinewsletterUser::initByMail($user_email) instanceof MultinewsletterUser) {
+        if(FriendsOfRedaxo\MultiNewsletter\User::initByMail($user_email) instanceof FriendsOfRedaxo\MultiNewsletter\User) {
             rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) {
                 $user_email = rex_get('email', 'string');
-                $multinewsletter_user = MultinewsletterUser::initByMail($user_email);
-                if($multinewsletter_user instanceof MultinewsletterUser) {
-                    return MultinewsletterNewsletter::replaceVars((string) $ep->getSubject(), $multinewsletter_user, rex_article::getCurrent());
+                $multinewsletter_user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($user_email);
+                if($multinewsletter_user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
+                    return FriendsOfRedaxo\MultiNewsletter\Newsletter::replaceVars((string) $ep->getSubject(), $multinewsletter_user, rex_article::getCurrent());
                 }
                 else {
                     return $ep->getSubject();
@@ -26,9 +26,9 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     if ('multinewsletter/user' === rex_get('page', 'string')) {
         rex_extension::register('REX_FORM_SAVED', static function ($ep) {
 
-            if (MultinewsletterMailchimp::isActive()) {
+            if (FriendsOfRedaxo\MultiNewsletter\Mailchimp::isActive()) {
                 $user_id = rex_get('entry_id', 'int');
-                $user = new MultinewsletterUser($user_id);
+                $user = new FriendsOfRedaxo\MultiNewsletter\User($user_id);
                 $user->save();
             }
             return $ep->getSubject();
@@ -72,7 +72,7 @@ if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
             $action = $ep->getParam('action');
 
             if ($ep->getParam('table') === rex::getTablePrefix() . '375_user') {
-                $user = new MultinewsletterUser((int) $ep->getParam('id'));
+                $user = new FriendsOfRedaxo\MultiNewsletter\User((int) $ep->getParam('id'));
 
                 if ('update' !== $action) {
                     $user->subscriptiontype = 'backend';

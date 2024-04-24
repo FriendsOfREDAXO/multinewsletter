@@ -5,6 +5,24 @@
 		<li>WICHTIG: Anreden um die diverse Anrede Mx. und auch ohne Anrede erweitert.
 			In den Einstellungen -> Übersetzungen bitte für diese beiden Felder ergänzen
 			und speichern.</li>
+		<li>WICHTIG: Vorbereitung auf R6: Folgende Klassen werden ab Version 2 dieses Addons umbenannt. Schon jetzt stehen die neuen Klassen für die Übergangszeit zur Verfügung:
+			<ul>
+				<li><code>MultinewsletterGroup</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\Group</code>.</li>
+				<li><code>MultinewsletterMailchimp</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\Mailchimp</code>.</li>
+				<li><code>MultinewsletterMailchimpException</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\MailchimpException</code>.</li>
+				<li><code>MultinewsletterNewsletter</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\Newsletter</code>.</li>
+				<li><code>MultinewsletterNewsletterManager</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\NewsletterManager</code>.</li>
+				<li><code>MultinewsletterUser</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\User</code>.</li>
+				<li><code>MultinewsletterUserList</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\Userlist</code>.</li>
+			</ul>
+			Folgende interne Klassen wurden wurden ebenfalls umbenannt. Hier gibt es keine Übergangszeit, da sie nicht öffentlich sind:
+			<ul>
+				<li><code>D2UMultiNewsletterModules</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\Module</code>.</li>
+				<li><code>multinewsletter_cronjob_cleanup</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\CronjobCleanup</code>.</li>
+				<li><code>multinewsletter_cronjob_sender</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\CronjobSender</code>.</li>
+				
+			</ul>
+		</li>
 	</ul>
 
 	<p>3.2.1:</p>

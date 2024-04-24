@@ -34,7 +34,7 @@ if ($resend_failure > 0) {
     $result_archive->setQuery('UPDATE ' . rex::getTablePrefix() . "375_archive SET recipients_failure = '' WHERE id = " . $resend_failure);
 
     // Set correct Newsletter article Name
-    $archives = MultinewsletterNewsletterManager::getArchivesToSend(true);
+    $archives = FriendsOfRedaxo\MultiNewsletter\NewsletterManager::getArchivesToSend(true);
     $newsletter_session = rex_request::session('multinewsletter', 'array');
     $newsletter_session['newsletter']['article_id'] = 0;
     $newsletter_session['newsletter']['article_name'] = $archives[0]->subject;

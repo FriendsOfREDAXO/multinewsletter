@@ -180,7 +180,7 @@ if ('Speichern' === rex_request::request('btn_save', 'string')) {
         echo rex_view::success(rex_i18n::msg('multinewsletter_changes_saved'));
 
         // Install / remove Cronjobs
-        $cronjob_cleanup = multinewsletter_cronjob_cleanup::factory();
+        $cronjob_cleanup = FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::factory();
         if ('active' === (string) rex_config::get('multinewsletter', 'autocleanup')) {
             if (!$cronjob_cleanup->isInstalled()) {
                 $cronjob_cleanup->install();
@@ -188,7 +188,7 @@ if ('Speichern' === rex_request::request('btn_save', 'string')) {
         } else {
             $cronjob_cleanup->delete();
         }
-        $cronjob_sender = multinewsletter_cronjob_sender::factory();
+        $cronjob_sender = FriendsOfRedaxo\MultiNewsletter\CronjobSender::factory();
         if ('active' === (string) rex_config::get('multinewsletter', 'autosend')) {
             if (!$cronjob_sender->isInstalled()) {
                 $cronjob_sender->install();
@@ -228,8 +228,8 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_admin_email', 'settings[admin_email]', (string) rex_config::get('multinewsletter', 'admin_email'), true, false, 'email');
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_subscribe_meldung_email', 'settings[subscribe_meldung_email]', (string) rex_config::get('multinewsletter', 'subscribe_meldung_email'), false, false, 'email');
                         if (rex_addon::get('cronjob')->isAvailable()) {
-                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_autosend', 'settings[autosend]', 'active', 'active' === rex_config::get('multinewsletter', 'autosend') && multinewsletter_cronjob_sender::factory()->isInstalled());
-                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_autocleanup', 'settings[autocleanup]', 'active', 'active' === rex_config::get('multinewsletter', 'autocleanup') && multinewsletter_cronjob_cleanup::factory()->isInstalled());
+                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_autosend', 'settings[autosend]', 'active', 'active' === rex_config::get('multinewsletter', 'autosend') && FriendsOfRedaxo\MultiNewsletter\CronjobSender::factory()->isInstalled());
+                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_autocleanup', 'settings[autocleanup]', 'active', 'active' === rex_config::get('multinewsletter', 'autocleanup') && FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::factory()->isInstalled());
                         } else {
                             \TobiasKrais\D2UHelper\BackendHelper::form_infotext('multinewsletter_config_install_cronjob', 'autosend_info');
                         }
@@ -311,7 +311,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
 				<legend><?= rex_i18n::msg('multinewsletter_config_title_testmails') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('multinewsletter_config_default_test_article', '3', (int) rex_config::get('multinewsletter', 'default_test_article'), (int) MultinewsletterNewsletter::getFallbackLang(rex_clang::getStartId()));
+                        \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('multinewsletter_config_default_test_article', '3', (int) rex_config::get('multinewsletter', 'default_test_article'), (int) FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang(rex_clang::getStartId()));
 
                         $options_anrede = [];
                         $options_anrede[-1] = rex_i18n::msg('multinewsletter_config_lang_title_without');

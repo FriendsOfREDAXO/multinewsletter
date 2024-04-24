@@ -29,8 +29,8 @@ if (!function_exists('unsubscribe')) {
     {
         $addon = rex_addon::get('multinewsletter');
         if (false !== filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $user = MultinewsletterUser::initByMail($email);
-            if ($user instanceof MultinewsletterUser) {
+            $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($email);
+            if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
                 $user->unsubscribe();
                 echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_status0', '') .'</p><br />';
             } else {

@@ -1,12 +1,18 @@
 <?php
 
+namespace FriendsOfRedaxo\MultiNewsletter;
+
+use rex;
+use rex_article;
+use rex_sql;
+
 /**
  * MultiNewsletter User Group.
  * @api
  *
  * @author Tobias Krais
  */
-class MultinewsletterGroup
+class Group
 {
     /** @var int Database ID */
     public int $id = 0;
@@ -68,7 +74,7 @@ class MultinewsletterGroup
 
     /**
      * Fetch all groups from database.
-     * @return MultinewsletterGroup[] Array containing all groups
+     * @return self[] Array containing all groups
      */
     public static function getAll()
     {

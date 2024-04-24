@@ -8,19 +8,19 @@ $sql->setQuery('DROP TABLE IF EXISTS `' . rex::getTablePrefix() . '375_user`');
 $sql->setQuery('DROP TABLE IF EXISTS `' . rex::getTablePrefix() . '375_sendlist`');
 
 // Remove CronJobs
-if (!class_exists(multinewsletter_cronjob_sender::class)) {
+if (!class_exists(FriendsOfRedaxo\MultiNewsletter\CronjobSender::class)) {
     // Load class in case addon is deactivated
-    require_once 'lib/cronjob_sender.php';
+    require_once 'lib/CronjobSender.php';
 }
-$cronjob_sender = multinewsletter_cronjob_sender::factory();
+$cronjob_sender = FriendsOfRedaxo\MultiNewsletter\CronjobSender::factory();
 if ($cronjob_sender->isInstalled()) {
     $cronjob_sender->delete();
 }
-if (!class_exists(multinewsletter_cronjob_cleanup::class)) {
+if (!class_exists(FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::class)) {
     // Load class in case addon is deactivated
-    require_once 'lib/cronjob_cleanup.php';
+    require_once 'lib/CronjobCleanup.php';
 }
-$cronjob_cleanup = multinewsletter_cronjob_cleanup::factory();
+$cronjob_cleanup = FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::factory();
 if ($cronjob_cleanup->isInstalled()) {
     $cronjob_cleanup->delete();
 }

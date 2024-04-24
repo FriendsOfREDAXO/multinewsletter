@@ -20,8 +20,8 @@ if (rex::isBackend()) {
 
     $showform = true;
     if (false !== $unsubscribe_mail) {
-        $user = MultinewsletterUser::initByMail($unsubscribe_mail);
-        if ($user instanceof MultinewsletterUser && $user->id > 0) {
+        $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($unsubscribe_mail);
+        if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->id > 0) {
             $user->unsubscribe();
 
             echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_status0') .'</p><br />';

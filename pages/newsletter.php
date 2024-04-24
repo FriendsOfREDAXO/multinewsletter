@@ -1,5 +1,5 @@
 <?php
-$newsletterManager = new MultinewsletterNewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'));
+$newsletterManager = new FriendsOfRedaxo\MultiNewsletter\NewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'));
 // First do reset action
 if('' !== rex_request::request('reset', 'string')) {
     // 0 = reset complete sendlist
@@ -23,14 +23,14 @@ if(!rex_addon::get('cronjob')->isAvailable() || 'active' !== (string) rex_config
         rex_request::unsetSession('multinewsletter');
     } else {
         // Autosend status message if autosend is active
-        $newsletterManager_autosend = new MultinewsletterNewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'), true);
+        $newsletterManager_autosend = new FriendsOfRedaxo\MultiNewsletter\NewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'), true);
         if($newsletterManager_autosend->countRemainingUsers() > 0) {
             $autosend_message = '<p>'. rex_i18n::msg('multinewsletter_newsletter_send_cron_warning') .'</p><br>';
         }
     }
     if('' !== $autosend_message) {
         // Detailed newsletter information
-        $newsletterManager_autosend = new MultinewsletterNewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'), true);
+        $newsletterManager_autosend = new FriendsOfRedaxo\MultiNewsletter\NewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'), true);
         $autosend_message .= '<form action="'. rex_url::currentBackendPage() .'" method="post" name="multinewsletter-cron-abort"><ul>';
         foreach($newsletterManager_autosend->archives as $autosend_archive) {
             $autosend_message .= '<li>'. $autosend_archive->countRemainingUsers() .' '. rex_i18n::msg('multinewsletter_archive_recipients') .': '. $autosend_archive->subject .' ('. $autosend_archive->sender_name.') <button class="btn btn-delete" style="margin: 5px 15px;" type="submit" name="reset" value="'. $autosend_archive->id .'">'. rex_i18n::msg('multinewsletter_newsletter_send_cron_abort') .'</button></li>';
@@ -89,7 +89,7 @@ if(array_key_exists('REX_INPUT_LINK', $form_link) && is_array($form_link['REX_IN
 } elseif(!array_key_exists('article_id', $session_multinewsletter['newsletter'])) {
     if($newsletterManager->countRemainingUsers() > 0) {
         // If there is a non-autosend archive, take article name from archive, article ID is not relevant
-        $archives = MultinewsletterNewsletterManager::getArchivesToSend(true);
+        $archives = FriendsOfRedaxo\MultiNewsletter\NewsletterManager::getArchivesToSend(true);
         $session_multinewsletter['newsletter']['article_id'] = 0;
         $session_multinewsletter['newsletter']['article_name'] = $archives[0]->subject;
     } else {
@@ -197,7 +197,7 @@ $session_multinewsletter['newsletter']['man_recipients'] = count($recipients) > 
 rex_request::setSession('multinewsletter', $session_multinewsletter);
 
 // Die Gruppen laden
-$newsletter_groups = MultinewsletterGroup::getAll();
+$newsletter_groups = FriendsOfRedaxo\MultiNewsletter\Group::getAll();
 
 $time_started = time();
 $maxtimeout = (int) ini_get('max_execution_time');
@@ -230,10 +230,10 @@ if('' !== rex_request('sendtestmail', 'string')) {
     }
 
     if(0 === count($messages)) {
-        $testnewsletter = MultinewsletterNewsletter::factory($session_multinewsletter['newsletter']['article_id'],
+        $testnewsletter = FriendsOfRedaxo\MultiNewsletter\Newsletter::factory($session_multinewsletter['newsletter']['article_id'],
             $session_multinewsletter['newsletter']['testlanguage']);
 
-        $testuser = MultinewsletterUser::factory($session_multinewsletter['newsletter']['testemail'],
+        $testuser = FriendsOfRedaxo\MultiNewsletter\User::factory($session_multinewsletter['newsletter']['testemail'],
             $session_multinewsletter['newsletter']['testtitle'],
             $session_multinewsletter['newsletter']['testgrad'],
             $session_multinewsletter['newsletter']['testfirstname'],
@@ -263,7 +263,7 @@ elseif('' !== rex_request::request('prepare', 'string')) {
     if(0 === count($messages)) {
         $offline_lang_ids = $newsletterManager->prepare($session_multinewsletter['newsletter']['groups'],
             $session_multinewsletter['newsletter']['article_id'],
-            null !== MultinewsletterNewsletter::getFallbackLang() ? MultinewsletterNewsletter::getFallbackLang() : 0,
+            null !== FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang() ? FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang() : 0,
             $session_multinewsletter['newsletter']['man_recipients'],
             $session_multinewsletter['newsletter']['attachments']);
 
@@ -274,7 +274,7 @@ elseif('' !== rex_request::request('prepare', 'string')) {
                     $offline_langs[] = rex_clang::get($clang_id)->getName();
                 }
             }
-            if(null === MultinewsletterNewsletter::getFallbackLang() || in_array(MultinewsletterNewsletter::getFallbackLang(), $offline_lang_ids, true)) {
+            if(null === FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang() || in_array(FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang(), $offline_lang_ids, true)) {
                 $messages[] = rex_i18n::msg('multinewsletter_error_someclangsoffline', implode(', ', $offline_langs));
             } else {
                 $messages[] = rex_i18n::msg('multinewsletter_error_someclangsdefault', implode(', ', $offline_langs));
@@ -510,7 +510,7 @@ if(class_exists(rex_mailer::class)) {
                             <dt><label for="group[]"></label></dt>
                             <dd>
                                 <?php
-                                    $users = MultinewsletterUserList::getAll();
+                                    $users = FriendsOfRedaxo\MultiNewsletter\Userlist::getAll();
                                     $select = new rex_select();
                                     $select->setSize(15);
                                     $select->setMultiple(true);

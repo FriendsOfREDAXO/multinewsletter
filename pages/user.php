@@ -6,7 +6,7 @@ if ('' !== rex_request::request('newsletter_exportusers', 'string')) {
     $func = 'export';
 }
 
-$newsletter_groups = MultinewsletterGroup::getAll();
+$newsletter_groups = FriendsOfRedaxo\MultiNewsletter\Group::getAll();
 
 $session_multinewsletter = rex_request::session('multinewsletter', 'array');
 if(!array_key_exists('user', $session_multinewsletter)) {
@@ -80,7 +80,7 @@ if ('' === $func) {
     
     $aktion = false;
     foreach ($form_users as $user_id => $fields) {
-        $user = new MultinewsletterUser($user_id);
+        $user = new FriendsOfRedaxo\MultiNewsletter\User($user_id);
 
         // Einzelaktionen
         foreach ($fields as $key => $value) {
@@ -187,7 +187,7 @@ if ('' === $func) {
         $result_list->next();
     }
 
-    $users = new MultinewsletterUserList($user_ids);
+    $users = new FriendsOfRedaxo\MultiNewsletter\Userlist($user_ids);
 
     // Ausgabe der Meldung vom Speichern eines Datensatzes
     if ('' !== rex_request::request('_msg', 'string')) {
@@ -613,7 +613,7 @@ elseif ('edit' === $func || 'add' === $func) {
         $result_list->next();
     }
 
-    $users = new MultinewsletterUserList($user_ids);
+    $users = new FriendsOfRedaxo\MultiNewsletter\Userlist($user_ids);
     $users->exportCSV();
 }
 

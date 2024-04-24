@@ -2,7 +2,7 @@
 /*
  * Modules
  */
-$d2u_module_manager = new \TobiasKrais\D2UHelper\ModuleManager(D2UMultiNewsletterModules::getD2UMultiNewsletterModules(), 'modules/', 'multinewsletter');
+$d2u_module_manager = new \TobiasKrais\D2UHelper\ModuleManager(FriendsOfRedaxo\MultiNewsletter\Module::getModules(), 'modules/', 'multinewsletter');
 
 // \TobiasKrais\D2UHelper\ModuleManager actions
 $d2u_module_id = rex_request('d2u_module_id', 'string');
