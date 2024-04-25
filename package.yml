@@ -42,7 +42,6 @@ requires:
     php: '>=8.0'
 
 default_config:
-    sender: ''
     link: '0'
     link_abmeldung: '0'
     max_mails: '15'
@@ -52,7 +51,6 @@ default_config:
     default_test_anrede: '0'
     default_test_vorname: 'Max'
     default_test_nachname: 'Mustermann'
-    subscribe_meldung_email: ''
     
 installer_ignore:
     - .github
