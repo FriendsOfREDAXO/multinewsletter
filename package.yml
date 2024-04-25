@@ -35,13 +35,14 @@ page:
                 changelog: { title: 'translate:multinewsletter_help_chapter_changelog', icon: rex-icon fa-list-alt}
 
 requires:
+    php: '>=8.0'
     redaxo: '>=5.10.0'
     packages:
         d2u_helper: '>=1.14.0'
         phpmailer: '>=2.0.1'
-    php: '>=8.0'
 
 default_config:
+    sender: ''
     link: '0'
     link_abmeldung: '0'
     max_mails: '15'
@@ -51,6 +52,7 @@ default_config:
     default_test_anrede: '0'
     default_test_vorname: 'Max'
     default_test_nachname: 'Mustermann'
+    subscribe_meldung_email: ''
     
 installer_ignore:
     - .github
