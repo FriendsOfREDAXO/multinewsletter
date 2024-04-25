@@ -3,6 +3,7 @@
 
 	<p>3.6.0</p>
 	<ul>
+		<li>Transfer des Repos zu FriendsOfRedaxo.</li>
 		<li>Vorbereitung auf R6: Folgende Klassen werden ab Version 2 dieses Addons umbenannt. Schon jetzt stehen die neuen Klassen für die Übergangszeit zur Verfügung:
 			<ul>
 				<li><code>MultinewsletterGroup</code> wird zu <code>FriendsOfRedaxo\MultiNewsletter\Group</code>.</li>
