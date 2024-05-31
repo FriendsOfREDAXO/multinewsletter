@@ -1,6 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-
+	<p>3.6.1</p>
+	<ul>
+		<li>Bugfix bei der manuellen Artikelauswahl im Newsletterversand.</li>
+	</ul>
 	<p>3.6.0</p>
 	<ul>
 		<li>Transfer des Repos zu FriendsOfRedaxo.</li>

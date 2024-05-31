@@ -80,9 +80,9 @@ elseif(null !== filter_input(INPUT_POST, 'sendtestmail')) {
 
 // Ausgewählter Artikel
 $form_link = rex_request::request('REX_INPUT_LINK', 'array', []);
-if(array_key_exists('REX_INPUT_LINK', $form_link) && is_array($form_link['REX_INPUT_LINK']) && array_key_exists(1, $form_link['REX_INPUT_LINK'])) {
-    $session_multinewsletter['newsletter']['article_id'] = $form_link['REX_INPUT_LINK'][1];
-    $default_test_article = rex_article::get((int) $form_link['REX_INPUT_LINK'][1]);
+if(array_key_exists(1, $form_link)) {
+    $session_multinewsletter['newsletter']['article_id'] = $form_link[1];
+    $default_test_article = rex_article::get((int) $form_link[1]);
     if ($default_test_article instanceof rex_article) {
         $session_multinewsletter['newsletter']['article_name'] = $default_test_article->getName();
     }
