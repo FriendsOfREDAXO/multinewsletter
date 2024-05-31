@@ -13,7 +13,7 @@ if(!rex_addon::get('cronjob')->isAvailable() || 'active' !== (string) rex_config
 } else {
     $autosend_message = '';
     // if automatic send in background is requested
-    if('' !== filter_input(INPUT_POST, 'send_cron')) {
+    if(null !== filter_input(INPUT_POST, 'send_cron')) {
         // Send in background via CronJob
         foreach($newsletterManager->archives as $archive) {
             $archive->setAutosend();
