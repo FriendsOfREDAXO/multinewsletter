@@ -203,7 +203,7 @@ class NewsletterManager
     /**
      * Get newsletter archives which are on send list.
      * @param bool $manual_send_only if true, autosend archives are excluded
-     * @return \Newsletter[] Array with Newsletter archives
+     * @return array<int,Newsletter> Array with Newsletter archives
      */
     public static function getArchivesToSend($manual_send_only = true)
     {
@@ -215,7 +215,8 @@ class NewsletterManager
 
         $newsletter_archives = [];
         for ($i = 0; $result->getRows() > $i; ++$i) {
-            $newsletter_archives[] = new Newsletter((int) $result->getValue('archive_id'));
+            $newsletter = new Newsletter((int) $result->getValue('archive_id'));
+            $newsletter_archives[$newsletter->id] = $newsletter;
 
             $result->next();
         }

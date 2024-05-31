@@ -135,7 +135,7 @@ class Newsletter
      * Creates a new newsletter archive.
      * @param int $article_id Redaxo article id
      * @param int $clang_id Redaxo clang id
-     * @return MultinewsletterNewsletter initialized MultiNewsletter object
+     * @return self initialized MultiNewsletter object
      */
     public static function factory($article_id, $clang_id = 0)
     {
@@ -339,7 +339,7 @@ class Newsletter
                     .'clang_id = '. $this->clang_id .', '
                     ."subject = '". addslashes(htmlspecialchars($this->subject)) ."', "
                     ."htmlbody = '". base64_encode($this->htmlbody) ."', "
-                    ."attachments = '". implode(',', array_filter($this->attachments)) ."', "
+                    ."attachments = '". implode(',', $this->attachments) ."', "
                     ."recipients = '". implode(',', $this->recipients) ."', "
                     ."recipients_failure = '". implode(',', $this->recipients_failure) ."', "
                     ."group_ids = '|". implode('|', $this->group_ids) ."|', "

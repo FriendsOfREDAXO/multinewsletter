@@ -191,7 +191,7 @@ if('' !== $attachments) {
 }
 
 // Für den Versand ausgewählte Empfänger
-$recipients = array_filter(rex_post('recipients', 'array', []));
+$recipients = rex_post('recipients', 'array', []);
 $session_multinewsletter['newsletter']['man_recipients'] = count($recipients) > 0 ? $recipients : [];
 
 rex_request::setSession('multinewsletter', $session_multinewsletter);
