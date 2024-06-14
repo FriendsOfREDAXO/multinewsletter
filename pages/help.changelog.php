@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.6.2</p>
+	<ul>
+		<li>Bugfix: Filter im Backend der Benutzerliste funktioniert nun auch Auswahl von Guppen und Status @jfax.</li>
+	</ul>
 	<p>3.6.1</p>
 	<ul>
 		<li>Bugfix bei der manuellen Artikelauswahl im Newsletterversand.</li>
