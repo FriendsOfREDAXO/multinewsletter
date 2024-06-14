@@ -144,13 +144,13 @@ if ('' === $func) {
     }
     if ((int) $session_multinewsletter['user']['showgroup'] > 0) {
         $where[] = "
-            group_ids = '" . $session_multinewsletter['user']['showgroup'] . "' OR
+            (group_ids = '" . $session_multinewsletter['user']['showgroup'] . "' OR
             group_ids LIKE '" . $session_multinewsletter['user']['showgroup'] . "|%' OR
             group_ids LIKE '%|" . $session_multinewsletter['user']['showgroup'] . "' OR
             group_ids LIKE '%|" . $session_multinewsletter['user']['showgroup'] . "|%' OR
             group_ids LIKE '" . $session_multinewsletter['user']['showgroup'] . ",%' OR
             group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . "' OR
-            group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . ",%'
+            group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . ",%')
         ";
     } elseif ('no' === $session_multinewsletter['user']['showgroup']) {
         $where[] = "(group_ids = '' OR group_ids = '||' OR group_ids IS NULL)";
