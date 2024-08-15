@@ -2,7 +2,8 @@
 	<legend>MultiNewsletter Changelog</legend>
 	<p>3.6.3</p>
 	<ul>
-		<li>Bugfix: Ersetzungen der Benutzerdaten im Frontent schlug fehl.</li>
+		<li>Bugfix: Ersetzungen der Benutzerdaten im Frontent schlug fehl. Platzhalter für Newsletterlink wurde automatisch angepasst.</li>
+		<li>Bugfix: Beispieltemplate in der Hilfe wurde nicht angezeigt.</li>
 	</ul>
 	<p>3.6.2</p>
 	<ul>
