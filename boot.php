@@ -3,7 +3,7 @@
 if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
     // Web frontend
     $user_email = rex_get('email', 'string');
-    if('' === $user_email) {
+    if('' !== $user_email) {
         if(FriendsOfRedaxo\MultiNewsletter\User::initByMail($user_email) instanceof FriendsOfRedaxo\MultiNewsletter\User) {
             rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) {
                 $user_email = rex_get('email', 'string');
