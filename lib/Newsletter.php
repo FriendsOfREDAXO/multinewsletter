@@ -250,7 +250,7 @@ class Newsletter
                         '+++TITLE+++' => -1 === $user->title ? '' : $addon->getConfig('lang_' . $clang_id . '_title_' . $user->title),
                         '+++ABMELDELINK+++' => self::getUrl((int) $addon->getConfig('link_abmeldung'), $clang_id, ['unsubscribe' => $user->email]),
                         '+++AKTIVIERUNGSLINK+++' => self::getUrl((int) $addon->getConfig('link'), $clang_id, ['activationkey' => $user->activationkey, 'email' => $user->email]),
-                        '+++NEWSLETTERLINK+++' => $article instanceof rex_article ? self::getUrl($article->getId(), $clang_id) : '',
+                        '+++NEWSLETTERLINK+++' => $article instanceof rex_article ? self::getUrl($article->getId(), $clang_id) .'?replace_vars=true&email='. $user->email : '',
                         '+++LINK_PRIVACY_POLICY+++' => rex_getUrl((int) rex_config::get('d2u_helper', 'article_id_privacy_policy', rex_article::getSiteStartArticleId()), $clang_id),
                         '+++LINK_IMPRESS+++' => rex_getUrl((int) rex_config::get('d2u_helper', 'article_id_impress', rex_article::getSiteStartArticleId()), $clang_id),
                     ]
