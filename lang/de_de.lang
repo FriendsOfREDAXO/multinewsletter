@@ -99,6 +99,7 @@ multinewsletter_config_method_redaxo = Redaxo intern (ignoriert Addons wie Bloec
 multinewsletter_config_method_socket = Socket Verbindung
 multinewsletter_config_versandschritte_nacheinander = Versandschritte bis Pause
 multinewsletter_config_sekunden_pause = Pause in Sekunden
+multinewsletter_config_send_options = Versandoptionen
 multinewsletter_config_lang_confirmcontent = Text der Bestätigungsmail
 multinewsletter_config_lang_confirmsubject = Betreff der Bestätigungsmail
 multinewsletter_config_defaultlang = Auf welche Sprache soll ausgewichen werden wenn Artikel offline ist?

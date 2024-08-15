@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.6.4</p>
+	<ul>
+		<li>Bugfix: Voreinstellungen für Testmails zeigte die gespeicherte Anrede nicht korrekt an.</li>
+	</ul>
 	<p>3.6.3</p>
 	<ul>
 		<li>Bugfix: Ersetzungen der Benutzerdaten im Frontent schlug fehl. Platzhalter für Newsletterlink wurde automatisch angepasst.</li>

@@ -235,7 +235,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         }
                     ?>
 					<br/>
-					<h4 style="border-bottom:1px solid #ccc;">Versandoptionen</h4>
+					<h4 style="border-bottom:1px solid #ccc;"><? rex_i18n::msg('multinewsletter_config_send_options') ?></h4>
 					<?php
                         \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_use_smtp', 'settings[use_smtp]', [0 => rex_i18n::msg('multinewsletter_config_use_smtp_phpmailer'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'use_smtp', 0)]);
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_bcc', 'settings[smtp_bcc]', (string) rex_config::get('multinewsletter', 'smtp_bcc'));
@@ -318,7 +318,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         $options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');
                         $options_anrede[1] = rex_i18n::msg('multinewsletter_config_lang_title_female');
                         $options_anrede[2] = rex_i18n::msg('multinewsletter_config_lang_title_diverse');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_default_test_anrede', 'settings[default_test_anrede]', $options_anrede, [(string) rex_config::get('multinewsletter', 'default_test_anrede')]);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_default_test_anrede', 'settings[default_test_anrede]', $options_anrede, [(int) rex_config::get('multinewsletter', 'default_test_anrede')]);
 
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_default_test_vorname', 'settings[default_test_vorname]', (string) rex_config::get('multinewsletter', 'default_test_vorname'));
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_default_test_nachname', 'settings[default_test_nachname]', (string) rex_config::get('multinewsletter', 'default_test_nachname'));

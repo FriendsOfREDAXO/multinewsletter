@@ -143,7 +143,7 @@ if('' !== rex_request::request('testemail', 'string')) {
 if(rex_request::request('testtitle', 'int') > 0) {
     $session_multinewsletter['newsletter']['testtitle'] = rex_request::request('testtitle', 'int');
 } elseif(!array_key_exists('testtitle', $session_multinewsletter['newsletter'])) {
-    $session_multinewsletter['newsletter']['testtitle'] = rex_config::get('multinewsletter', 'default_test_anrede');
+    $session_multinewsletter['newsletter']['testtitle'] = (int) rex_config::get('multinewsletter', 'default_test_anrede');
 }
 
 // Testmail Empfäger Akademischer Grad
@@ -430,7 +430,7 @@ if(class_exists(rex_mailer::class)) {
                         $options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');
                         $options_anrede[1] = rex_i18n::msg('multinewsletter_config_lang_title_female');
                         $options_anrede[2] = rex_i18n::msg('multinewsletter_config_lang_title_diverse');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_newsletter_title', 'testtitle', $options_anrede, [$session_multinewsletter['newsletter']['testtitle']]);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_newsletter_title', 'testtitle', $options_anrede, [(int) $session_multinewsletter['newsletter']['testtitle']]);
 
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_grad', 'testgrad', $session_multinewsletter['newsletter']['testgrad']);
                         \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_firstname', 'testfirstname', $session_multinewsletter['newsletter']['testfirstname']);
