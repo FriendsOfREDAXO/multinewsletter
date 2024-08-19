@@ -9,7 +9,7 @@
 		<li>Es ist kein Texttrenner vorgesehen.</li>
 		<li>Die erste Zeile enthält die Spaltenbezeichnungen. Folgende Spalten sind zulässig:
 			<ul>
-				<li>email: enthält die E-Mail-Adresse</li>
+				<li>email: enthält die E-Mail-Adresse. Dies ist die einzige Pflichtspalte.</li>
 				<li>grad: enthält den akademischen Grad</li>
 				<li>firstname: Vorname</li>
 				<li>lastname: Nachname</li>

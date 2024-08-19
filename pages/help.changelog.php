@@ -1,5 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.6.5-DEV</p>
+	<ul>
+		<li>Bugfix: Import gleicher E-Mail-Adressen mit unterschiedlicher Groß- und Kleinschreibung unterbunden.</li>
+		<li>Dokumentation zu Pflichtfelder beim Import verbessert.</li>
+	</ul>
 	<p>3.6.4</p>
 	<ul>
 		<li>Bugfix: Voreinstellungen für Testmails zeigte die gespeicherte Anrede nicht korrekt an.</li>

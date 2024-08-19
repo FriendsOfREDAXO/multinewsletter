@@ -44,7 +44,7 @@ if (false !== $import_action && '' !== $import_action) {
                         $multinewsletter_user = FriendsOfRedaxo\MultiNewsletter\User::initByMail(strtolower($csv_user[$fields['email']]));
                         if (!$multinewsletter_user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
                             $multinewsletter_user = new FriendsOfRedaxo\MultiNewsletter\User(0);
-                            $multinewsletter_user->email = filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL);
+                            $multinewsletter_user->email = strtolower(filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL));
                         }
 
                         // Sprache
