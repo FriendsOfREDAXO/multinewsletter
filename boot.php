@@ -1,6 +1,6 @@
 <?php
 
-if (!rex::isBackend() && rex_get('replace_vars', 'boolean', false)) {
+if (rex::isFrontend() && rex_get('replace_vars', 'boolean', false)) {
     // Web frontend
     $user_email = rex_get('email', 'string');
     if('' !== $user_email) {
