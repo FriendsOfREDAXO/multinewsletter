@@ -1,8 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-	<p>3.6.5-DEV</p>
+	<p>3.6.5</p>
 	<ul>
 		<li>Bugfix: Import gleicher E-Mail-Adressen mit unterschiedlicher Groß- und Kleinschreibung unterbunden.</li>
+		<li>Bugfix Modul 80-1 "MultiNewsletter Anmeldung mit Name und Anrede": nach der rexstan Überarbeiten hatten sich Fehler bei den Gruppen eingeschlichen.</li>
 		<li>Dokumentation zu Pflichtfelder beim Import verbessert.</li>
 	</ul>
 	<p>3.6.4</p>

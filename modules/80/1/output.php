@@ -1,7 +1,7 @@
 <div class="col-12 col-lg-8 yform">
 <?php
 // Anzuzeigende Gruppen IDs
-$group_ids = (array) rex_var::toArray('REX_VALUE[1]');
+$group_ids = rex_var::toArray('REX_VALUE[1]');
 
 $addon = rex_addon::get('multinewsletter');
 
@@ -28,20 +28,19 @@ if (filter_input(INPUT_GET, 'activationkey', FILTER_VALIDATE_INT, ['options' => 
 }
 
 $form_groups = filter_input_array(INPUT_POST, ['groups' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-$group_ids = is_array($form_groups['groups']) ? $form_groups['groups'] : [];
+$group_ids = is_array($form_groups) && is_array($form_groups['groups']) ? $form_groups['groups'] : $group_ids;
 
 $messages = [];
-
-if ('' !== filter_input(INPUT_POST, 'submit')) {
+if (null !== filter_input(INPUT_POST, 'submit')) {
     $save = true;
     // Fehlermeldungen finden
     if (false === filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email');
     }
-    if ('' === filter_input(INPUT_POST, 'firstname') || strlen((string) filter_input(INPUT_POST, 'firstname')) > 30) {
+    if (null === filter_input(INPUT_POST, 'firstname') || strlen((string) filter_input(INPUT_POST, 'firstname')) > 30) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_firstname');
     }
-    if ('' === filter_input(INPUT_POST, 'lastname') || strlen((string) filter_input(INPUT_POST, 'lastname')) > 30) {
+    if (null === filter_input(INPUT_POST, 'lastname') || strlen((string) filter_input(INPUT_POST, 'lastname')) > 30) {
         $messages[] = $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_lastname');
     }
     if (0 === count($group_ids)) {
