@@ -137,7 +137,7 @@ if ($showform) {
 	<form action="<?= rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId()) ?>" method="post" name="subscribe" class="rex-yform">
 		<div class="form-group yform-element" id="yform-formular-anrede">
 			<label class="select" for="anrede"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_anrede') ?></label>
-			<select class="select" id="anrede" name="anrede" size="1">
+			<select class="select" name="anrede" size="1">
                 <?php
                     $title_ids = [-1, 0, 1, 2];
                     foreach ($title_ids as $title_id) {
@@ -148,19 +148,19 @@ if ($showform) {
 		</div>
 		<div class="form-group yform-element" id="yform-formular-grad">
 			<label class="control-label" for="grad"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_grad') ?></label>
-			<input class="form-control" name="grad" id="grad" value="<?= filter_input(INPUT_POST, 'grad') ?>" type="text" maxlength="15">
+			<input class="form-control" name="grad" value="<?= filter_input(INPUT_POST, 'grad') ?>" type="text" maxlength="15">
 		</div>
 		<div class="form-group yform-element" id="yform-formular-firstname">
 			<label class="control-label" for="firstname"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_firstname') ?> *</label>
-			<input class="form-control" name="firstname" id="firstname" value="<?= filter_input(INPUT_POST, 'firstname') ?>" type="text" maxlength="30" required>
+			<input class="form-control" name="firstname" value="<?= filter_input(INPUT_POST, 'firstname') ?>" type="text" maxlength="30" required>
 		</div>
 		<div class="form-group yform-element" id="yform-formular-lastname">
 			<label class="control-label" for="lastname"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_lastname') ?> *</label>
-			<input class="form-control" name="lastname" id="lastname" value="<?= filter_input(INPUT_POST, 'lastname') ?>" type="text" maxlength="30" required>
+			<input class="form-control" name="lastname" value="<?= filter_input(INPUT_POST, 'lastname') ?>" type="text" maxlength="30" required>
 		</div>
 		<div class="form-group yform-element" id="yform-formular-email">
 			<label class="control-label" for="email"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?> *</label>
-			<input class="form-control" name="email" id="lastname" value="<?= filter_input(INPUT_POST, 'email') ?>" type="email" maxlength="100" required>
+			<input class="form-control" name="email" value="<?= filter_input(INPUT_POST, 'email') ?>" type="email" maxlength="100" required>
 		</div>
 		<?php
             if (1 === count($group_ids)) {
@@ -187,7 +187,7 @@ if ($showform) {
             // Privacy policy
             echo '<div class="form-group yform-element" id="yform-formular">';
             echo '<label class="control-label" for="privacy_policy">';
-            echo '<input class="checkbox" name="privacy_policy" id="yform-formular-privacy-policy" value="1" type="checkbox"'. (1 === filter_input(INPUT_POST, 'privacy_policy', FILTER_VALIDATE_INT) ? ' checked="checked"' : '') .' required>';
+            echo '<input class="checkbox" name="privacy_policy" value="1" type="checkbox"'. (1 === filter_input(INPUT_POST, 'privacy_policy', FILTER_VALIDATE_INT) ? ' checked="checked"' : '') .' required>';
             echo (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_privacy_policy') .' *</label>';
             echo '</div>';
         ?>
