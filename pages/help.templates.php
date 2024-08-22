@@ -9,4 +9,6 @@
 			echo rex_string::highlight($file_content);
 		}
 	?>
+	<p>Templates können z.B. unter <a href="https://usewaypoint.github.io/email-builder-js/" target="_blank">
+		https://usewaypoint.github.io/email-builder-js/</a> erstellt werden.</p>
 </fieldset>
