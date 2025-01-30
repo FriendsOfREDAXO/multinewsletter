@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.6.6-DEV</p>
+	<ul>
+		<li>Bugfix: Fehler im Modul 80-4 "MultiNewsletter YForm Anmeldung" behoben.</li>
+	</ul>
 	<p>3.6.5</p>
 	<ul>
 		<li>Bugfix: Import gleicher E-Mail-Adressen mit unterschiedlicher Groß- und Kleinschreibung unterbunden.</li>
