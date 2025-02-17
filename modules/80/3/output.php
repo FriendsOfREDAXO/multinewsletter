@@ -15,7 +15,7 @@ if (rex_addon::get('emailobfuscator')->isAvailable() && false !== $email) {
     emailobfuscator::whitelistEmail($email);
 }
 
-if ('' === $activationkey && false !== $email) {
+if ('' !== $activationkey && false !== $email) {
     $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($email);
     if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->activationkey === $activationkey) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful') .'</p>';
@@ -33,7 +33,7 @@ $group_ids = is_array($form_groups['groups']) ? $form_groups['groups'] : [];
 
 $messages = [];
 
-if ('' !== filter_input(INPUT_POST, 'submit')) {
+if (null !== filter_input(INPUT_POST, 'submit')) {
     $save = true;
     // Fehlermeldungen finden
     if (false === $email) {
@@ -117,7 +117,7 @@ if ($showform) {
 	<form action="<?= rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId()) ?>" method="post" name="subscribe" class="rex-yform">
 		<div class="form-group yform-element" id="yform-formular-email">
 			<label class="control-label" for="email"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?> *</label>
-			<input class="form-control" name="email" id="email" value="<?= false !== $email ? $email : '' ?>" type="email" maxlength="100" required>
+			<input class="form-control" name="email" id="email" value="<?= (false !== $email ? $email : '') ?>" type="email" maxlength="100" required>
 		</div>
 		<?php
             if (1 === count($group_ids)) {
