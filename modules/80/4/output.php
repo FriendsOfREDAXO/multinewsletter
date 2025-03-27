@@ -108,7 +108,7 @@ if (strlen($activationkey) > 5 && false !== $email) {
     }
     if (rex_addon::get('yform_spam_protection')->isAvailable()) {
         $form_data .= '
-            spam_protection|honeypot|Bitte nicht ausfüllen|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_spam_detected') .'|0';
+            spam_protection|honeypot|Bitte nicht ausfüllen|Do not fill out.|0';
     }
 
     $form_data .= 'validate|empty|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'

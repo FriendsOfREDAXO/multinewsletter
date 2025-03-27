@@ -3,7 +3,7 @@
 	<p>3.6.6-DEV</p>
 	<ul>
 		<li>Bugfix: Fehler im Modul 80-3 "MultiNewsletter Anmeldung nur mit Mail" behoben.</li>
-		<li>Bugfix: Fehler im Modul 80-4 "MultiNewsletter YForm Anmeldung" behoben.</li>
+		<li>Bugfix: Fehler im Modul 80-4 "MultiNewsletter YForm Anmeldung" behoben und Platzhalter entfernt.</li>
 	</ul>
 	<p>3.6.5</p>
 	<ul>
