@@ -21,7 +21,7 @@ class Module
             10);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-2',
             'MultiNewsletter Abmeldung',
-            9);
+            10);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-3',
             'MultiNewsletter Anmeldung nur mit Mail',
             10);

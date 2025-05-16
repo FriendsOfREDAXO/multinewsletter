@@ -31,7 +31,7 @@ if (rex::isBackend()) {
         }
     }
 
-    if (false === $unsubscribe_mail) {
+    if (rex_request('unsubscribe', 'string', '') !== '' && false === $unsubscribe_mail) {
         echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email') .'</p><br />';
     }
 

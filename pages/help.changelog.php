@@ -1,7 +1,8 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-	<p>3.6.6-DEV</p>
+	<p>3.6.6</p>
 	<ul>
+		<li>Bugfix: Fehler im Modul 80-2 "MultiNewsletter Abmeldung" behoben.</li>
 		<li>Bugfix: Fehler im Modul 80-3 "MultiNewsletter Anmeldung nur mit Mail" behoben.</li>
 		<li>Bugfix: Fehler im Modul 80-4 "MultiNewsletter YForm Anmeldung" behoben und Platzhalter entfernt.</li>
 	</ul>
