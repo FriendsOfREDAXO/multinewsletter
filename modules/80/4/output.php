@@ -52,12 +52,12 @@ if (strlen($activationkey) > 5 && false !== $email) {
     // Handle activation key
     $user = FriendsOfRedaxo\MultiNewsletter\User::initByMail($email);
     if ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && $user->activationkey === $activationkey) {
-        echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful', '') .'</p>';
+        echo '<p class="alert alert-success">'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_successful', '') .'</p>';
         $user->activate();
     } elseif ($user instanceof FriendsOfRedaxo\MultiNewsletter\User && '0' === $user->activationkey) {
-        echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_confirmed', '') .'</p>';
+        echo '<p class="alert alert-danger">'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_already_confirmed', '') .'</p>';
     } else {
-        echo '<p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key', '') .'</p>';
+        echo '<p class="alert alert-danger">'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_key', '') .'</p>';
     }
 } else {
     $ask_name = 'REX_VALUE[2]' === 'true' ? true : false; /** @phpstan-ignore-line */
