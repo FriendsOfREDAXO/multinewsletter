@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.6.7-DEV</p>
+	<ul>
+		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Ergebnismeldung Bootstrap konform formatiert.</li>
+	</ul>
 	<p>3.6.6</p>
 	<ul>
 		<li>Bugfix: Fehler im Modul 80-2 "MultiNewsletter Abmeldung" behoben.</li>

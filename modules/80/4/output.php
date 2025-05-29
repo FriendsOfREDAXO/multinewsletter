@@ -125,7 +125,12 @@ if (strlen($activationkey) > 5 && false !== $email) {
     $yform->setObjectparams('form_name', 'multinewsletter_module_80_4_REX_SLICE_ID');
 
     // action - showtext
-    $yform->setActionField('showtext', [$addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_sent', '')]);
+    $yform->setActionField('showtext', [
+        $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_confirmation_sent', ''),
+        '<a name="form-feedback"><div class="alert alert-success">',
+        '</div>',
+        '0'
+    ]);
 
     echo $yform->getForm();
 }
