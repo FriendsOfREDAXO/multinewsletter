@@ -58,7 +58,7 @@ class Userlist
         if ($clang_id > 0) {
             $params['clang_id'] = $clang_id;
         }
-        $query = 'SELECT id FROM ' . rex::getTablePrefix() . '375_user WHERE ' . implode(' AND ', $filter) . ' ORDER BY firstname, lastname';
+        $query = 'SELECT id FROM ' . rex::getTablePrefix() . '375_user WHERE ' . implode(' AND ', $filter) . ' ORDER BY firstname, lastname, email';
         $sql->setQuery($query, $params);
         $num_rows = $sql->getRows();
 
