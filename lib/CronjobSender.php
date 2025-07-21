@@ -24,7 +24,7 @@ class CronjobSender extends \TobiasKrais\D2UHelper\ACronJob
     public function install(): void
     {
         $description = 'Sendet ausstehende Newsletter im Hintergrund. Aktiviert und deaktiviert sich automatisch.';
-        $php_code = '<?php FriendsOfRedaxo\MultiNewsletter\NewsletterManager::cronSend(); ?>';
+        $php_code = '<?php \\\\\\\\FriendsOfRedaxo\\\\\\\\MultiNewsletter\\\\\\\\NewsletterManager::cronSend(); ?>';
         $interval = '{\"minutes\":\"all\",\"hours\":\"all\",\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}';
         $activate = false;
         self::save($description, $php_code, $interval, $activate);

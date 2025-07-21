@@ -4,6 +4,7 @@
 	<ul>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Ergebnismeldung Bootstrap konform formatiert.</li>
 		<li>Sortierung der manuellen Benutzerauswahl bei Versand von Newslettern um E-Mail-Adresse ergänzt.</li>
+		<li>Bugfix: PHP Befehl bei Installation des Cronjobs wird nun korrekt gespeichert.</li>
 	</ul>
 	<p>3.6.6</p>
 	<ul>
