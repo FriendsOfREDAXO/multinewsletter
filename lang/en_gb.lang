@@ -264,5 +264,17 @@ multinewsletter_help_chapter_faq = FAQ
 multinewsletter_hinzufuegen = Add
 multinewsletter_delete = Entry deleted
 
+# Bounce Management
+multinewsletter_expl_bounce_management = Bounce management automatically processes rejected emails via an IMAP mailbox. Hard bounces lead to immediate deactivation, soft bounces after 3 attempts, spam complaints to subscription deletion.
+multinewsletter_config_bounce_enabled = Enable bounce management
+multinewsletter_config_bounce_imap_host = IMAP Server
+multinewsletter_config_bounce_imap_port = IMAP Port
+multinewsletter_config_bounce_imap_user = IMAP Username
+multinewsletter_config_bounce_imap_password = IMAP Password
+multinewsletter_config_bounce_imap_ssl = Use SSL/TLS
+multinewsletter_config_bounce_imap_mailbox = IMAP Mailbox
+multinewsletter_config_bounce_auto_process = Enable automatic processing via cronjob
+multinewsletter_config_test_imap_connection = Test IMAP Connection
+
 multinewsletter_lang_no_fallback = send nothing
 multinewsletter_lang_d2u_helper = Use D2U Helper base language

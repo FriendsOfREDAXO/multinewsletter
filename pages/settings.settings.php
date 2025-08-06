@@ -295,6 +295,67 @@ foreach (rex_clang::getAll() as $rex_clang) {
 			</fieldset>
 
 			<fieldset>
+				<legend><?= rex_i18n::msg('multinewsletter_config_title_bounce_management') ?></legend>
+				<div class="panel-body-wrapper slide">
+					<dl class="rex-form-group form-group">
+						<dt><label for="expl_bounce_management"></label></dt>
+						<dd><?= rex_i18n::msg('multinewsletter_expl_bounce_management') ?></dd>
+					</dl>
+					<?php
+                        \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_bounce_enabled', 'settings[bounce_enabled]', 'active', 'active' === rex_config::get('multinewsletter', 'bounce_enabled', 'inactive'));
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_bounce_imap_host', 'settings[bounce_imap_host]', (string) rex_config::get('multinewsletter', 'bounce_imap_host'));
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_bounce_imap_port', 'settings[bounce_imap_port]', (int) rex_config::get('multinewsletter', 'bounce_imap_port', 993), false, false, 'number');
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_bounce_imap_user', 'settings[bounce_imap_user]', (string) rex_config::get('multinewsletter', 'bounce_imap_user'));
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_bounce_imap_password', 'settings[bounce_imap_password]', (string) rex_config::get('multinewsletter', 'bounce_imap_password'), false, false, 'password');
+                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_bounce_imap_ssl', 'settings[bounce_imap_ssl]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'bounce_imap_ssl', 1)]);
+                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_bounce_imap_mailbox', 'settings[bounce_imap_mailbox]', (string) rex_config::get('multinewsletter', 'bounce_imap_mailbox', 'INBOX'));
+                        
+                        // Test connection button
+                        echo '<dl class="rex-form-group form-group">';
+                        echo '<dt><label></label></dt>';
+                        echo '<dd><button type="button" class="btn btn-primary" onclick="testImapConnection()">' . rex_i18n::msg('multinewsletter_config_test_imap_connection') . '</button>';
+                        echo '<div id="imap-test-result" style="margin-top: 10px;"></div></dd>';
+                        echo '</dl>';
+                        
+                        if (rex_addon::get('cronjob')->isAvailable()) {
+                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_bounce_auto_process', 'settings[bounce_auto_process]', 'active', 'active' === rex_config::get('multinewsletter', 'bounce_auto_process') && FriendsOfRedaxo\MultiNewsletter\CronjobBounceProcessor::factory()->isInstalled());
+                        }
+                    ?>
+                    <script>
+                        function testImapConnection() {
+                            var resultDiv = document.getElementById('imap-test-result');
+                            resultDiv.innerHTML = '<div class="alert alert-info">Testing IMAP connection...</div>';
+                            
+                            var formData = new FormData();
+                            formData.append('bounce_imap_host', document.querySelector('input[name="settings[bounce_imap_host]"]').value);
+                            formData.append('bounce_imap_port', document.querySelector('input[name="settings[bounce_imap_port]"]').value);
+                            formData.append('bounce_imap_user', document.querySelector('input[name="settings[bounce_imap_user]"]').value);
+                            formData.append('bounce_imap_password', document.querySelector('input[name="settings[bounce_imap_password]"]').value);
+                            formData.append('bounce_imap_ssl', document.querySelector('select[name="settings[bounce_imap_ssl]"]').value);
+                            formData.append('bounce_imap_mailbox', document.querySelector('input[name="settings[bounce_imap_mailbox]"]').value);
+                            formData.append('test_imap_connection', '1');
+                            
+                            fetch('', {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                if (data.includes('success')) {
+                                    resultDiv.innerHTML = '<div class="alert alert-success">IMAP connection successful!</div>';
+                                } else {
+                                    resultDiv.innerHTML = '<div class="alert alert-danger">IMAP connection failed: ' + data + '</div>';
+                                }
+                            })
+                            .catch(error => {
+                                resultDiv.innerHTML = '<div class="alert alert-danger">Error testing connection: ' + error + '</div>';
+                            });
+                        }
+                    </script>
+				</div>
+			</fieldset>
+
+			<fieldset>
 				<legend><?= rex_i18n::msg('multinewsletter_config_title_mailchimp') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<dl class="rex-form-group form-group">
