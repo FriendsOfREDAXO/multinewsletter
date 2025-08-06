@@ -81,6 +81,7 @@ multinewsletter_config_autosend = Autosend Option aktivieren und Autosend Cronjo
 multinewsletter_config_install_cronjob = Wenn Sie die Autosend oder AutoCleanUp Option aktivieren möchten, müssen Sie das Cronjob Addon installieren.
 multinewsletter_config_install_yform3_required = Für dieses Modul wird YForm 3 oder höher benötigt.
 multinewsletter_config_title_serverlimits = Serverlimits beim Versand
+multinewsletter_config_title_bounce_management = Bounce Management (IMAP)
 multinewsletter_config_title_testmails = Voreinstellungen für Testmails
 multinewsletter_config_default_test_anrede = Anrede
 multinewsletter_config_default_test_nachname = Nachname
@@ -263,6 +264,42 @@ multinewsletter_help_chapter_faq = FAQ
 
 multinewsletter_hinzufuegen = Hinzufügen
 multinewsletter_delete = Eintrag gelöscht
+
+# Bounce Management
+multinewsletter_expl_bounce_management = Das Bounce Management verarbeitet automatisch zurückgewiesene E-Mails über ein IMAP-Postfach. Hard Bounces führen zur sofortigen Deaktivierung, Soft Bounces nach 3 Versuchen, Spam-Beschwerden zur Löschung des Abonnements.
+multinewsletter_config_bounce_enabled = Bounce Management aktivieren
+multinewsletter_config_bounce_imap_host = IMAP Server
+multinewsletter_config_bounce_imap_port = IMAP Port
+multinewsletter_config_bounce_imap_user = IMAP Benutzername
+multinewsletter_config_bounce_imap_password = IMAP Passwort
+multinewsletter_config_bounce_imap_ssl = SSL/TLS verwenden
+multinewsletter_config_bounce_imap_mailbox = IMAP Postfach
+multinewsletter_config_bounce_auto_process = Automatische Verarbeitung per Cronjob aktivieren
+multinewsletter_config_test_imap_connection = IMAP Verbindung testen
+
+multinewsletter_bounce_management = Bounce Management
+multinewsletter_bounce_management_description = Automatische Verwaltung von zurückgewiesenen E-Mails über IMAP-Postfach.
+multinewsletter_bounce_management_disabled = Bounce Management ist deaktiviert. Bitte aktivieren Sie es in den Einstellungen.
+multinewsletter_enable_bounce_management = Bounce Management aktivieren
+multinewsletter_process_bounces_manually = Bounces manuell verarbeiten
+multinewsletter_bounce_processing_success = {0} E-Mails verarbeitet: {1} Hard Bounces, {2} Soft Bounces, {3} Spam-Beschwerden
+multinewsletter_bounce_no_emails = Keine neuen Bounce-E-Mails gefunden
+multinewsletter_bounce_statistics = Bounce Statistiken
+multinewsletter_total_bounces_30_days = Bounces (30 Tage)
+multinewsletter_hard_bounces = Hard Bounces
+multinewsletter_soft_bounces = Soft Bounces
+multinewsletter_spam_complaints = Spam-Beschwerden
+multinewsletter_bounce_stats_error = Fehler beim Laden der Bounce-Statistiken
+multinewsletter_recent_bounces = Aktuelle Bounces
+multinewsletter_bounce_date = Datum
+multinewsletter_bounce_user = Benutzer
+multinewsletter_bounce_type = Typ
+multinewsletter_bounce_subject = Betreff
+multinewsletter_hard_bounce = Hard Bounce
+multinewsletter_soft_bounce = Soft Bounce
+multinewsletter_spam_complaint = Spam-Beschwerde
+multinewsletter_no_bounces_yet = Noch keine Bounces verzeichnet
+multinewsletter_bounce_list_error = Fehler beim Laden der Bounce-Liste
 
 multinewsletter_lang_no_fallback = kein Newsletter versenden
 multinewsletter_lang_d2u_helper = Ausgangssprache aus den Einstellungen des D2U Helper Addons verwenden

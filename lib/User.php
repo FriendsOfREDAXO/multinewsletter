@@ -72,6 +72,9 @@ class User
     /** @var int Has privacy policy been accepted? 1 = yes, 0 = no */
     public int $privacy_policy_accepted = 0;
 
+    /** @var int Soft bounce counter for bounce management */
+    public int $soft_bounce_count = 0;
+
     /**
      * Get user data from database.
      * @param int $user_id user id
@@ -104,6 +107,7 @@ class User
             $this->updateip = (string) $result->getValue('updateip');
             $this->subscriptiontype = (string) $result->getValue('subscriptiontype');
             $this->privacy_policy_accepted = (int) $result->getValue('privacy_policy_accepted');
+            $this->soft_bounce_count = (int) $result->getValue('soft_bounce_count');
         }
     }
 
