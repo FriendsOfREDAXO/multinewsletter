@@ -1,6 +1,6 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-	<p>3.6.7-DEV</p>
+	<p>3.6.7</p>
 	<ul>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": Ergebnismeldung Bootstrap konform formatiert.</li>
 		<li>Sortierung der manuellen Benutzerauswahl bei Versand von Newslettern um E-Mail-Adresse ergänzt.</li>
