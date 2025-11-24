@@ -1,8 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-	<p>3.6.8-DEV</p>
+	<p>3.6.8</p>
 	<ul>
-		<li>...</li>
+		<li>Header beim Versand von automatischen Mails gesetzt, um automatisch Antworten wie Abwesenheitsnotizen zu vermeiden.</li>
+		<li>List-Unsubscribe Header beim Versand von Newslettern gesetzt, wenn Abmeldelink in den Einstellungen vorhanden ist.</li>
 	</ul>
 	<p>3.6.7</p>
 	<ul>

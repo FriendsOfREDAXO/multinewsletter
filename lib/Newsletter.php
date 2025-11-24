@@ -18,6 +18,7 @@ use rex_socket;
 use rex_socket_exception;
 use rex_socket_response;
 use rex_sql;
+use rex_url;
 use rex_view;
 use rex_yrewrite;
 
@@ -413,6 +414,18 @@ class Newsletter
             $mail->Subject = self::personalize($this->subject, $multinewsletter_user, $article);
             $body = self::personalize($this->htmlbody, $multinewsletter_user, $article);
             $mail->Body = self::replaceURLs($body, $article instanceof rex_article ? $article->getId() : 0, $article instanceof rex_article ? $article->getClangId() : \rex_clang::getCurrentId());
+            // set Auto-Submitted: auto-generated and X-Auto-Response-Suppress: All header to avoid auto mail loops
+            $mail->addCustomHeader('Auto-Submitted', 'auto-generated');
+            $mail->addCustomHeader('X-Auto-Response-Suppress', 'All');
+            // set unsubscribe header
+            if ($addon_multinewsletter instanceof rex_addon && (int) $addon_multinewsletter->getConfig('link_abmeldung') > 0) {
+                $unsubscribe_url_article = rex_article::get((int) $addon_multinewsletter->getConfig('link_abmeldung'), $multinewsletter_user->clang_id);
+                if ($unsubscribe_url_article instanceof rex_article) {
+                    $unsubscribe_url = $unsubscribe_url_article->getUrl( ['unsubscribe' => $multinewsletter_user->email]);
+                    $mail->addCustomHeader('List-Unsubscribe', '<'. $unsubscribe_url .'>');
+                }
+            }
+
             $success = $mail->send();
             if (!$success) {
                 echo rex_view::error(rex_i18n::msg('multinewsletter_archive_recipients_failure') .': '. $multinewsletter_user->email .' - '. $mail->ErrorInfo);

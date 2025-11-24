@@ -349,6 +349,9 @@ class User
                 $mail->Username = (string) $addon_multinewsletter->getConfig('smtp_user');
                 $mail->Password = (string) $addon_multinewsletter->getConfig('smtp_password');
             }
+            // set Auto-Submitted: auto-generated and X-Auto-Response-Suppress: All header to avoid auto mail loops
+            $mail->addCustomHeader('Auto-Submitted', 'auto-generated');
+            $mail->addCustomHeader('X-Auto-Response-Suppress', 'All');
 
             return $mail->send();
         }
@@ -394,6 +397,9 @@ class User
                 $mail->Username = (string) $addon_multinewsletter->getConfig('smtp_user');
                 $mail->Password = (string) $addon_multinewsletter->getConfig('smtp_password');
             }
+            // set Auto-Submitted: auto-generated and X-Auto-Response-Suppress: All header to avoid auto mail loops
+            $mail->addCustomHeader('Auto-Submitted', 'auto-generated');
+            $mail->addCustomHeader('X-Auto-Response-Suppress', 'All');
 
             return $mail->send();
         }
