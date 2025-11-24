@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.6.9-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.6.8</p>
 	<ul>
 		<li>Header beim Versand von automatischen Mails gesetzt, um automatisch Antworten wie Abwesenheitsnotizen zu vermeiden.</li>
