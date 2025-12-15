@@ -41,6 +41,7 @@
     ->ensureColumn(new \rex_sql_column('firstname', 'VARCHAR(191)', true))
     ->ensureColumn(new \rex_sql_column('lastname', 'VARCHAR(191)', true))
     ->ensureColumn(new \rex_sql_column('title', 'TINYINT(4)', true))
+    ->ensureColumn(new \rex_sql_column('phone', 'VARCHAR(191)', true))
     ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', true))
     ->ensureColumn(new \rex_sql_column('status', 'TINYINT(1)', true))
     ->ensureColumn(new \rex_sql_column('group_ids', 'TEXT', true))
