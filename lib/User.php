@@ -121,7 +121,7 @@ class User
      * @param int $clang_id Redaxo clang id
      * @return self initialized user
      */
-    public static function factory($email, $title, $grad, $firstname, $lastname, $clang_id)
+    public static function factory($email, $title, $grad, $firstname, $lastname, $phone, $clang_id)
     {
         $user = self::initByMail($email);
         if(!$user instanceof User) {
