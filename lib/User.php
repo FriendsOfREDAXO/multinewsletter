@@ -30,6 +30,9 @@ class User
     /** @var string Last name */
     public string $lastname = '';
 
+    /** @var string phone */
+    public string $phone = '';
+
     /** @var int Title -1 without, 0 = Mr., 1 = Mrs., 2 = Mx */
     public int $title = -1;
 
@@ -88,6 +91,7 @@ class User
             $this->grad = (string) $result->getValue('grad');
             $this->firstname = stripslashes((string) $result->getValue('firstname'));
             $this->lastname = stripslashes((string) $result->getValue('lastname'));
+            $this->phone = stripslashes((string) $result->getValue('phone'));
             $this->title = (int) $result->getValue('title');
             $this->clang_id = (int) $result->getValue('clang_id');
             $this->status = (int) $result->getValue('status');
@@ -129,6 +133,7 @@ class User
         $user->grad = $grad;
         $user->firstname = $firstname;
         $user->lastname = $lastname;
+        $user->phone = $phone;
         $user->clang_id = $clang_id;
         $user->status = 1;
         $user->createdate = date('Y-m-d H:i:s');
@@ -268,6 +273,7 @@ class User
                     ."grad = '". $this->grad ."', "
                     ."firstname = '". addslashes($this->firstname) ."', "
                     ."lastname = '". addslashes($this->lastname) ."', "
+                    ."phone = '". addslashes($this->phone) ."', "
                     .'title = '. $this->title .', '
                     .'clang_id = '. $this->clang_id .', '
                     .'status = '. $this->status .', '
