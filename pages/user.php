@@ -480,6 +480,10 @@ elseif ('edit' === $func || 'add' === $func) {
     $field = $form->addTextField('lastname');
     $field->setLabel(rex_i18n::msg('multinewsletter_newsletter_lastname'));
 
+	// Telefon
+    $field = $form->addTextField('phone');
+    $field->setLabel(rex_i18n::msg('multinewsletter_newsletter_phone'));
+
     // Sprache
     $field = $form->addSelectField('clang_id');
     $field->setLabel(rex_i18n::msg('multinewsletter_newsletter_clang'));
