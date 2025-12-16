@@ -54,6 +54,34 @@
 			<br>
 		</li>
 		<li>
+			<p><strong>Frage: Wie kann ich regelmäßig oder einmalig um eine bestimmte Uhrzeit einen
+				Artikel auslesen und als Newsletter versenden?</strong></p>
+			<p>Dazu ist es nötig einen Cronjob zu erstellen und ihn zum gewünschten Zeitpunkt auszuführen.
+				Hier der Beispielcode, der in den Cronjob eingefügt werden muss:</p>
+				<?php
+					$code = <<<'EOD'
+<?php
+	rex_login::startSession();
+	$newsletterManager = new FriendsOfRedaxo\MultiNewsletter\NewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'));
+	// Newslettergruppe
+	$group = 1;
+	// Article-ID des Newsletters
+	$article_id = 1;
+	$newsletterManager->prepare([$group], // Group ID
+		$article_id, // Article ID
+		1
+	);
+	foreach($newsletterManager->archives as $archive) {
+		$archive->setAutosend();
+	}
+	FriendsOfRedaxo\MultiNewsletter\NewsletterManager::cronSend();
+EOD;
+					echo rex_string::highlight($code);
+				?>
+			</p>
+			<br>
+		</li>
+		<li>
 			<p><strong>Frage: Warum wird die Aktivierungsmail nicht verschickt, die anderen
 					Mails aber schon?</strong></p>
 			<p>Wenn die <a href="<?= rex_url::backendPage('multinewsletter/config') ?>">
@@ -66,7 +94,7 @@
 			<p>Ja. Hierzu muss das CronJob Addon aktiviert sein und in den Einstellungen
 				eine Admin E-Mail-Adresse hinterlegt sein, sowie die Autosend Option
 				aktiviert werden. Durch folgende Methode kann der Versand gestartet werden:</p>
-			<pre>FriendsOfRedaxo\MultiNewsletter\NewsletterManager::autosend($group_ids, $article_id, $fallback_clang_id, $recipient_ids = [], $attachments = '')</pre>
+			<pre><?= rex_string::highlight('FriendsOfRedaxo\MultiNewsletter\NewsletterManager::autosend($group_ids, $article_id, $fallback_clang_id, $recipient_ids = [], $attachments = "")') ?></pre>
 			<p>Hinweise zu den Parametern:</p>
 			<ul>
 				<li>$group_ids: Array mit IDs der Gruppen an die der Newsletter versendet

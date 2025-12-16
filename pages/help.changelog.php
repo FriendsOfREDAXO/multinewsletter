@@ -2,7 +2,7 @@
 	<legend>MultiNewsletter Changelog</legend>
 	<p>3.6.9-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>FAQ zum automatischen versenden um bestimmte Uhrzeiten erweitert.</li>
 	</ul>
 	<p>3.6.8</p>
 	<ul>
