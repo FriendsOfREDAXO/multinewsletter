@@ -88,6 +88,7 @@ if (null !== filter_input(INPUT_POST, 'submit')) {
                 $user->title = rex_request::post('anrede', 'int');
                 $user->firstname = rex_request::post('firstname', 'string');
                 $user->lastname = rex_request::post('lastname', 'string');
+                $user->phone = rex_request::post('phone', 'string');
                 $user->clang_id = rex_clang::getCurrentId();
             } else {
                 $user = FriendsOfRedaxo\MultiNewsletter\User::factory(
@@ -97,6 +98,7 @@ if (null !== filter_input(INPUT_POST, 'submit')) {
                     rex_request::post('firstname', 'string'),
                     rex_request::post('lastname', 'string'),
                     rex_clang::getCurrentId(),
+                    rex_request::post('phone', 'string')
                 );
             }
             $user->createdate = date('Y-m-d H:i:s');

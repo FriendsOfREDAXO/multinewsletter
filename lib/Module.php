@@ -18,16 +18,16 @@ class Module
         $d2u_multinewsletter_modules = [];
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-1',
             'MultiNewsletter Anmeldung mit Name und Anrede',
-            10);
+            11);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-2',
             'MultiNewsletter Abmeldung',
             10);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-3',
             'MultiNewsletter Anmeldung nur mit Mail',
-            10);
+            11);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-4',
             'MultiNewsletter YForm Anmeldung',
-            11);
+            12);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-5',
             'MultiNewsletter YForm Abmeldung',
             6);
