@@ -19,8 +19,7 @@
             $select_feature = new rex_select();
             $select_feature->setName('REX_INPUT_VALUE[1][]');
             $select_feature->setMultiple(true);
-            $select_feature->setSize(10);
-            $select_feature->setAttribute('class', 'form-control');
+            $select_feature->setAttribute('class', 'form-control selectpicker');
 
             // Daten
             foreach ($group_ids as $group_id => $name) {

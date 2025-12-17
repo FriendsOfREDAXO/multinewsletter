@@ -74,6 +74,8 @@ multinewsletter_newsletter_send_cron_abort = Versand abbrechen
 multinewsletter_newsletter_send_cron_active = Automatischer Newsletterversand aktiviert. Nach dem Versand erhalten Sie eine Nachricht an die in den Einstellungen hinterlegte Admin E-Mailadresse. Sie können nun einen weiteren Newsletter für den automatischen Versand vorbereiten.
 multinewsletter_newsletter_send_cron_not_available = Automatischer Newsletter Versand nicht verfügbar. Bitte installieren Sie falls gewünscht das Cronjob Addon. Aktivieren Sie außerdem die Autosend Option in den Einstellungen und tragen Sie auch die Admin Mailadresse ein.
 multinewsletter_newsletter_send_cron_warning = Im Moment läuft der Versand eines Newsletters im Hintergrund. Bitte starten Sie keinen manuellen Versand, um die Serverlimits einzuhalten. Ein weiterer automatischer Versand kann hinzugefügt werden.
+multinewsletter_newsletter_send_startdate = Versand-Startdatum
+multinewsletter_newsletter_send_startdate_hint = Optional: Datum und Uhrzeit, ab wann der automatische Versand starten soll. Wenn leer, startet der Versand sofort.
 multinewsletter_newsletter_key = Aktivierungscode
 
 multinewsletter_config_admin_email = E-Mailadresse Admin
@@ -237,6 +239,7 @@ multinewsletter_error_noarticle = Fehler: Kein Artikel angegeben.
 multinewsletter_error_invalidemail = Fehler: Ungültige E-Mail-Adresse
 multinewsletter_error_articlenotfound = Artikel nicht gefunden, bzw. offline geschaltet. (Artikel-ID {0}, Sprache {1})
 multinewsletter_error_nogroupselected = Es wurde keine gültige Newsletter-Gruppe angegeben.
+multinewsletter_error_nousersprepared = Es wurden keine aktiven Benutzer für den Versand gefunden. Bitte überprüfen Sie die ausgewählten Gruppen.
 multinewsletter_error_senderror = Senden fehlgeschlagen.
 multinewsletter_error_send_incorrect_user = Versandfehler an
 multinewsletter_error_someclangsoffline = Achtung: Einige Benutzer erhalten keinen Newsletter, weil die folgende(n) Sprachversion(en) für den gewählten Artikel nicht online sind: {0}

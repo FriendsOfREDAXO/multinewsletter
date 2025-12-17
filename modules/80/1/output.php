@@ -162,6 +162,12 @@ if ($showform) {
 			<label class="control-label" for="email"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?> *</label>
 			<input class="form-control" name="email" value="<?= filter_input(INPUT_POST, 'email') ?>" type="email" maxlength="100" required>
 		</div>
+		<?php if ('REX_VALUE[2]' === 'true') { /** @phpstan-ignore-line */ ?>
+		<div class="form-group yform-element" id="yform-formular-phone">
+			<label class="control-label" for="phone"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_phone', 'Telefon') ?></label>
+			<input class="form-control" name="phone" value="<?= filter_input(INPUT_POST, 'phone') ?>" type="tel" maxlength="30">
+		</div>
+		<?php } ?>
 		<?php
             if (1 === count($group_ids)) {
                 foreach ($group_ids as $group_id) {

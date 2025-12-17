@@ -61,6 +61,7 @@ if (strlen($activationkey) > 5 && false !== $email) {
     }
 } else {
     $ask_name = 'REX_VALUE[2]' === 'true' ? true : false; /** @phpstan-ignore-line */
+    $ask_phone = 'REX_VALUE[3]' === 'true' ? true : false; /** @phpstan-ignore-line */
 
     // Show form
     $form_data = 'hidden|subscriptiontype|web
@@ -79,8 +80,11 @@ if (strlen($activationkey) > 5 && false !== $email) {
 			text|firstname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_firstname', '') .' *|||{"required":"required"}
 			text|lastname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_lastname', '') .' *|||{"required":"required"}'. PHP_EOL;
     }
-    $form_data .= 'text|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email', '') .' *|||{"required":"required"}
-			html||<br><br>'. PHP_EOL;
+    $form_data .= 'text|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email', '') .' *|||{"required":"required"}'. PHP_EOL;
+    if ($ask_phone) { /** @phpstan-ignore-line */
+        $form_data .= 'text|phone|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_phone', 'Telefon') . PHP_EOL;
+    }
+    $form_data .= 'html||<br><br>'. PHP_EOL;
     // Groups to be displayed
     $group_ids = (array) rex_var::toArray('REX_VALUE[1]');
     if (1 === count($group_ids)) {

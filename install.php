@@ -62,6 +62,7 @@
     ->ensureColumn(new \rex_sql_column('user_id', 'INT(11)', false))
     ->setPrimaryKey(['archive_id', 'user_id'])
     ->ensureColumn(new \rex_sql_column('autosend', 'TINYINT(1)'))
+    ->ensureColumn(new \rex_sql_column('send_startdate', 'DATETIME', true))
     ->ensure();
 
 rex_sql_table::get(rex::getTable('375_archive'))

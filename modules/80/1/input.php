@@ -19,8 +19,7 @@
             $select_feature = new rex_select();
             $select_feature->setName('REX_INPUT_VALUE[1][]');
             $select_feature->setMultiple(true);
-            $select_feature->setSize(10);
-            $select_feature->setAttribute('class', 'form-control');
+            $select_feature->setAttribute('class', 'form-control selectpicker');
 
             // Daten
             foreach ($group_ids as $group_id => $name) {
@@ -37,6 +36,17 @@
 
             $select_feature->show();
         ?>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">&nbsp;</div>
+</div>
+<div class="row">
+	<div class="col-xs-4">
+		<input type="checkbox" name="REX_INPUT_VALUE[2]" value="true" <?= 'REX_VALUE[2]' === 'true' ? ' checked="checked"' : '' /** @phpstan-ignore-line */ ?> class="form-control d2u_helper_toggle" />
+	</div>
+	<div class="col-xs-8">
+		Im Formular auch nach der Telefonnummer fragen?
 	</div>
 </div>
 <div class="row">

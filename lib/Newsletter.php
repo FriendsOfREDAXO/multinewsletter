@@ -18,7 +18,6 @@ use rex_socket;
 use rex_socket_exception;
 use rex_socket_response;
 use rex_sql;
-use rex_url;
 use rex_view;
 use rex_yrewrite;
 
@@ -77,6 +76,9 @@ class Newsletter
 
     /** @var int Number of remaining users in sendlist */
     public int $remaining_users = 0;
+
+    /** @var \DateTime|null Scheduled start date for sending (from sendlist) */
+    public ?\DateTime $send_startdate = null;
 
     /**
      * Gets object data from database.
@@ -472,12 +474,18 @@ class Newsletter
 
     /**
      * Sets sendlist archive to autosend and turn on autosend CronJob.
+     * @param \DateTime|null $send_startdate optional start date for sending
      * @return bool true, if successful
      */
-    public function setAutosend()
+    public function setAutosend(?\DateTime $send_startdate = null)
     {
+        $query = 'UPDATE '. rex::getTablePrefix() .'375_sendlist SET autosend = 1';
+        if (null !== $send_startdate) {
+            $query .= ", send_startdate = '". $send_startdate->format('Y-m-d H:i:s') ."'";
+        }
+        $query .= ' WHERE archive_id = '. $this->id;
         $result = rex_sql::factory();
-        $result->setQuery('UPDATE '. rex::getTablePrefix() .'375_sendlist SET autosend = 1 WHERE archive_id = '. $this->id);
+        $result->setQuery($query);
         if ($result->hasError()) {
             return false;
         }

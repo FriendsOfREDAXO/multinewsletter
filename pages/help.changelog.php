@@ -1,7 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-	<p>3.6.9-DEV</p>
+	<p>3.7.0</p>
 	<ul>
+		<li>Versand per Cronjob: Information über geplantes Versanddatum hinzugefügt.</li>
+		<li>Telefonnummer im Benutzerprofil hinzugefügt.</li>
 		<li>FAQ zum automatischen versenden um bestimmte Uhrzeiten erweitert.</li>
 	</ul>
 	<p>3.6.8</p>

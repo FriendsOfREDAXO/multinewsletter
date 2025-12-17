@@ -157,7 +157,18 @@ class NewsletterManager
         // Calculate maximum mails per Cronjob step (every 5 minutes)
         $numberMails = (int) round(rex_config::get('multinewsletter', 'max_mails') * rex_config::get('multinewsletter', 'versandschritte_nacheinander') * 3600 / rex_config::get('multinewsletter', 'sekunden_pause') / 12);
         $newsletterManager = new self($numberMails, true);
-        $newsletterManager->send($numberMails);
+        
+        // Check if there are newsletters to send now
+        if ($newsletterManager->countRemainingUsers() > 0) {
+            $newsletterManager->send($numberMails);
+            echo rex_view::success('Send step completed.');
+        } else {
+            // Check if there are future newsletters waiting
+            $pendingFutureCount = $newsletterManager->countRemainingUsers(true) - $newsletterManager->countRemainingUsers();
+            if ($pendingFutureCount > 0) {
+                echo rex_view::info('Waiting for scheduled send. '. $pendingFutureCount .' recipients waiting for future start date.');
+            }
+        }
 
         // Send final admin notification
         foreach ($newsletterManager->archives as $archive) {
@@ -192,30 +203,36 @@ class NewsletterManager
             }
         }
 
-        // Deactivate Cronjob
-        if (0 === count($newsletterManager->archives)) {
+        // Deactivate Cronjob only if no current and no future autosend entries exist
+        if (0 === count($newsletterManager->archives) && 0 === $newsletterManager->countRemainingUsers(true)) {
             CronjobSender::factory()->deactivate();
         }
-
-        echo rex_view::success('Step completed.');
     }
 
     /**
      * Get newsletter archives which are on send list.
      * @param bool $manual_send_only if true, autosend archives are excluded
+     * @param bool $includeFutureAutosend if true, autosend archives with future send_startdate are included
      * @return array<int,Newsletter> Array with Newsletter archives
      */
-    public static function getArchivesToSend($manual_send_only = true)
+    public static function getArchivesToSend(bool $manual_send_only = true, bool $includeFutureAutosend = false)
     {
-        $query = 'SELECT archive_id FROM '. rex::getTablePrefix() .'375_sendlist '
-            .($manual_send_only ? 'WHERE autosend = 0 ' : '')
-            .'GROUP BY archive_id';
+        $query = 'SELECT archive_id, send_startdate FROM '. rex::getTablePrefix() .'375_sendlist ';
+        if ($manual_send_only) {
+            $query .= 'WHERE autosend = 0 ';
+        } elseif (!$includeFutureAutosend) {
+            $query .= 'WHERE (autosend = 0 OR (autosend = 1 AND (send_startdate IS NULL OR send_startdate <= NOW()))) ';
+        }
+        $query .= 'GROUP BY archive_id';
         $result = rex_sql::factory();
         $result->setQuery($query);
 
         $newsletter_archives = [];
         for ($i = 0; $result->getRows() > $i; ++$i) {
             $newsletter = new Newsletter((int) $result->getValue('archive_id'));
+            if ('' !== (string) $result->getValue('send_startdate')) {
+                $newsletter->send_startdate = \DateTime::createFromFormat('Y-m-d H:i:s', (string) $result->getValue('send_startdate')) ?: null;
+            }
             $newsletter_archives[$newsletter->id] = $newsletter;
 
             $result->next();
@@ -242,7 +259,7 @@ class NewsletterManager
     private function initArchivesToSend(): void
     {
         $query = 'SELECT archive_id FROM '. rex::getTablePrefix() .'375_sendlist '
-            .($this->autosend_only ? 'WHERE autosend = 1 ' : '')
+            .($this->autosend_only ? 'WHERE autosend = 1 AND (send_startdate IS NULL OR send_startdate <= NOW()) ' : '')
             .'GROUP BY archive_id';
         $result = rex_sql::factory();
         $result->setQuery($query);
@@ -265,7 +282,7 @@ class NewsletterManager
             . 'LEFT JOIN ' . rex::getTablePrefix() . '375_user AS users '
                 . 'ON sendlist.user_id = users.id '
             . 'WHERE id > 0 '
-            .($this->autosend_only ? 'AND autosend = 1 ' : '')
+            .($this->autosend_only ? 'AND autosend = 1 AND (send_startdate IS NULL OR send_startdate <= NOW()) ' : '')
             . 'ORDER BY archive_id, email';
         if ($numberMails > 0) {
             $query .= ' LIMIT 0, ' . $numberMails;
@@ -283,13 +300,17 @@ class NewsletterManager
      * Returns pending user number. If autosend_only in this object is true,
      * only autosend number is returned, otherwise only not autosend user number
      * is returned.
+     * @param bool $includeFutureAutosend If true, also count autosend entries with future start date
      * @return int Pending user number
      */
-    public function countRemainingUsers()
+    public function countRemainingUsers(bool $includeFutureAutosend = false)
     {
         if (0 === $this->remaining_users) {
             $query = 'SELECT COUNT(*) as total FROM ' . rex::getTablePrefix() . '375_sendlist'
                 .' WHERE autosend = '. ($this->autosend_only ? '1' : '0');
+            if ($this->autosend_only && !$includeFutureAutosend) {
+                $query .= ' AND (send_startdate IS NULL OR send_startdate <= NOW())';
+            }
             $result = rex_sql::factory();
             $result->setQuery($query);
 
@@ -311,7 +332,7 @@ class NewsletterManager
      * @return int[] array mit den Sprach IDs, die Offline sind und durch die
      * Fallback Sprache ersetzt wurden
      */
-    public function prepare($group_ids, $article_id, $fallback_clang_id, array $recipient_ids = [], $attachments = '')
+    public function prepare(array $group_ids, int $article_id, int $fallback_clang_id, array $recipient_ids = [], string $attachments = '')
     {
         $offline_lang_ids = [];
 
