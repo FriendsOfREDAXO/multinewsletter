@@ -4,7 +4,7 @@
 	<ul>
 		<li>Versand per Cronjob: Information über geplantes Versanddatum hinzugefügt.</li>
 		<li>Telefonnummer im Benutzerprofil hinzugefügt.</li>
-		<li>FAQ zum automatischen versenden um bestimmte Uhrzeiten erweitert.</li>
+		<li>FAQ zum automatischen Versenden um bestimmte Uhrzeiten erweitert.</li>
 	</ul>
 	<p>3.6.8</p>
 	<ul>
