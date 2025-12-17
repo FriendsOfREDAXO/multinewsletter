@@ -34,6 +34,7 @@ multinewsletter_newsletter_firstname = First name
 multinewsletter_newsletter_lastname = Last name
 multinewsletter_newsletter_grad = Title
 multinewsletter_newsletter_clang = Language
+multinewsletter_newsletter_phone = Phone
 multinewsletter_newsletter_preparedate = Create date
 multinewsletter_newsletter_privacy_policy = Privacy Policy
 multinewsletter_newsletter_privacy_policy_accepted = accepted
