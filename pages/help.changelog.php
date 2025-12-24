@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.7.1-DEV</p>
+	<ul>
+		<li>Bugfix: Telefon Feld auch in JSON für YForm hinzugefügt.</li>
+	</ul>
 	<p>3.7.0</p>
 	<ul>
 		<li>Versand per Cronjob: Information über geplantes Versanddatum hinzugefügt.</li>
