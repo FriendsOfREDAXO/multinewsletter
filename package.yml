@@ -23,7 +23,7 @@ page:
                 import: { title: 'translate:multinewsletter_config_settings_import_long', icon: rex-icon fa-download }
         help:
             icon: rex-icon rex-icon-help
-            title: 'translate:multinewsletter_menu_help'
+            title: ''
             itemClass: pull-right
             subpages:
                 import: { title: 'translate:multinewsletter_help_chapter_import', icon: rex-icon fa-download }

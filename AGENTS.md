@@ -173,7 +173,13 @@ Each module has a revision number defined in `lib/Module.php` inside the `getMod
 
 ## Versioning
 
-This addon follows [Semantic Versioning](https://semver.org/). The version number is maintained in `package.yml`. During development, the changelog uses a `-DEV` suffix.
+This addon follows [Semantic Versioning](https://semver.org/):
+
+- **Major** (1st digit): Breaking changes (e.g. removed classes, renamed methods, incompatible DB changes)
+- **Minor** (2nd digit): New features, new modules, new database fields (backward compatible)
+- **Patch** (3rd digit): Bug fixes, small improvements (backward compatible)
+
+The version number is maintained in `package.yml`. During development, the changelog uses a `-DEV` suffix.
 
 ## Changelog
 
