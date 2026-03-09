@@ -71,6 +71,10 @@ multinewsletter/
 - **Comments:** English comments only
 - **Backend labels:** Use `rex_i18n::msg()` with keys from `lang/` files
 
+## AGENTS.md Maintenance
+
+- When new project insights are gained during work and they are relevant to agent guidance, workflows, conventions, architecture, or known pitfalls, update this AGENTS.md accordingly.
+
 ## Key Classes
 
 | Class | Description |
