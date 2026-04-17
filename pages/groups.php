@@ -64,7 +64,8 @@ elseif ('delete' === $func) {
 }
 
 if ('' === $func) {
-    $list = rex_list::factory('SELECT id, name FROM '. rex::getTablePrefix() .'375_group ORDER BY name ASC');
+    $query = 'SELECT id, name FROM '. rex::getTablePrefix() .'375_group';
+    $list = rex_list::factory(query: $query, rowsPerPage: 1000, defaultSort: ['name' => 'ASC']);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-category"></i>';
@@ -74,9 +75,11 @@ if ('' === $func) {
 
     $list->setColumnLabel('id', rex_i18n::msg('multinewsletter_group_id'));
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
+    $list->setColumnSortable('id');
 
     $list->setColumnLabel('name', rex_i18n::msg('multinewsletter_group_name'));
     $list->setColumnParams('name', ['func' => 'edit', 'entry_id' => '###id###']);
+    $list->setColumnSortable('name');
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);

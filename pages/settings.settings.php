@@ -1,4 +1,6 @@
 <?php
+
+use TobiasKrais\D2UHelper\BackendHelper;
 $lang_presets = [
     [
         'code' => 'de',
@@ -216,35 +218,35 @@ foreach (rex_clang::getAll() as $rex_clang) {
 				<legend><?= rex_i18n::msg('multinewsletter_config_title_standards') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_method', 'settings[method]', ['redaxo' => rex_i18n::msg('multinewsletter_config_method_redaxo'), 'socket' => rex_i18n::msg('multinewsletter_config_method_socket')], [(string) rex_config::get('multinewsletter', 'method', 'redaxo')]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_use_yform', 'settings[use_yform]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'use_yform', 0)]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_allow_recipient_selection', 'settings[allow_recipient_selection]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'allow_recipient_selection', 0)]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_sender', 'settings[sender]', (string) rex_config::get('multinewsletter', 'sender'), true, false, 'email');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_reply_to', 'settings[reply_to]', (string) rex_config::get('multinewsletter', 'reply_to'), false, false, 'email');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_defaultlang', 'settings[lang_fallback]', [0 => rex_i18n::msg('multinewsletter_lang_no_fallback'), 1 => rex_i18n::msg('multinewsletter_lang_d2u_helper')], [(int) rex_config::get('multinewsletter', 'lang_fallback')]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('multinewsletter_config_link', '1', (int) rex_config::get('multinewsletter', 'link'), (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('multinewsletter_config_link_abmeldung', '2', (int) rex_config::get('multinewsletter', 'link_abmeldung'), (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
+                        BackendHelper::form_select('multinewsletter_config_method', 'settings[method]', ['redaxo' => rex_i18n::msg('multinewsletter_config_method_redaxo'), 'socket' => rex_i18n::msg('multinewsletter_config_method_socket')], [(string) rex_config::get('multinewsletter', 'method', 'redaxo')]);
+                        BackendHelper::form_select('multinewsletter_config_use_yform', 'settings[use_yform]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'use_yform', 0)]);
+                        BackendHelper::form_select('multinewsletter_config_allow_recipient_selection', 'settings[allow_recipient_selection]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'allow_recipient_selection', 0)]);
+                        BackendHelper::form_input('multinewsletter_config_sender', 'settings[sender]', (string) rex_config::get('multinewsletter', 'sender'), true, false, 'email');
+                        BackendHelper::form_input('multinewsletter_config_reply_to', 'settings[reply_to]', (string) rex_config::get('multinewsletter', 'reply_to'), false, false, 'email');
+                        BackendHelper::form_select('multinewsletter_config_defaultlang', 'settings[lang_fallback]', [0 => rex_i18n::msg('multinewsletter_lang_no_fallback'), 1 => rex_i18n::msg('multinewsletter_lang_d2u_helper')], [(int) rex_config::get('multinewsletter', 'lang_fallback')]);
+                        BackendHelper::form_linkfield('multinewsletter_config_link', '1', (int) rex_config::get('multinewsletter', 'link'), (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
+                        BackendHelper::form_linkfield('multinewsletter_config_link_abmeldung', '2', (int) rex_config::get('multinewsletter', 'link_abmeldung'), (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
 
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_admin_email', 'settings[admin_email]', (string) rex_config::get('multinewsletter', 'admin_email'), true, false, 'email');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_subscribe_meldung_email', 'settings[subscribe_meldung_email]', (string) rex_config::get('multinewsletter', 'subscribe_meldung_email'), false, false, 'email');
+                        BackendHelper::form_input('multinewsletter_config_admin_email', 'settings[admin_email]', (string) rex_config::get('multinewsletter', 'admin_email'), true, false, 'email');
+                        BackendHelper::form_input('multinewsletter_config_subscribe_meldung_email', 'settings[subscribe_meldung_email]', (string) rex_config::get('multinewsletter', 'subscribe_meldung_email'), false, false, 'email');
                         if (rex_addon::get('cronjob')->isAvailable()) {
-                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_autosend', 'settings[autosend]', 'active', 'active' === rex_config::get('multinewsletter', 'autosend') && FriendsOfRedaxo\MultiNewsletter\CronjobSender::factory()->isInstalled());
-                            \TobiasKrais\D2UHelper\BackendHelper::form_checkbox('multinewsletter_config_autocleanup', 'settings[autocleanup]', 'active', 'active' === rex_config::get('multinewsletter', 'autocleanup') && FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::factory()->isInstalled());
+                            BackendHelper::form_checkbox('multinewsletter_config_autosend', 'settings[autosend]', 'active', 'active' === rex_config::get('multinewsletter', 'autosend') && FriendsOfRedaxo\MultiNewsletter\CronjobSender::factory()->isInstalled());
+                            BackendHelper::form_checkbox('multinewsletter_config_autocleanup', 'settings[autocleanup]', 'active', 'active' === rex_config::get('multinewsletter', 'autocleanup') && FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::factory()->isInstalled());
                         } else {
-                            \TobiasKrais\D2UHelper\BackendHelper::form_infotext('multinewsletter_config_install_cronjob', 'autosend_info');
+                            BackendHelper::form_infotext('multinewsletter_config_install_cronjob', 'autosend_info');
                         }
                     ?>
 					<br/>
 					<h4 style="border-bottom:1px solid #ccc;"><? rex_i18n::msg('multinewsletter_config_send_options') ?></h4>
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_use_smtp', 'settings[use_smtp]', [0 => rex_i18n::msg('multinewsletter_config_use_smtp_phpmailer'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'use_smtp', 0)]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_bcc', 'settings[smtp_bcc]', (string) rex_config::get('multinewsletter', 'smtp_bcc'));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_host', 'settings[smtp_host]', (string) rex_config::get('multinewsletter', 'smtp_host'));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_port', 'settings[smtp_port]', (int) rex_config::get('multinewsletter', 'smtp_port'), false, false, 'number');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('phpmailer_smtp_secure', 'settings[smtp_crypt]', ['' => rex_i18n::msg('no'), 'ssl' => 'ssl', 'tls' => 'tls'], [(string) rex_config::get('multinewsletter', 'smtp_crypt')]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('phpmailer_smtp_auth', 'settings[smtp_auth]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(string) rex_config::get('multinewsletter', 'smtp_auth')]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_smtp_username', 'settings[smtp_user]', (string) rex_config::get('multinewsletter', 'smtp_user'));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('phpmailer_smtp_password', 'settings[smtp_password]', (string) rex_config::get('multinewsletter', 'smtp_password'));
+                        BackendHelper::form_select('multinewsletter_config_use_smtp', 'settings[use_smtp]', [0 => rex_i18n::msg('multinewsletter_config_use_smtp_phpmailer'), 1 => rex_i18n::msg('yes')], [(int) rex_config::get('multinewsletter', 'use_smtp', 0)]);
+                        BackendHelper::form_input('phpmailer_bcc', 'settings[smtp_bcc]', (string) rex_config::get('multinewsletter', 'smtp_bcc'));
+                        BackendHelper::form_input('phpmailer_host', 'settings[smtp_host]', (string) rex_config::get('multinewsletter', 'smtp_host'));
+                        BackendHelper::form_input('phpmailer_port', 'settings[smtp_port]', (int) rex_config::get('multinewsletter', 'smtp_port'), false, false, 'number');
+                        BackendHelper::form_select('phpmailer_smtp_secure', 'settings[smtp_crypt]', ['' => rex_i18n::msg('no'), 'ssl' => 'ssl', 'tls' => 'tls'], [(string) rex_config::get('multinewsletter', 'smtp_crypt')]);
+                        BackendHelper::form_select('phpmailer_smtp_auth', 'settings[smtp_auth]', [0 => rex_i18n::msg('no'), 1 => rex_i18n::msg('yes')], [(string) rex_config::get('multinewsletter', 'smtp_auth')]);
+                        BackendHelper::form_input('phpmailer_smtp_username', 'settings[smtp_user]', (string) rex_config::get('multinewsletter', 'smtp_user'));
+                        BackendHelper::form_input('phpmailer_smtp_password', 'settings[smtp_password]', (string) rex_config::get('multinewsletter', 'smtp_password'));
                     ?>
 					<script>
 						function changeType() {
@@ -287,9 +289,9 @@ foreach (rex_clang::getAll() as $rex_clang) {
 						<dd><?= rex_i18n::msg('multinewsletter_expl_config_standards') ?></dd>
 					</dl>
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_max_mails', 'settings[max_mails]', (int) rex_config::get('multinewsletter', 'max_mails'), false, false, 'number');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_versandschritte_nacheinander', 'settings[versandschritte_nacheinander]', (int) rex_config::get('multinewsletter', 'versandschritte_nacheinander'), false, false, 'number');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_sekunden_pause', 'settings[sekunden_pause]', (int) rex_config::get('multinewsletter', 'sekunden_pause'), false, false, 'number');
+                        BackendHelper::form_input('multinewsletter_config_max_mails', 'settings[max_mails]', (int) rex_config::get('multinewsletter', 'max_mails'), false, false, 'number');
+                        BackendHelper::form_input('multinewsletter_config_versandschritte_nacheinander', 'settings[versandschritte_nacheinander]', (int) rex_config::get('multinewsletter', 'versandschritte_nacheinander'), false, false, 'number');
+                        BackendHelper::form_input('multinewsletter_config_sekunden_pause', 'settings[sekunden_pause]', (int) rex_config::get('multinewsletter', 'sekunden_pause'), false, false, 'number');
                     ?>
 				</div>
 			</fieldset>
@@ -302,7 +304,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
 						<dd><?= rex_i18n::msg('multinewsletter_expl_config_mailchimp') ?></dd>
 					</dl>
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_mailchimp_api_key', 'settings[mailchimp_api_key]', (string) rex_config::get('multinewsletter', 'mailchimp_api_key'));
+                        BackendHelper::form_input('multinewsletter_config_mailchimp_api_key', 'settings[mailchimp_api_key]', (string) rex_config::get('multinewsletter', 'mailchimp_api_key'));
                     ?>
 				</div>
 			</fieldset>
@@ -311,20 +313,20 @@ foreach (rex_clang::getAll() as $rex_clang) {
 				<legend><?= rex_i18n::msg('multinewsletter_config_title_testmails') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('multinewsletter_config_default_test_article', '3', (int) rex_config::get('multinewsletter', 'default_test_article'), (int) FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang(rex_clang::getStartId()));
+                        BackendHelper::form_linkfield('multinewsletter_config_default_test_article', '3', (int) rex_config::get('multinewsletter', 'default_test_article'), (int) FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang(rex_clang::getStartId()));
 
                         $options_anrede = [];
                         $options_anrede[-1] = rex_i18n::msg('multinewsletter_config_lang_title_without');
                         $options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');
                         $options_anrede[1] = rex_i18n::msg('multinewsletter_config_lang_title_female');
                         $options_anrede[2] = rex_i18n::msg('multinewsletter_config_lang_title_diverse');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_default_test_anrede', 'settings[default_test_anrede]', $options_anrede, [(int) rex_config::get('multinewsletter', 'default_test_anrede')]);
+                        BackendHelper::form_select('multinewsletter_config_default_test_anrede', 'settings[default_test_anrede]', $options_anrede, [(int) rex_config::get('multinewsletter', 'default_test_anrede')]);
 
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_default_test_vorname', 'settings[default_test_vorname]', (string) rex_config::get('multinewsletter', 'default_test_vorname'));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_default_test_nachname', 'settings[default_test_nachname]', (string) rex_config::get('multinewsletter', 'default_test_nachname'));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_default_test_email', 'settings[default_test_email]', (string) rex_config::get('multinewsletter', 'default_test_email'), false, false, 'email');
+                        BackendHelper::form_input('multinewsletter_config_default_test_vorname', 'settings[default_test_vorname]', (string) rex_config::get('multinewsletter', 'default_test_vorname'));
+                        BackendHelper::form_input('multinewsletter_config_default_test_nachname', 'settings[default_test_nachname]', (string) rex_config::get('multinewsletter', 'default_test_nachname'));
+                        BackendHelper::form_input('multinewsletter_config_default_test_email', 'settings[default_test_email]', (string) rex_config::get('multinewsletter', 'default_test_email'), false, false, 'email');
 
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_default_test_sprache', 'settings[default_test_sprache]', $langs, [(int) rex_config::get('multinewsletter', 'default_test_sprache')]);
+                        BackendHelper::form_select('multinewsletter_config_default_test_sprache', 'settings[default_test_sprache]', $langs, [(int) rex_config::get('multinewsletter', 'default_test_sprache')]);
                     ?>
 				</div>
 			</fieldset>
@@ -346,7 +348,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         }
                         echo '</ul>';
 
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_sendername', 'settings[lang_'. $rex_clang->getId() .'_sendername]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_sendername', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_sendername', 'settings[lang_'. $rex_clang->getId() .'_sendername]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_sendername', ''));
                     ?>
 
 					<dl class="rex-form-group form-group">
@@ -355,23 +357,23 @@ foreach (rex_clang::getAll() as $rex_clang) {
 					</dl>
 					<hr style="border-top: 1px solid #333">
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_anrede', 'settings[lang_'. $rex_clang->getId() .'_anrede]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_anrede', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_config_title', 'settings[lang_'. $rex_clang->getId() .'_title]', $options_anrede, [(int) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title')]);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_title_without', 'settings[lang_'. $rex_clang->getId() .'_title_-1]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_-1', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_title_male', 'settings[lang_'. $rex_clang->getId() .'_title_0]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_0', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_title_female', 'settings[lang_'. $rex_clang->getId() .'_title_1]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_1', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_title_diverse', 'settings[lang_'. $rex_clang->getId() .'_title_2]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_2', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_grad', 'settings[lang_'. $rex_clang->getId() .'_grad]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_grad', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_firstname', 'settings[lang_'. $rex_clang->getId() .'_firstname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_firstname', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_lastname', 'settings[lang_'. $rex_clang->getId() .'_lastname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_lastname', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_email', 'settings[lang_'. $rex_clang->getId() .'_email]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_email', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_select_newsletter', 'settings[lang_'. $rex_clang->getId() .'_select_newsletter]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_select_newsletter', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_textarea('multinewsletter_config_lang_privacy_policy', 'settings[lang_'. $rex_clang->getId() .'_privacy_policy]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_privacy_policy', '')), 3, false, false, false);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_compulsory', 'settings[lang_'. $rex_clang->getId() .'_compulsory]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_compulsory', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_subscribe', 'settings[lang_'. $rex_clang->getId() .'_subscribe]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_subscribe', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_action', 'settings[lang_'. $rex_clang->getId() .'_action]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_action', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_safety', 'settings[lang_'. $rex_clang->getId() .'_safety]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_safety', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_status1', 'settings[lang_'. $rex_clang->getId() .'_status1]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_status1', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_anrede', 'settings[lang_'. $rex_clang->getId() .'_anrede]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_anrede', ''));
+                        BackendHelper::form_select('multinewsletter_config_title', 'settings[lang_'. $rex_clang->getId() .'_title]', $options_anrede, [(int) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title')]);
+                        BackendHelper::form_input('multinewsletter_config_lang_title_without', 'settings[lang_'. $rex_clang->getId() .'_title_-1]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_-1', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_title_male', 'settings[lang_'. $rex_clang->getId() .'_title_0]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_0', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_title_female', 'settings[lang_'. $rex_clang->getId() .'_title_1]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_1', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_title_diverse', 'settings[lang_'. $rex_clang->getId() .'_title_2]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_title_2', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_grad', 'settings[lang_'. $rex_clang->getId() .'_grad]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_grad', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_firstname', 'settings[lang_'. $rex_clang->getId() .'_firstname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_firstname', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_lastname', 'settings[lang_'. $rex_clang->getId() .'_lastname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_lastname', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_email', 'settings[lang_'. $rex_clang->getId() .'_email]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_email', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_select_newsletter', 'settings[lang_'. $rex_clang->getId() .'_select_newsletter]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_select_newsletter', ''));
+                        BackendHelper::form_textarea('multinewsletter_config_lang_privacy_policy', 'settings[lang_'. $rex_clang->getId() .'_privacy_policy]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_privacy_policy', '')), 3, false, false, false);
+                        BackendHelper::form_input('multinewsletter_config_lang_compulsory', 'settings[lang_'. $rex_clang->getId() .'_compulsory]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_compulsory', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_subscribe', 'settings[lang_'. $rex_clang->getId() .'_subscribe]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_subscribe', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_action', 'settings[lang_'. $rex_clang->getId() .'_action]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_action', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_safety', 'settings[lang_'. $rex_clang->getId() .'_safety]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_safety', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_status1', 'settings[lang_'. $rex_clang->getId() .'_status1]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_status1', ''));
                     ?>
 					<hr style="border-top: 1px solid #333">
 					<dl class="rex-form-group form-group">
@@ -379,20 +381,20 @@ foreach (rex_clang::getAll() as $rex_clang) {
 						<dd><b><?= rex_i18n::msg('multinewsletter_config_lang_anmeldeformular_fehler') ?></b></dd>
 					</dl>
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_textarea('multinewsletter_config_lang_no_userdata', 'settings[lang_'. $rex_clang->getId() .'_no_userdata]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_no_userdata', '')), 3, false, false, false);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_invalid_email', 'settings[lang_'. $rex_clang->getId() .'_invalid_email]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_email', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_invalid_firstname', 'settings[lang_'. $rex_clang->getId() .'_invalid_firstname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_firstname', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_invalid_lastname', 'settings[lang_'. $rex_clang->getId() .'_invalid_lastname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_lastname', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_send_error', 'settings[lang_'. $rex_clang->getId() .'_send_error]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_send_error', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_software_failure', 'settings[lang_'. $rex_clang->getId() .'_software_failure]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_software_failure', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_nogroup_selected', 'settings[lang_'. $rex_clang->getId() .'_nogroup_selected]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_nogroup_selected', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_already_subscribed', 'settings[lang_'. $rex_clang->getId() .'_already_subscribed]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_already_subscribed', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_textarea('multinewsletter_config_lang_confirmation_sent', 'settings[lang_'. $rex_clang->getId() .'_confirmation_sent]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmation_sent', '')), 3, false, false, false);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_confirmsubject', 'settings[lang_'. $rex_clang->getId() .'_confirmsubject]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmsubject', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_textarea('multinewsletter_config_lang_confirmcontent', 'settings[lang_'. $rex_clang->getId() .'_confirmcontent]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmcontent', '')), 15, false, false, false);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_already_confirmed', 'settings[lang_'. $rex_clang->getId() .'_already_confirmed]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_already_confirmed', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_textarea('multinewsletter_config_lang_invalid_key', 'settings[lang_'. $rex_clang->getId() .'_invalid_key]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_key', '')), 2, false, false, false);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_textarea('multinewsletter_config_lang_confirmation_successful', 'settings[lang_'. $rex_clang->getId() .'_confirmation_successful]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmation_successful', '')), 5, false, false, false);
+                        BackendHelper::form_textarea('multinewsletter_config_lang_no_userdata', 'settings[lang_'. $rex_clang->getId() .'_no_userdata]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_no_userdata', '')), 3, false, false, false);
+                        BackendHelper::form_input('multinewsletter_config_lang_invalid_email', 'settings[lang_'. $rex_clang->getId() .'_invalid_email]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_email', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_invalid_firstname', 'settings[lang_'. $rex_clang->getId() .'_invalid_firstname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_firstname', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_invalid_lastname', 'settings[lang_'. $rex_clang->getId() .'_invalid_lastname]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_lastname', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_send_error', 'settings[lang_'. $rex_clang->getId() .'_send_error]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_send_error', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_software_failure', 'settings[lang_'. $rex_clang->getId() .'_software_failure]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_software_failure', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_nogroup_selected', 'settings[lang_'. $rex_clang->getId() .'_nogroup_selected]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_nogroup_selected', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_already_subscribed', 'settings[lang_'. $rex_clang->getId() .'_already_subscribed]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_already_subscribed', ''));
+                        BackendHelper::form_textarea('multinewsletter_config_lang_confirmation_sent', 'settings[lang_'. $rex_clang->getId() .'_confirmation_sent]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmation_sent', '')), 3, false, false, false);
+                        BackendHelper::form_input('multinewsletter_config_lang_confirmsubject', 'settings[lang_'. $rex_clang->getId() .'_confirmsubject]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmsubject', ''));
+                        BackendHelper::form_textarea('multinewsletter_config_lang_confirmcontent', 'settings[lang_'. $rex_clang->getId() .'_confirmcontent]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmcontent', '')), 15, false, false, false);
+                        BackendHelper::form_input('multinewsletter_config_lang_already_confirmed', 'settings[lang_'. $rex_clang->getId() .'_already_confirmed]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_already_confirmed', ''));
+                        BackendHelper::form_textarea('multinewsletter_config_lang_invalid_key', 'settings[lang_'. $rex_clang->getId() .'_invalid_key]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_invalid_key', '')), 2, false, false, false);
+                        BackendHelper::form_textarea('multinewsletter_config_lang_confirmation_successful', 'settings[lang_'. $rex_clang->getId() .'_confirmation_successful]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_confirmation_successful', '')), 5, false, false, false);
                     ?>
 					<hr style="border-top: 1px solid #333">
 					<dl class="rex-form-group form-group">
@@ -400,8 +402,8 @@ foreach (rex_clang::getAll() as $rex_clang) {
 						<dd><b><?= rex_i18n::msg('multinewsletter_config_lang_abmeldeformular') ?></b></dd>
 					</dl>
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_unsubscribe', 'settings[lang_'. $rex_clang->getId() .'_unsubscribe]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_unsubscribe', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_textarea('multinewsletter_config_lang_status0', 'settings[lang_'. $rex_clang->getId() .'_status0]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_status0', '')), 2, false, false, false);
+                        BackendHelper::form_input('multinewsletter_config_lang_unsubscribe', 'settings[lang_'. $rex_clang->getId() .'_unsubscribe]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_unsubscribe', ''));
+                        BackendHelper::form_textarea('multinewsletter_config_lang_status0', 'settings[lang_'. $rex_clang->getId() .'_status0]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_status0', '')), 2, false, false, false);
                     ?>
 
 					<hr style="border-top: 1px solid #333">
@@ -410,8 +412,8 @@ foreach (rex_clang::getAll() as $rex_clang) {
 						<dd><b><?= rex_i18n::msg('multinewsletter_config_lang_abmeldeformular_fehler') ?></b></dd>
 					</dl>
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_already_unsubscribed', 'settings[lang_'. $rex_clang->getId() .'_already_unsubscribed]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_already_unsubscribed', ''));
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_lang_user_not_found', 'settings[lang_'. $rex_clang->getId() .'_user_not_found]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_user_not_found', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_already_unsubscribed', 'settings[lang_'. $rex_clang->getId() .'_already_unsubscribed]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_already_unsubscribed', ''));
+                        BackendHelper::form_input('multinewsletter_config_lang_user_not_found', 'settings[lang_'. $rex_clang->getId() .'_user_not_found]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_user_not_found', ''));
                     ?>
 				</div>
 			</fieldset>

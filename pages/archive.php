@@ -174,7 +174,8 @@ elseif ('delete' === $func) {
 
 // Übersichtsliste
 if ('' === $func) {
-    $list = rex_list::factory('SELECT id, subject, sender_name, clang_id, sentdate FROM ' . rex::getTablePrefix() . '375_archive ORDER BY sentdate DESC');
+    $query = 'SELECT id, subject, sender_name, clang_id, sentdate FROM ' . rex::getTablePrefix() . '375_archive';
+    $list = rex_list::factory(query: $query, rowsPerPage: 1000, defaultSort: ['sentdate' => 'DESC']);
     $list->addTableAttribute('class', 'table-striped table-hover');
 
     $tdIcon = '<i class="rex-icon rex-icon-backup"></i>';
@@ -183,12 +184,15 @@ if ('' === $func) {
 
     $list->setColumnLabel('id', rex_i18n::msg('id'));
     $list->setColumnLayout('id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id" data-title="' . rex_i18n::msg('id') . '">###VALUE###</td>']);
+    $list->setColumnSortable('id');
 
     $list->setColumnLabel('subject', rex_i18n::msg('multinewsletter_archive_subject'));
     $list->setColumnParams('subject', ['func' => 'edit', 'entry_id' => '###id###']);
+    $list->setColumnSortable('subject');
 
     $list->setColumnLabel('sender_name', rex_i18n::msg('multinewsletter_group_default_sender_name'));
     $list->setColumnParams('sender_name', ['func' => 'edit', 'entry_id' => '###id###']);
+    $list->setColumnSortable('sender_name');
 
     $list->setColumnLabel('clang_id', rex_i18n::msg('multinewsletter_newsletter_clang'));
     $list->setColumnFormat('clang_id', 'custom', static function ($params) {
@@ -201,9 +205,11 @@ if ('' === $func) {
     });
 
     $list->setColumnParams('clang_id', ['func' => 'edit', 'entry_id' => '###id###']);
+    $list->setColumnSortable('clang_id');
 
     $list->setColumnLabel('sentdate', rex_i18n::msg('multinewsletter_archive_sentdate'));
     $list->setColumnParams('sentdate', ['func' => 'edit', 'entry_id' => '###id###']);
+    $list->setColumnSortable('sentdate');
 
     $list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);

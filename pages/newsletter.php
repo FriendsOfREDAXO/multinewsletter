@@ -1,4 +1,6 @@
 <?php
+
+use TobiasKrais\D2UHelper\BackendHelper;
 $newsletterManager = new FriendsOfRedaxo\MultiNewsletter\NewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'));
 // First do reset action
 if('' !== rex_request::request('reset', 'string')) {
@@ -422,9 +424,9 @@ if(class_exists(rex_mailer::class)) {
 						</dd>
 					</dl>
 					<?php
-                            \TobiasKrais\D2UHelper\BackendHelper::form_linkfield('multinewsletter_newsletter_article', '1', $session_multinewsletter['newsletter']['article_id'], $session_multinewsletter['newsletter']['testlanguage']);
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_email', 'sender_email', $session_multinewsletter['newsletter']['sender_email'], true, false, 'email');
-                            \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_config_reply_to', 'reply_to_email', $session_multinewsletter['newsletter']['reply_to_email'], false, false, 'email');
+                            BackendHelper::form_linkfield('multinewsletter_newsletter_article', '1', $session_multinewsletter['newsletter']['article_id'], $session_multinewsletter['newsletter']['testlanguage']);
+                            BackendHelper::form_input('multinewsletter_newsletter_email', 'sender_email', $session_multinewsletter['newsletter']['sender_email'], true, false, 'email');
+                            BackendHelper::form_input('multinewsletter_config_reply_to', 'reply_to_email', $session_multinewsletter['newsletter']['reply_to_email'], false, false, 'email');
                             foreach(rex_clang::getAll() as $rex_clang) {
                                 echo '<dl class="rex-form-group form-group">';
                                 echo '<dt><label>'. rex_i18n::msg('multinewsletter_group_default_sender_name') .' '. $rex_clang->getName() .'</label></dt>';
@@ -447,25 +449,25 @@ if(class_exists(rex_mailer::class)) {
 						<dd><?= rex_i18n::msg('multinewsletter_expl_testmail') ?></dd>
 					</dl>
 					<?php
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_email', 'testemail', $session_multinewsletter['newsletter']['testemail'], true, false, 'email');
+                        BackendHelper::form_input('multinewsletter_newsletter_email', 'testemail', $session_multinewsletter['newsletter']['testemail'], true, false, 'email');
 
                         $options_anrede = [];
                         $options_anrede[-1] = rex_i18n::msg('multinewsletter_config_lang_title_without');
                         $options_anrede[0] = rex_i18n::msg('multinewsletter_config_lang_title_male');
                         $options_anrede[1] = rex_i18n::msg('multinewsletter_config_lang_title_female');
                         $options_anrede[2] = rex_i18n::msg('multinewsletter_config_lang_title_diverse');
-                        \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_newsletter_title', 'testtitle', $options_anrede, [(int) $session_multinewsletter['newsletter']['testtitle']]);
+                        BackendHelper::form_select('multinewsletter_newsletter_title', 'testtitle', $options_anrede, [(int) $session_multinewsletter['newsletter']['testtitle']]);
 
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_grad', 'testgrad', $session_multinewsletter['newsletter']['testgrad']);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_firstname', 'testfirstname', $session_multinewsletter['newsletter']['testfirstname']);
-                        \TobiasKrais\D2UHelper\BackendHelper::form_input('multinewsletter_newsletter_lastname', 'testlastname', $session_multinewsletter['newsletter']['testlastname']);
+                        BackendHelper::form_input('multinewsletter_newsletter_grad', 'testgrad', $session_multinewsletter['newsletter']['testgrad']);
+                        BackendHelper::form_input('multinewsletter_newsletter_firstname', 'testfirstname', $session_multinewsletter['newsletter']['testfirstname']);
+                        BackendHelper::form_input('multinewsletter_newsletter_lastname', 'testlastname', $session_multinewsletter['newsletter']['testlastname']);
 
                         if(count(rex_clang::getAll()) > 1) {
                             $langs = [];
                             foreach(rex_clang::getAll() as $rex_clang) {
                                 $langs[$rex_clang->getId()] = $rex_clang->getName();
                             }
-                            \TobiasKrais\D2UHelper\BackendHelper::form_select('multinewsletter_newsletter_clang', 'testlanguage', $langs, [$session_multinewsletter['newsletter']['testlanguage']]);
+                            BackendHelper::form_select('multinewsletter_newsletter_clang', 'testlanguage', $langs, [$session_multinewsletter['newsletter']['testlanguage']]);
                         } else {
                             foreach(rex_clang::getAll() as $rex_clang) {
                                 echo '<input type="hidden" name="testlanguage" value="'. $rex_clang->getId() .'" />';

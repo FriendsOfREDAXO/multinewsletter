@@ -1,7 +1,10 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-	<p>3.7.1-DEV</p>
+	<p>3.8.0</p>
 	<ul>
+		<li>Neue Module 80-6 bis 80-10 als Bootstrap-5-Varianten der bestehenden Beispielmodule hinzugefügt.</li>
+		<li>Module 80-1 bis 80-5 als "(BS4, deprecated)" markiert. Die BS4-Varianten werden im nächsten Major Release entfernt.</li>
+		<li>Benötigt d2u_helper &gt;= 2.1.0.</li>
 		<li>Bugfix: Telefon Feld auch in JSON für YForm hinzugefügt.</li>
 	</ul>
 	<p>3.7.0</p>
@@ -74,6 +77,7 @@
 		<li>Addon komplett mit rexstan Level 9 überarbeitet.</li>
 		<li>WICHTIG: Anreden um die diverse Anrede Mx. und auch ohne Anrede erweitert. In den Einstellungen -> Übersetzungen bitte für diese beiden Felder ergänzen und speichern.</li>
 		<li>E-Mails nach Cronjob Versand enthalten nun auch Vor- und Nachnamen der Empfänger, sofern diese vorhanden sind.</li>
+						<li>Backend-Listen sortierbar gemacht und Standardsortierungen von SQL-Queries auf <code>rex_list</code>-<code>defaultSort</code> umgestellt.</li>
 		<li>Modul 80-4 "MultiNewsletter YForm Anmeldung": unterstützt jetzt auch das Addon YForm Spamprotection.</li>
 	</ul>
 	<p>3.5.5</p>
