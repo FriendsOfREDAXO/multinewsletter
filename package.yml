@@ -1,5 +1,5 @@
 package: multinewsletter
-version: '3.7.1'
+version: '3.8.0'
 author: FriendsOfREDAXO
 supportpage: https://github.com/FriendsOfREDAXO/multinewsletter/issues/
 
@@ -38,7 +38,7 @@ requires:
     php: '>=8.0'
     redaxo: '>=5.10.0'
     packages:
-        d2u_helper: '>=1.14.0'
+        d2u_helper: '>=2.1.0'
         phpmailer: '>=2.0.1'
 
 default_config:
