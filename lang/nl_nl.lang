@@ -1,0 +1,272 @@
+multinewsletter_addon_short_title = MultiNewsletter
+
+multinewsletter_menu_archive = Archief
+multinewsletter_menu_config = Instellingen
+multinewsletter_menu_help = Hulp
+multinewsletter_menu_groups = Groepen
+multinewsletter_menu_import = Import
+multinewsletter_menu_versand = Nieuwsbriefverzending
+multinewsletter_menu_user = Gebruikers
+
+multinewsletter_expl_testmail = Voordat een nieuwsbrief wordt verzonden, moet eerst worden gecontroleerd hoe deze er als e-mail uitziet. Stuur hiervoor testgewijs een exemplaar naar een eigen adres. Indien nodig kunnen daarna nog correcties worden aangebracht en kan de testmail opnieuw worden verzonden.
+multinewsletter_expl_prepare = Is de testmail in orde? <b>Let op: wijzigingen aan het Redaxo-artikel worden na het voorbereiden niet meer in de nieuwsbrief overgenomen.</b><br /><br />Kies nu de ontvangergroepen. Meerdere groepen kunnen worden geselecteerd door de Ctrl-toets ingedrukt te houden en op de gewenste groepen te klikken.
+multinewsletter_recipient_selection = <b>OF</b> kies hier meerdere ontvangers.
+multinewsletter_expl_send = Afhankelijk van het aantal adressen kan de verzending enkele minuten of zelfs uren duren. Sluit dit browservenster niet totdat er een melding verschijnt die bevestigt dat alle nieuwsbrieven zijn verzonden.
+multinewsletter_expl_send_success = Laatst succesvol verzonden naar:
+multinewsletter_expl_config_standards = Sommige hostingpakketten beperken het verzenden van e-mails. Bij 1&1 mogen bijvoorbeeld 45 mails achter elkaar worden verstuurd. Daarna moet 5 minuten worden gewacht voordat nieuwe mails kunnen worden verzonden. Vul deze limieten daarom zeker in de volgende twee velden in.
+multinewsletter_expl_import = Belangrijke aanwijzingen over het formaat van een compatibel CSV-importbestand vindt u in de hulp.
+
+multinewsletter_group = Groepen
+multinewsletter_group_id = ID
+multinewsletter_group_name = Benaming
+multinewsletter_group_default_sender_email = E-mail afzender
+multinewsletter_group_default_sender_name = Afzender 
+multinewsletter_group_default_article_id = Nieuwsbriefartikel
+multinewsletter_group_not_found = Er zijn geen groepen gevonden.
+multinewsletter_group_reply_email = Antwoord aan e-mail
+
+multinewsletter_newsletter_load_group = Voorinstellingen
+multinewsletter_attachments = E-mailbijlagen
+multinewsletter_newsletter_article = Nieuwsbriefartikel
+multinewsletter_newsletter_testmail = Testmail
+multinewsletter_newsletter_email = E-mail
+multinewsletter_newsletter_firstname = Voornaam
+multinewsletter_newsletter_lastname = Achternaam
+multinewsletter_newsletter_grad = Titel
+multinewsletter_newsletter_clang = Taal
+multinewsletter_newsletter_phone = Telefoon
+multinewsletter_newsletter_preparedate = Aangemaakt
+multinewsletter_newsletter_privacy_policy = Privacyverklaring
+multinewsletter_newsletter_privacy_policy_accepted = geaccepteerd
+multinewsletter_newsletter_privacy_policy_not_accepted = niet geaccepteerd
+multinewsletter_newsletter_updatedate = Bijgewerkt
+multinewsletter_newsletter_title = Aanhef
+multinewsletter_newsletter_create = Aanmelding
+multinewsletter_newsletter_createip = Aanmeld-IP
+multinewsletter_newsletter_createdate = Datum aanmelding
+multinewsletter_newsletter_activationip = Activatie-IP
+multinewsletter_newsletter_activationdate = Datum activatie
+multinewsletter_newsletter_update = Update
+multinewsletter_newsletter_updateip = Update-IP
+multinewsletter_newsletter_subscriptiontype = Aanmeldingstype
+multinewsletter_newsletter_userdata = Gebruikersgegevens
+multinewsletter_newsletter_title-1 = Zonder aanhef
+multinewsletter_newsletter_title0 = Dhr.
+multinewsletter_newsletter_title1 = Mevr.
+multinewsletter_newsletter_title2 = Mx.
+
+multinewsletter_newsletter_status = Status
+multinewsletter_newsletter_sendtestmail = Testmail verzenden
+multinewsletter_newsletter_testmailagain = Testmail opnieuw verzenden.
+multinewsletter_newsletter_group = Groepen
+multinewsletter_newsletter_prepare = Adressen voorbereiden
+multinewsletter_newsletter_send_step1 = Stap 1: nieuwsbriefartikel kiezen
+multinewsletter_newsletter_send_step2 = Stap 2: testmail verzenden
+multinewsletter_newsletter_send_step3 = Stap 3: nieuwsbriefontvangers voorbereiden
+multinewsletter_newsletter_send_step4 = Stap 4: nieuwsbrief verzenden
+multinewsletter_newsletter_2send = Nieuwsbrief moet nog naar {0} ontvangers worden verzonden.
+multinewsletter_newsletter_sent = Alle nieuwsbrieven zijn verzonden.
+multinewsletter_newsletter_reloadin = Herladen van de pagina en daarmee de volgende verzendstap over <span id="newsletter_reloadin"> </span> seconden.
+multinewsletter_newsletter_stop_reload = Automatisch herladen onderbreken - de verzending kan handmatig opnieuw worden gestart.
+multinewsletter_newsletter_send = Nieuwsbrief handmatig verzenden
+multinewsletter_newsletter_send_cron = Nieuwsbrief automatisch op de achtergrond verzenden
+multinewsletter_newsletter_send_cron_abort = Verzending afbreken
+multinewsletter_newsletter_send_cron_active = Automatische nieuwsbriefverzending is geactiveerd. Na het verzenden ontvangt u een bericht op het in de instellingen opgegeven admin-e-mailadres. U kunt nu een nieuwe nieuwsbrief voor automatische verzending voorbereiden.
+multinewsletter_newsletter_send_cron_not_available = Automatische nieuwsbriefverzending niet beschikbaar. Installeer indien gewenst de Cronjob add-on. Activeer bovendien de autosend-optie in de instellingen en vul ook het admin-mailadres in.
+multinewsletter_newsletter_send_cron_warning = Op dit moment loopt de verzending van een nieuwsbrief op de achtergrond. Start geen handmatige verzending om serverlimieten te respecteren. Een extra automatische verzending kan wel worden toegevoegd.
+multinewsletter_newsletter_send_startdate = Verzendstartdatum
+multinewsletter_newsletter_send_startdate_hint = Optioneel: datum en tijd vanaf wanneer de automatische verzending moet starten. Indien leeg, start de verzending direct.
+multinewsletter_newsletter_key = Activatiecode
+
+multinewsletter_config_admin_email = E-mailadres admin
+multinewsletter_config_autocleanup = AutoCleanup-optie activeren en cronjob installeren om niet-geactiveerde abonnees na 4 weken te verwijderen en ontvangeradressen in de archieven te vervangen.
+multinewsletter_config_autosend = Autosend-optie activeren en Autosend-cronjob installeren
+multinewsletter_config_install_cronjob = Als u de Autosend- of AutoCleanUp-optie wilt activeren, moet u de Cronjob add-on installeren.
+multinewsletter_config_install_yform3_required = Voor deze module is YForm 3 of hoger vereist.
+multinewsletter_config_title_serverlimits = Serverlimieten bij verzending
+multinewsletter_config_title_testmails = Voorinstellingen voor testmails
+multinewsletter_config_default_test_anrede = Aanhef
+multinewsletter_config_default_test_nachname = Achternaam
+multinewsletter_config_default_test_vorname = Voornaam
+multinewsletter_config_default_test_email = E-mail
+multinewsletter_config_default_test_article = Nieuwsbriefartikel
+multinewsletter_config_default_test_sprache = Taal
+multinewsletter_config_title_standards = Algemene instellingen
+multinewsletter_config_sender = E-mailadres afzender
+multinewsletter_config_reply_to = Antwoord aan adres
+multinewsletter_config_link = Artikel aanmelding
+multinewsletter_config_link_abmeldung = Artikel afmelding
+multinewsletter_config_max_mails = Mails per verzendstap
+multinewsletter_config_method = Methode voor het uitlezen van het artikel
+multinewsletter_config_method_redaxo = Redaxo intern (negeert add-ons zoals Bloecks, e-mailversleuteling enz.)
+multinewsletter_config_method_socket = Socket-verbinding
+multinewsletter_config_versandschritte_nacheinander = Verzendstappen tot pauze
+multinewsletter_config_sekunden_pause = Pauze in seconden
+multinewsletter_config_send_options = Verzendopties
+multinewsletter_config_lang_confirmcontent = Tekst van de bevestigingsmail
+multinewsletter_config_lang_confirmsubject = Onderwerp van de bevestigingsmail
+multinewsletter_config_defaultlang = Naar welke taal moet worden teruggevallen als een artikel offline is?
+multinewsletter_config_defaultlang_keine = Geen
+multinewsletter_config_subscribe_meldung_email = Mailinfo bij aan- en afmelding naar:
+multinewsletter_config_use_smtp = Voor het verzenden van nieuwsbrieven de volgende SMTP-instellingen gebruiken
+multinewsletter_config_use_smtp_phpmailer = Nee, instellingen uit de PHPMailer add-on gebruiken
+multinewsletter_config_use_yform = Gebruikerstabel in YForm Table Manager beschikbaar maken
+multinewsletter_config_allow_recipient_selection = Sta bij het verzenden van nieuwsbrieven een handmatige selectie van ontvangers toe
+multinewsletter_config_langname_section = Vertalingen taal:
+multinewsletter_config_lang_anmeldeformular = Veldnamen aanmeldformulier
+multinewsletter_config_lang_anmeldeformular_fehler = Foutmeldingen aanmeldformulier
+multinewsletter_config_lang_abmeldeformular = Veldnamen afmelding
+multinewsletter_config_lang_abmeldeformular_fehler = Foutmeldingen afmelding
+multinewsletter_config_lang_presets = Presets
+multinewsletter_config_lang_privacy_policy = Opmerking privacyverklaring
+multinewsletter_config_lang_compulsory = Opmerking verplicht veld
+multinewsletter_config_lang_action = Oproep om de nieuwsbrief te bestellen
+multinewsletter_config_lang_invalid_email = Ongeldig e-mailadres
+multinewsletter_config_lang_invalid_firstname = Lege voornaam
+multinewsletter_config_lang_invalid_lastname = Lege achternaam
+multinewsletter_config_lang_send_error = Fout in PHPMailer
+multinewsletter_config_lang_software_failure = Overige softwarefout
+multinewsletter_config_lang_no_userdata = Oproep om onderstaande velden te corrigeren
+multinewsletter_config_lang_already_unsubscribed = Al afgemeld
+multinewsletter_config_lang_already_subscribed = Al aangemeld
+multinewsletter_config_lang_already_confirmed = Bevestigingslink al gebruikt
+multinewsletter_config_lang_user_not_found = Gebruiker niet gevonden
+multinewsletter_config_lang_safety = Opmerking over bezorging bevestigingsmail
+multinewsletter_config_lang_status0 = Opmerking succesvolle afmelding
+multinewsletter_config_lang_status1 = Opmerking succesvolle aanmelding
+multinewsletter_config_lang_invalid_key = Ongeldige bevestigingslink
+multinewsletter_config_lang_confirmation_successful = Opmerking succesvolle bevestiging
+multinewsletter_config_lang_confirmation_sent = Opmerking bevestigingsmail verzonden
+multinewsletter_config_lang_anrede = Aanhef
+multinewsletter_config_lang_email = E-mail
+multinewsletter_config_lang_firstname = Voornaam
+multinewsletter_config_lang_lastname = Achternaam
+multinewsletter_config_lang_grad = Titel
+multinewsletter_config_lang_select_newsletter = Selectie nieuwsbrief
+multinewsletter_config_lang_subscribe = Aanmeldknop
+multinewsletter_config_lang_unsubscribe = Afmeldknop
+multinewsletter_config_lang_nogroup_selected = Geen nieuwsbrief geselecteerd
+multinewsletter_config_submit = Instellingen opslaan
+multinewsletter_config_warning = Instellingen zijn nog niet vastgelegd. Deze moeten eerst worden ingesteld om de add-on te kunnen gebruiken. Dit geldt ook voor de vertalingen.
+
+multinewsletter_config_settings_import = Import
+multinewsletter_config_settings_import_long = Instellingen importeren
+multinewsletter_config_settings_import_advice = BELANGRIJK: Alle bestaande instellingen / vertalingen worden onherroepelijk overschreven!
+multinewsletter_config_settings_import_file = JSON-bestand selecteren
+multinewsletter_config_settings_import_btn = Geselecteerd bestand importeren
+multinewsletter_config_settings_import_null = Geen bestand voor import geselecteerd.
+multinewsletter_config_settings_import_type = Het geselecteerde bestand is geen geldig JSON-bestand.
+multinewsletter_config_settings_import_success = De instellingen zijn succesvol geïmporteerd.
+multinewsletter_config_settings_import_success_hints = OPMERKING: Controleer absoluut alle instellingen (bijv. e-mailadressen, artikeltoewijzingen voor aan- en afmelding enz.)
+multinewsletter_config_settings_export = Export
+multinewsletter_config_settings_export_long = Instellingen exporteren
+multinewsletter_config_settings_export_advice = Met een klik op de volgende knop wordt automatisch een JSON-bestand gedownload.
+multinewsletter_config_settings_export_btn = JSON-bestand downloaden
+multinewsletter_config_settings_export_error = Er zijn geen instellingen gevonden om te exporteren.
+
+multinewsletter_config_title_mailchimp = Mailchimp-instellingen
+multinewsletter_expl_config_mailchimp = Het is mogelijk om gebruikers met Mailchimp te synchroniseren. Daarvoor moeten eerst op Mailchimp de betreffende lijsten worden aangemaakt en vervolgens in de add-on aan de groep de juiste lijst worden toegewezen.<br>AVG-opmerking: de abonnee moet erop worden gewezen dat zijn gegevens aan derden (de exploitant van Mailchimp) worden doorgegeven.
+multinewsletter_config_mailchimp_api_key = API-key
+multinewsletter_mailchimp_lists = Mailchimp-lijst
+multinewsletter_expl_config_sync = Lijst synchroniseren
+
+multinewsletter_config_title = Standaard-aanhef
+multinewsletter_config_lang_title_diverse = divers
+multinewsletter_config_lang_title_female = vrouwelijk
+multinewsletter_config_lang_title_male = mannelijk
+multinewsletter_config_lang_title_without = zonder
+multinewsletter_config_lang_sendername = Benaming afzender
+
+multinewsletter_archive_sentdate = Verzenddatum
+multinewsletter_archive_subject = Titel
+multinewsletter_archive_groupname = Groep
+multinewsletter_archive_redaxo_sender = Afzender Redaxo-gebruiker
+multinewsletter_archive_recipients = Ontvangers
+multinewsletter_archive_recipients_count = Aantal ontvangers
+multinewsletter_archive_recipients_failure = Ontvangers met verzendfout
+multinewsletter_archive_recipients_failure_count = Aantal ontvangers met verzendfout
+multinewsletter_archive_recipients_failure_resend = Ontvangers met verzendfout opnieuw aan de verzendlijst toevoegen
+multinewsletter_archive_htmlbody = HTML-inhoud
+multinewsletter_archive_language = Taal
+multinewsletter_archive_output_details = Nieuwsbriefdetails
+multinewsletter_archive_deleted = Nieuwsbrief uit het archief verwijderd.
+
+multinewsletter_import_csvfile = CSV-bestand
+multinewsletter_import_add_new = Alleen nieuwe e-mailadressen toevoegen
+multinewsletter_import_delete = Adressen verwijderen
+multinewsletter_import_overwrite = Alle e-mailadressen importeren en - indien aanwezig - samenvoegen
+
+multinewsletter_status_online = actief
+multinewsletter_status_offline = inactief
+multinewsletter_status_all = Alles weergeven
+multinewsletter_all_groups = Alle groepen
+multinewsletter_no_groups = Zonder groep
+multinewsletter_clang_all = Alle talen
+
+multinewsletter_filter_itemsperpage = Aantal vermeldingen
+multinewsletter_filter_pro_seite = per pagina
+multinewsletter_filter_groups = Filter groepen
+multinewsletter_filter_status = Statusweergave
+multinewsletter_filter_clang = Taal
+multinewsletter_users_found = Gebruikers gevonden
+
+multinewsletter_button_addtogroup = Gemarkeerde items aan een groep toewijzen...
+multinewsletter_add_to_all_groups = Aan alle groepen toewijzen
+multinewsletter_remove_from_all_groups = Uit alle groepen uitschrijven
+multinewsletter_add_to_group = Aan groep »{0}« toewijzen.
+
+multinewsletter_get_each_status = individueel
+multinewsletter_get_each_clang = individueel
+multinewsletter_no_items_found = Geen vermeldingen gevonden
+
+multinewsletter_edit_all_selected = Alles selecteren
+
+multinewsletter_button_cancelall = Alles resetten
+multinewsletter_button_submit_delete = gemarkeerde verwijderen
+multinewsletter_button_save_all_items = gemarkeerde opslaan
+multinewsletter_button_submit_showall = Filter resetten
+multinewsletter_button_submit_exportusers = Gebruikerslijst als CSV exporteren
+multinewsletter_button_submit_import = Bestand importeren
+
+multinewsletter_confirm_prepare = E-mailadressen voorbereiden?
+multinewsletter_confirm_reset = Werkelijk alle instellingen resetten?
+multinewsletter_confirm_deletethis = Deze vermelding echt verwijderen?
+multinewsletter_confirm_deleteselected = Alle geselecteerde vermeldingen echt verwijderen?
+multinewsletter_confirm_save_all_items = Geselecteerde vermeldingen opslaan?
+multinewsletter_confirm_import = CSV-bestand echt importeren?
+
+multinewsletter_error_noarticle = Fout: geen artikel opgegeven.
+multinewsletter_error_invalidemail = Fout: ongeldig e-mailadres
+multinewsletter_error_articlenotfound = Artikel niet gevonden of offline geschakeld. (Artikel-ID {0}, taal {1})
+multinewsletter_error_nogroupselected = Er is geen geldige nieuwsbriefgroep opgegeven.
+multinewsletter_error_nousersprepared = Er zijn geen actieve gebruikers voor verzending gevonden. Controleer de geselecteerde groepen.
+multinewsletter_error_senderror = Verzenden mislukt.
+multinewsletter_error_send_incorrect_user = Verzendfout naar
+multinewsletter_error_someclangsoffline = Let op: sommige gebruikers ontvangen geen nieuwsbrief omdat de volgende taalversies voor het gekozen artikel niet online zijn: {0}
+multinewsletter_error_someclangsdefault = Let op: sommige gebruikers ontvangen een nieuwsbrief in de standaardtaal, omdat de volgende taalversies voor het gekozen artikel niet online zijn: {0}
+multinewsletter_error_noemailfield = Geen e-mailveld gevonden.
+multinewsletter_error_nothingtoimport = Geen gegevens gevonden om te importeren.
+
+multinewsletter_import_success_add = {0} records zijn toegevoegd.
+multinewsletter_import_success_delete = {0} records zijn verwijderd.
+multinewsletter_import_success_overwrite = {0} records zijn bijgewerkt of toegevoegd.
+
+multinewsletter_changes_saved = Wijzigingen opgeslagen.
+multinewsletter_changes_not_saved = Fout bij het opslaan van de wijzigingen.
+
+multinewsletter_newsletter_aus_einstellungen = Uit MultiNewsletter-instellingen
+
+multinewsletter_help_chapter_readme = Algemeen
+multinewsletter_help_chapter_module = Modules
+multinewsletter_help_chapter_template = Templates
+multinewsletter_help_chapter_updatehinweise = Update-instructies
+multinewsletter_help_chapter_import = Gebruikers importeren
+multinewsletter_help_chapter_changelog = Changelog
+multinewsletter_help_chapter_versand = Verzending
+multinewsletter_help_chapter_faq = FAQ
+
+multinewsletter_hinzufuegen = Toevoegen
+multinewsletter_delete = Vermelding verwijderd
+
+multinewsletter_lang_no_fallback = geen nieuwsbrief verzenden
+multinewsletter_lang_d2u_helper = Brontaal uit de instellingen van de D2U Helper add-on gebruiken
