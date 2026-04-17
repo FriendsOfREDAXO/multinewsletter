@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.8.1-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.8.0</p>
 	<ul>
 		<li>Neue Module 80-6 bis 80-10 als Bootstrap-5-Varianten der bestehenden Beispielmodule hinzugefügt.</li>
