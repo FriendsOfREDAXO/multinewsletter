@@ -1,0 +1,9 @@
+.rex-yform input[type="checkbox"], .rex-yform input[type="radio"] {
+    margin-right: 10px !important;
+}
+input[type="radio"] {
+	width: 1em;
+}
+#yform-formular-createdate {
+	display: none;
+}
