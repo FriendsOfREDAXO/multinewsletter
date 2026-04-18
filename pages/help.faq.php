@@ -65,6 +65,8 @@
 	$newsletterManager = new FriendsOfRedaxo\MultiNewsletter\NewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'));
 	// Newslettergruppe
 	$group = 1;
+	// Mehrere Gruppen mit
+	// $group = '2|3|4';
 	// Article-ID des Newsletters
 	$article_id = 1;
 	$newsletterManager->prepare([$group], // Group ID
