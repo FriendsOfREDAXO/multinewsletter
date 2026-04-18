@@ -29,7 +29,7 @@ if ('' !== $activationkey && false !== $email) {
 }
 
 $form_groups = filter_input_array(INPUT_POST, ['groups' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-$group_ids = is_array($form_groups['groups']) ? $form_groups['groups'] : [];
+$group_ids = is_array($form_groups) && is_array($form_groups['groups']) ? $form_groups['groups'] : $group_ids;
 
 $messages = [];
 

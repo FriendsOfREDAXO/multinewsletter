@@ -2,7 +2,8 @@
 	<legend>MultiNewsletter Changelog</legend>
 	<p>3.8.1-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>Bugfix: Fehler in den Modulen 80-3 und 80-8 bei der Backend-Ausgabe ohne POST-Gruppenauswahl behoben.</li>
+		<li>Verbesserung: BS5-Module 80-6 bis 80-10 mit mehr vertikalem Abstand zwischen den Formularfeldern versehen.</li>
 	</ul>
 	<p>3.8.0</p>
 	<ul>

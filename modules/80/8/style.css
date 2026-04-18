@@ -1,3 +1,10 @@
 .rex-yform input[type="checkbox"], .rex-yform input[type="radio"] {
     margin-right: 10px !important;
 }
+
+.rex-yform .form-group,
+.rex-yform .form-group.yform-element,
+.rex-yform .checkbox.formcheckbox,
+.rex-yform .formcheckbox.formlabel-group {
+    margin: 0.75rem 0;
+}
