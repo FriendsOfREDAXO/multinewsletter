@@ -165,7 +165,7 @@ multinewsletter_config_settings_export_btn = JSON-Datei herunterladen
 multinewsletter_config_settings_export_error = Es wurden keine Einstellungen zum Exportieren gefunden.
 
 multinewsletter_config_title_mailchimp = Mailchimp Einstellungen
-multinewsletter_expl_config_mailchimp = Es ist möglich die Benutzer mit Mailchimp zu synchronisieren. Dazu muss man zuerst auf Mailchimp die jeweiligen Listen erstellen und anschließend im Addon der Gruppe die entsprechende List zuweisen.<br>DSGVO Hinweis: der Abonnent muss darauf hingewiesen werden, dass seine Daten an Dritte (den Betreiber von Mailchimp) weitergegeben werden.
+multinewsletter_expl_config_mailchimp = Es ist möglich, die Benutzer mit Mailchimp zu synchronisieren. Dazu muss man zuerst bei Mailchimp die jeweiligen Listen erstellen und anschließend im Add-on der Gruppe die entsprechende Liste zuweisen.<br>DSGVO-Hinweis: Der Abonnent muss darauf hingewiesen werden, dass seine Daten an Dritte (den Betreiber von Mailchimp) weitergegeben werden.
 multinewsletter_config_mailchimp_api_key = API-Key
 multinewsletter_mailchimp_lists = Mailchimp-Liste
 multinewsletter_expl_config_sync = Liste Synchronisieren

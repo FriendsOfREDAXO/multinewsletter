@@ -8,12 +8,12 @@ multinewsletter_menu_import = Import
 multinewsletter_menu_versand = Send Newsletter
 multinewsletter_menu_user = Users
 
-multinewsletter_expl_testmail = Before you send a newslettern, you should check the look of the article as an email. Please send a test newsletter to your own address. Then you can make corrections and in case resend the test newsletter.
-multinewsletter_expl_prepare = Is test newsletter ok? <b>Changes of the article after preparation the newsletter won't be send.</b><br /><br />Please select recipient groups. If you want to select more than one group, keep Ctrl button pressed while selecting groups.
+multinewsletter_expl_testmail = Before you send a newsletter, you should check the look of the article as an email. Please send a test newsletter to your own address. Then you can make corrections and, if needed, resend the test newsletter.
+multinewsletter_expl_prepare = Is the test newsletter OK? <b>Changes to the article after preparing the newsletter won't be sent.</b><br /><br />Please select recipient groups. If you want to select more than one group, keep Ctrl button pressed while selecting groups.
 multinewsletter_recipient_selection = <b>OR</b> select multiple recipients.
 multinewsletter_expl_send = Depending on the number of recipients, sending the newsletter can take some minutes or even hours - please do not close browser windows during sending process, until newsletter is completely sent.
 multinewsletter_expl_send_success = Latest recipients:
-multinewsletter_expl_config_standards = Most hostings limit the numer of mails you can send. E.g. 1&1 allows to send a maximum of 45 mail in a slip. Afterwards, there must be a 5 minute break before new mails can be sent. Please enter limits in the fololowing fields.
+multinewsletter_expl_config_standards = Most hosting providers limit the number of mails you can send. E.g. 1&1 allows you to send a maximum of 45 mails in one batch. Afterwards, there must be a 5 minute break before new mails can be sent. Please enter limits in the following fields.
 multinewsletter_expl_import = Important CSV formatting hints can be found in help sections.
 
 multinewsletter_group = Groups
@@ -64,7 +64,7 @@ multinewsletter_newsletter_send_step1 = Step 1: select newsletter article
 multinewsletter_newsletter_send_step2 = Step 2: send testmail
 multinewsletter_newsletter_send_step3 = Step 3: prepare recipients
 multinewsletter_newsletter_send_step4 = Step 4: send newsletter
-multinewsletter_newsletter_2send = {0} newsletter receipients remain in sending queue.
+multinewsletter_newsletter_2send = {0} newsletter recipients remain in sending queue.
 multinewsletter_newsletter_sent = All newsletters sent.
 multinewsletter_newsletter_reloadin = Page reload and thus next shipping step in <span id="newsletter_reloadin"> </span> seconds.
 multinewsletter_newsletter_stop_reload = Interrupt automatic reload - send process can be continued later.
@@ -73,7 +73,7 @@ multinewsletter_newsletter_send_cron = Send newsletter automatically in backgrou
 multinewsletter_newsletter_send_cron_abort = Abort sending process
 multinewsletter_newsletter_send_cron_active = Started sending newsletter automatically. After sending, you will receive a message to the admin email address stored in settings. You can now prepare a next newsletter for autosend.
 multinewsletter_newsletter_send_cron_not_available = Automatic newsletter send option not available. Please install Cronjob addon. Activate autosend option in settings and enter your admin email address also.
-multinewsletter_newsletter_send_cron_warning = Currently, a newsletter is send in background. Please do not start sending a next newsletter manually, because server limits might be exceeded. Starting an other automatic newsletter is OK.
+multinewsletter_newsletter_send_cron_warning = Currently, a newsletter is being sent in the background. Please do not start sending the next newsletter manually, because server limits might be exceeded. Starting another automatic newsletter is OK.
 multinewsletter_newsletter_send_startdate = Send start date
 multinewsletter_newsletter_send_startdate_hint = Optional: Date and time when the automatic sending should start. If empty, sending starts immediately.
 multinewsletter_newsletter_key = Activation code
@@ -225,7 +225,7 @@ multinewsletter_button_cancelall = Reset all
 multinewsletter_button_submit_delete = delete selected
 multinewsletter_button_save_all_items = save selected
 multinewsletter_button_submit_showall = Reset filters
-multinewsletter_button_submit_exportusers = Export user list als CSV file
+multinewsletter_button_submit_exportusers = Export user list as CSV file
 multinewsletter_button_submit_import = Import file
 
 multinewsletter_confirm_prepare = Prepare e-mail addresses?
