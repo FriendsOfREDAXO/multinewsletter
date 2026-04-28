@@ -1,6 +1,7 @@
 <?php
 
 use TobiasKrais\D2UHelper\BackendHelper;
+$session_multinewsletter = rex_request::session('multinewsletter', 'array');
 $newsletterManager = new FriendsOfRedaxo\MultiNewsletter\NewsletterManager((int) rex_config::get('multinewsletter', 'max_mails'));
 // First do reset action
 if('' !== rex_request::request('reset', 'string')) {
@@ -26,8 +27,19 @@ if(!rex_addon::get('cronjob')->isAvailable() || 'active' !== (string) rex_config
                 $send_startdate = null;
             }
         }
+
+        $prepared_archive_ids = [];
+        if (isset($session_multinewsletter['newsletter']['prepared_archive_ids']) && is_array($session_multinewsletter['newsletter']['prepared_archive_ids'])) {
+            $prepared_archive_ids = array_map('intval', $session_multinewsletter['newsletter']['prepared_archive_ids']);
+        }
+
         // Send in background via CronJob
-        foreach($newsletterManager->archives as $archive) {
+        foreach($prepared_archive_ids as $prepared_archive_id) {
+            if (!isset($newsletterManager->archives[$prepared_archive_id])) {
+                continue;
+            }
+
+            $archive = $newsletterManager->archives[$prepared_archive_id];
             $archive->setAutosend($send_startdate);
         }
         $autosend_message = '<p>'. rex_i18n::msg('multinewsletter_newsletter_send_cron_active') .'</p><br>';
@@ -61,12 +73,14 @@ if(!rex_addon::get('cronjob')->isAvailable() || 'active' !== (string) rex_config
 $messages = [];
 
 // Suchkriterien in Session schreiben
-$session_multinewsletter = rex_request::session('multinewsletter', 'array');
 if(!array_key_exists('newsletter', $session_multinewsletter)) {
     $session_multinewsletter['newsletter'] = [];
 }
 if(!array_key_exists('sender_name', $session_multinewsletter['newsletter'])) {
     $session_multinewsletter['newsletter']['sender_name'] = [];
+}
+if(!array_key_exists('prepared_archive_ids', $session_multinewsletter['newsletter']) || !is_array($session_multinewsletter['newsletter']['prepared_archive_ids'])) {
+    $session_multinewsletter['newsletter']['prepared_archive_ids'] = [];
 }
 
 
@@ -84,6 +98,7 @@ if((!array_key_exists('status', $session_multinewsletter['newsletter']) && 0 ===
         || null !== filter_input(INPUT_POST, 'reset')) {
     // 0 = Aufruf des neuen Formulars
     $session_multinewsletter['newsletter']['status'] = 0;
+    $session_multinewsletter['newsletter']['prepared_archive_ids'] = [];
 }
 elseif(null !== filter_input(INPUT_POST, 'sendtestmail')) {
     // 1 = Testmail wurde verschickt
@@ -281,11 +296,13 @@ elseif('' !== rex_request::request('prepare', 'string')) {
     }
 
     if(0 === count($messages)) {
+        $existing_archive_ids = array_keys($newsletterManager->archives);
         $offline_lang_ids = $newsletterManager->prepare($session_multinewsletter['newsletter']['groups'],
             $session_multinewsletter['newsletter']['article_id'],
             null !== FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang() ? FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang() : 0,
             $session_multinewsletter['newsletter']['man_recipients'],
             (isset($session_multinewsletter['newsletter']['attachments'])) ? $session_multinewsletter['newsletter']['attachments'] : '');
+        $session_multinewsletter['newsletter']['prepared_archive_ids'] = array_values(array_diff(array_keys($newsletterManager->archives), $existing_archive_ids));
 
         // check if users were prepared for sending
         if($newsletterManager->countRemainingUsers() <= 0) {
