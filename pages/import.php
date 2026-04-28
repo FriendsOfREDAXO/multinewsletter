@@ -1,114 +1,123 @@
 <?php
 $messages = [];
 
+$csrfToken = rex_csrf_token::factory('multinewsletter_import');
+$invalidCsrf = false;
+
 $import_action = filter_input(INPUT_POST, 'import_action');
 
 // Wenn Formular schon ausgefüllt wurde
 if (false !== $import_action && '' !== $import_action) {
-    $import_file_raw = rex_request::files('newsletter_file');
-    $import_filename = is_array($import_file_raw) && array_key_exists('tmp_name', $import_file_raw) ? (string) $import_file_raw['tmp_name'] : '';
-    if ('' !== $import_filename && file_exists($import_filename)) {
-        $csv_users = [];
-        $csv_handle = fopen($import_filename, "r");
-        if(false !== $csv_handle) {
-            while (($data = fgetcsv($csv_handle, 100000, ";")) !== FALSE) {
-                $csv_users[] = $data;
-            }
-            fclose($csv_handle);
-        }
+    if (!$csrfToken->isValid()) {
+        echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+        $invalidCsrf = true;
+    }
 
-        if (count($csv_users) > 0) {
-            $fields = [
-                'email' => -1,
-                'grad' => -1,
-                'firstname' => -1,
-                'lastname' => -1,
-                'title' => -1,
-                'clang' => -1,
-                'clang_id' => -1,
-                'status' => -1,
-                'createip' => -1,
-                'send_group' => -1,
-                'group_ids' => -1,
-            ];
-            // Überschriften auslesen
-            foreach ($csv_users[0] as $id => $name) {
-                $fields[$name] = $id;
+    if (!$invalidCsrf) {
+        $import_file_raw = rex_request::files('newsletter_file');
+        $import_filename = is_array($import_file_raw) && array_key_exists('tmp_name', $import_file_raw) ? (string) $import_file_raw['tmp_name'] : '';
+        if ('' !== $import_filename && file_exists($import_filename)) {
+            $csv_users = [];
+            $csv_handle = fopen($import_filename, "r");
+            if(false !== $csv_handle) {
+                while (($data = fgetcsv($csv_handle, 100000, ";")) !== FALSE) {
+                    $csv_users[] = $data;
+                }
+                fclose($csv_handle);
             }
 
-            // Spalte "email" muss existieren
-            if ($fields['email'] > -1) {
-                $multinewsletter_list = new FriendsOfRedaxo\MultiNewsletter\Userlist([]);
-                foreach ($csv_users as $csv_user) {
-                    if (false !== filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL)) {
-                        $multinewsletter_user = FriendsOfRedaxo\MultiNewsletter\User::initByMail(strtolower($csv_user[$fields['email']]));
-                        if (!$multinewsletter_user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
-                            $multinewsletter_user = new FriendsOfRedaxo\MultiNewsletter\User(0);
-                            $multinewsletter_user->email = strtolower(filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL));
-                        }
+            if (count($csv_users) > 0) {
+                $fields = [
+                    'email' => -1,
+                    'grad' => -1,
+                    'firstname' => -1,
+                    'lastname' => -1,
+                    'title' => -1,
+                    'clang' => -1,
+                    'clang_id' => -1,
+                    'status' => -1,
+                    'createip' => -1,
+                    'send_group' => -1,
+                    'group_ids' => -1,
+                ];
+                // Überschriften auslesen
+                foreach ($csv_users[0] as $id => $name) {
+                    $fields[$name] = $id;
+                }
 
-                        // Sprache
-                        $user_clang_id = 0;
-                        if ($fields['clang'] > -1 && array_key_exists($csv_user[$fields['clang_id']], rex_clang::getAll())) {
-                            $user_clang_id = $csv_user[$fields['clang']];
-                        } elseif ($fields['clang_id'] > -1 && array_key_exists($csv_user[$fields['clang_id']], rex_clang::getAll())) {
-                            $user_clang_id = $csv_user[$fields['clang_id']];
-                        } else {
-                            // Default langugage
-                            $user_clang_id = FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang(rex_clang::getStartId());
-                        }
-                        if (false !== filter_var($user_clang_id, FILTER_VALIDATE_INT)) {
-                            // Falls ID der Sprache im CSV festgelegt wurde
-                            $multinewsletter_user->clang_id = filter_var($user_clang_id, FILTER_VALIDATE_INT);
-                        } else {
-                            // Falls Name der Sprache, statt ID in CSV festgelegt wurde
-                            foreach (rex_clang::getAll() as $clang_id => $clang_name) {
-                                if ($clang_name === $user_clang_id) {
-                                    $multinewsletter_user->clang_id = $clang_id;
-                                    break;
+                // Spalte "email" muss existieren
+                if ($fields['email'] > -1) {
+                    $multinewsletter_list = new FriendsOfRedaxo\MultiNewsletter\Userlist([]);
+                    foreach ($csv_users as $csv_user) {
+                        if (false !== filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL)) {
+                            $multinewsletter_user = FriendsOfRedaxo\MultiNewsletter\User::initByMail(strtolower($csv_user[$fields['email']]));
+                            if (!$multinewsletter_user instanceof FriendsOfRedaxo\MultiNewsletter\User) {
+                                $multinewsletter_user = new FriendsOfRedaxo\MultiNewsletter\User(0);
+                                $multinewsletter_user->email = strtolower(filter_var(trim($csv_user[$fields['email']]), FILTER_VALIDATE_EMAIL));
+                            }
+
+                            // Sprache
+                            $user_clang_id = 0;
+                            if ($fields['clang'] > -1 && array_key_exists($csv_user[$fields['clang_id']], rex_clang::getAll())) {
+                                $user_clang_id = $csv_user[$fields['clang']];
+                            } elseif ($fields['clang_id'] > -1 && array_key_exists($csv_user[$fields['clang_id']], rex_clang::getAll())) {
+                                $user_clang_id = $csv_user[$fields['clang_id']];
+                            } else {
+                                // Default langugage
+                                $user_clang_id = FriendsOfRedaxo\MultiNewsletter\Newsletter::getFallbackLang(rex_clang::getStartId());
+                            }
+                            if (false !== filter_var($user_clang_id, FILTER_VALIDATE_INT)) {
+                                // Falls ID der Sprache im CSV festgelegt wurde
+                                $multinewsletter_user->clang_id = filter_var($user_clang_id, FILTER_VALIDATE_INT);
+                            } else {
+                                // Falls Name der Sprache, statt ID in CSV festgelegt wurde
+                                foreach (rex_clang::getAll() as $clang_id => $clang_name) {
+                                    if ($clang_name === $user_clang_id) {
+                                        $multinewsletter_user->clang_id = $clang_id;
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
-                        // Akademischer Grad
-                        if ($fields['grad'] > -1 && '' !== $csv_user[$fields['grad']]) {
-                            $multinewsletter_user->grad = $csv_user[$fields['grad']];
-                        }
-                        // Vorname
-                        if ($fields['firstname'] > -1 && '' !== $csv_user[$fields['firstname']]) {
-                            $multinewsletter_user->firstname = trim($csv_user[$fields['firstname']]);
-                        }
-                        // Nachname
-                        if ($fields['lastname'] > -1 && '' !== $csv_user[$fields['lastname']]) {
-                            $multinewsletter_user->lastname = trim($csv_user[$fields['lastname']]);
-                        }
-                        // Anrede
-                        if ($fields['title'] > -1 && false !== filter_var($csv_user[$fields['title']], FILTER_VALIDATE_INT)) {
-                            $multinewsletter_user->title = filter_var($csv_user[$fields['title']], FILTER_VALIDATE_INT);
-                        }
-                        // Status
-                        if ($fields['status'] > -1 && false !== filter_var($csv_user[$fields['status']], FILTER_VALIDATE_INT)) {
-                            $multinewsletter_user->status = filter_var($csv_user[$fields['status']], FILTER_VALIDATE_INT);
-                        }
-                        // IP Adresse (erstellt)
-                        if ($fields['createip'] > -1 && false !== filter_var($csv_user[$fields['createip']], FILTER_VALIDATE_IP)) {
-                            $multinewsletter_user->createip = filter_var($csv_user[$fields['createip']], FILTER_VALIDATE_IP);
-                        } else {
-                            $multinewsletter_user->createip = rex_request::server('REMOTE_ADDR', 'string');
-                        }
-                        // Erstellungsdatum
-                        if ('' === $multinewsletter_user->createdate) {
-                            $multinewsletter_user->createdate = date("Y-m-d H:i:s");
-                        }
-                        // IP Adresse (update)
-                        $multinewsletter_user->updateip = rex_request::server('REMOTE_ADDR', 'string');
-                        // Updatedatum
-                        $multinewsletter_user->updatedate = date("Y-m-d H:i:s");
-                        // Subscription type
-                        $multinewsletter_user->subscriptiontype = 'import';
-                        // Gruppen
-                        $gruppen_ids = [];
-                        if ($fields['send_group'] > -1) {
+                            // Akademischer Grad
+                            if ($fields['grad'] > -1 && '' !== $csv_user[$fields['grad']]) {
+                                $multinewsletter_user->grad = $csv_user[$fields['grad']];
+                            }
+                            // Vorname
+                            if ($fields['firstname'] > -1 && '' !== $csv_user[$fields['firstname']]) {
+                                $multinewsletter_user->firstname = trim($csv_user[$fields['firstname']]);
+                            }
+                            // Nachname
+                            if ($fields['lastname'] > -1 && '' !== $csv_user[$fields['lastname']]) {
+                                $multinewsletter_user->lastname = trim($csv_user[$fields['lastname']]);
+                            }
+                            // Anrede
+                            if ($fields['title'] > -1 && false !== filter_var($csv_user[$fields['title']], FILTER_VALIDATE_INT)) {
+                                $multinewsletter_user->title = filter_var($csv_user[$fields['title']], FILTER_VALIDATE_INT);
+                            }
+                            // Status
+                            if ($fields['status'] > -1 && false !== filter_var($csv_user[$fields['status']], FILTER_VALIDATE_INT)) {
+                                $multinewsletter_user->status = filter_var($csv_user[$fields['status']], FILTER_VALIDATE_INT);
+                            }
+                            // IP Adresse (erstellt)
+                            if ($fields['createip'] > -1 && false !== filter_var($csv_user[$fields['createip']], FILTER_VALIDATE_IP)) {
+                                $multinewsletter_user->createip = filter_var($csv_user[$fields['createip']], FILTER_VALIDATE_IP);
+                            } else {
+                                $multinewsletter_user->createip = rex_request::server('REMOTE_ADDR', 'string');
+                            }
+                            // Erstellungsdatum
+                            if ('' === $multinewsletter_user->createdate) {
+                                $multinewsletter_user->createdate = date("Y-m-d H:i:s");
+                            }
+                            // IP Adresse (update)
+                            $multinewsletter_user->updateip = rex_request::server('REMOTE_ADDR', 'string');
+                            // Updatedatum
+                            $multinewsletter_user->updatedate = date("Y-m-d H:i:s");
+                            // Subscription type
+                            $multinewsletter_user->subscriptiontype = 'import';
+                            // Gruppen
+                            $gruppen_ids = [];
+                            if ($fields['send_group'] > -1) {
                             $gruppen_ids = preg_grep('/^\s*$/s', explode('|', $csv_user[$fields['send_group']]), PREG_GREP_INVERT);
                         } elseif ($fields['group_ids'] > -1) {
                             $gruppen_ids = preg_grep('/^\s*$/s', explode('|', $csv_user[$fields['group_ids']]), PREG_GREP_INVERT);
@@ -168,6 +177,7 @@ if (false !== $import_action && '' !== $import_action) {
     } else {
         $messages[] = rex_i18n::msg('multinewsletter_error_nothingtoimport');
     }
+	}
 }
 
 // Meldungen ausgeben
@@ -177,6 +187,7 @@ foreach ($messages as $message) {
 ?>
 
 <form action="<?= rex_url::currentBackendPage() ?>" method="post" name="MULTINEWSLETTER" enctype="multipart/form-data">
+    <?= $csrfToken->getHiddenField() ?>
 	<div class="panel panel-edit">
 		<header class="panel-heading"><div class="panel-title"><?= rex_i18n::msg('multinewsletter_menu_import') ?></div></header>
 		<div class="panel-body">

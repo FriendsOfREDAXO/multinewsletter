@@ -1,10 +1,15 @@
 <?php
 
+$csrfToken = rex_csrf_token::factory('multinewsletter_archive');
 $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
 $resend_failure = rex_request('resend-failure', 'int', 0);
 
 if ($resend_failure > 0) {
+    if (!$csrfToken->isValid()) {
+        echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+        return;
+    }
     $query_archive = 'SELECT recipients_failure FROM ' . rex::getTablePrefix() . '375_archive WHERE id = ' . $resend_failure;
     $result_archive = rex_sql::factory();
     $result_archive->setQuery($query_archive);
@@ -122,7 +127,7 @@ if ('edit' === $func) {
 
     if (is_array($recipients_failure) && count($recipients_failure) > 0) {
         $form->addRawField(raw_field(rex_i18n::msg('multinewsletter_archive_recipients_failure'), $recipients_failure_html));
-        $form->addRawField(raw_field('', '<a href="'. rex_url::currentBackendPage(['resend-failure' => $entry_id]) .'">'. rex_i18n::msg('multinewsletter_archive_recipients_failure_resend') .'</a>'));
+        $form->addRawField(raw_field('', '<a href="'. rex_url::currentBackendPage(['resend-failure' => $entry_id] + $csrfToken->getUrlParams()) .'">'. rex_i18n::msg('multinewsletter_archive_recipients_failure_resend') .'</a>'));
     }
 
     // E-Mail-Adresse Absender
@@ -164,6 +169,10 @@ elseif ('shownewsletter' === $func) {
 }
 // Delete entry and in case also remaining sendlist users
 elseif ('delete' === $func) {
+    if (!$csrfToken->isValid()) {
+        echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+        return;
+    }
     $result = rex_sql::factory();
     $result->setQuery('DELETE FROM ' . rex::getTablePrefix() . '375_archive WHERE id = ' . $entry_id);
     $result->setQuery('DELETE FROM ' . rex::getTablePrefix() . '375_sendlist WHERE archive_id = ' . $entry_id);
@@ -217,7 +226,7 @@ if ('' === $func) {
 
     $list->addColumn(rex_i18n::msg('delete_module'), '<i class="rex-icon rex-icon-delete"></i> ' . rex_i18n::msg('delete'));
     $list->setColumnLayout(rex_i18n::msg('delete_module'), ['', '<td class="rex-table-action">###VALUE###</td>']);
-    $list->setColumnParams(rex_i18n::msg('delete_module'), ['func' => 'delete', 'entry_id' => '###id###']);
+    $list->setColumnParams(rex_i18n::msg('delete_module'), ['func' => 'delete', 'entry_id' => '###id###'] + $csrfToken->getUrlParams());
     $list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('confirm_delete_module'));
 
     $list->setNoRowsMessage(rex_i18n::msg('multinewsletter_group_not_found'));

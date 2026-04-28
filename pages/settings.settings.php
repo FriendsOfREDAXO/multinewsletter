@@ -1,6 +1,7 @@
 <?php
 
 use TobiasKrais\D2UHelper\BackendHelper;
+$csrfToken = rex_csrf_token::factory('multinewsletter_settings');
 $lang_presets = [
     [
         'code' => 'de',
@@ -151,55 +152,62 @@ Posso ritirare il tuo consenso in qualsiasi momento dalle informazioni di contat
 ];
 
 // save settings
+$invalidCsrf = false;
 if ('Speichern' === rex_request::request('btn_save', 'string')) {
-    $settings = rex_post('settings', 'array', []);
-
-    // Linkmap Link braucht besondere Behandlung
-    $link_ids = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-    $link_names = filter_input_array(INPUT_POST, ['REX_LINK_NAME' => ['flags' => FILTER_REQUIRE_ARRAY]]);
-
-    $settings['link'] = is_array($link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][1] : 0;
-    $settings['linkname'] = trim($link_names['REX_LINK_NAME'][1]);
-    $settings['link_abmeldung'] = is_array($link_ids['REX_INPUT_LINK']) && array_key_exists(2, $link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][2] : 0;
-    $settings['linkname_abmeldung'] = trim($link_names['REX_LINK_NAME'][2]);
-    $settings['default_test_article'] = is_array($link_ids['REX_INPUT_LINK']) && array_key_exists(3, $link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][3] : 0;
-
-    $settings['autocleanup'] = array_key_exists('autocleanup', $settings) ? 'active' : 'inactive';
-    $settings['autosend'] = array_key_exists('autosend', $settings) ? 'active' : 'inactive';
-
-    // import yform-manager tablesets
-    if (1 === (int) $settings['use_yform'] && rex_plugin::get('yform', 'manager')->isAvailable() && !rex_yform_manager_table::get(rex::getTablePrefix() .'375_user') instanceof rex_yform_manager_table) {
-        $content = file_get_contents(rex_path::addon('multinewsletter', 'snippets') . '/yform_manager_tableset_user.json');
-        if(false !== $content) {
-            \rex_yform_manager_table_api::importTablesets($content);
-        }
-    } elseif (0 === (int) $settings['use_yform'] && rex_plugin::get('yform', 'manager')->isAvailable() && rex_yform_manager_table::get(rex::getTablePrefix() .'375_user') instanceof rex_yform_manager_table) {
-        \rex_yform_manager_table_api::removeTable(rex::getTablePrefix() .'375_user');
+    if (!$csrfToken->isValid()) {
+        echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+		$invalidCsrf = true;
     }
+    if (!$invalidCsrf) {
+        $settings = rex_post('settings', 'array', []);
 
-    // Save settings
-    if (rex_config::set('multinewsletter', $settings)) {
-        echo rex_view::success(rex_i18n::msg('multinewsletter_changes_saved'));
+        // Linkmap Link braucht besondere Behandlung
+        $link_ids = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
+        $link_names = filter_input_array(INPUT_POST, ['REX_LINK_NAME' => ['flags' => FILTER_REQUIRE_ARRAY]]);
 
-        // Install / remove Cronjobs
-        $cronjob_cleanup = FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::factory();
-        if ('active' === (string) rex_config::get('multinewsletter', 'autocleanup')) {
-            if (!$cronjob_cleanup->isInstalled()) {
-                $cronjob_cleanup->install();
+        $settings['link'] = is_array($link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][1] : 0;
+        $settings['linkname'] = trim($link_names['REX_LINK_NAME'][1]);
+        $settings['link_abmeldung'] = is_array($link_ids['REX_INPUT_LINK']) && array_key_exists(2, $link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][2] : 0;
+        $settings['linkname_abmeldung'] = trim($link_names['REX_LINK_NAME'][2]);
+        $settings['default_test_article'] = is_array($link_ids['REX_INPUT_LINK']) && array_key_exists(3, $link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][3] : 0;
+
+        $settings['autocleanup'] = array_key_exists('autocleanup', $settings) ? 'active' : 'inactive';
+        $settings['autosend'] = array_key_exists('autosend', $settings) ? 'active' : 'inactive';
+
+        // import yform-manager tablesets
+        if (1 === (int) $settings['use_yform'] && rex_plugin::get('yform', 'manager')->isAvailable() && !rex_yform_manager_table::get(rex::getTablePrefix() .'375_user') instanceof rex_yform_manager_table) {
+            $content = file_get_contents(rex_path::addon('multinewsletter', 'snippets') . '/yform_manager_tableset_user.json');
+            if(false !== $content) {
+                \rex_yform_manager_table_api::importTablesets($content);
+            }
+        } elseif (0 === (int) $settings['use_yform'] && rex_plugin::get('yform', 'manager')->isAvailable() && rex_yform_manager_table::get(rex::getTablePrefix() .'375_user') instanceof rex_yform_manager_table) {
+            \rex_yform_manager_table_api::removeTable(rex::getTablePrefix() .'375_user');
+        }
+
+        // Save settings
+        if (rex_config::set('multinewsletter', $settings)) {
+            echo rex_view::success(rex_i18n::msg('multinewsletter_changes_saved'));
+
+            // Install / remove Cronjobs
+            $cronjob_cleanup = FriendsOfRedaxo\MultiNewsletter\CronjobCleanup::factory();
+            if ('active' === (string) rex_config::get('multinewsletter', 'autocleanup')) {
+                if (!$cronjob_cleanup->isInstalled()) {
+                    $cronjob_cleanup->install();
+                }
+            } else {
+                $cronjob_cleanup->delete();
+            }
+            $cronjob_sender = FriendsOfRedaxo\MultiNewsletter\CronjobSender::factory();
+            if ('active' === (string) rex_config::get('multinewsletter', 'autosend')) {
+                if (!$cronjob_sender->isInstalled()) {
+                    $cronjob_sender->install();
+                }
+            } else {
+                $cronjob_sender->delete();
             }
         } else {
-            $cronjob_cleanup->delete();
+            echo rex_view::error(rex_i18n::msg('multinewsletter_changes_not_saved'));
         }
-        $cronjob_sender = FriendsOfRedaxo\MultiNewsletter\CronjobSender::factory();
-        if ('active' === (string) rex_config::get('multinewsletter', 'autosend')) {
-            if (!$cronjob_sender->isInstalled()) {
-                $cronjob_sender->install();
-            }
-        } else {
-            $cronjob_sender->delete();
-        }
-    } else {
-        echo rex_view::error(rex_i18n::msg('multinewsletter_changes_not_saved'));
     }
 }
 
@@ -210,7 +218,8 @@ foreach (rex_clang::getAll() as $rex_clang) {
 }
 
 ?>
-<form action="<?= rex_url::currentBackendPage() ?>" method="post">
+<form action="<?= BackendHelper::getCurrentBackendPage([], ['message', 'message_type']) ?>" method="post">
+    <?= $csrfToken->getHiddenField() ?>
 	<div class="panel panel-edit">
 		<header class="panel-heading"><div class="panel-title"><?= rex_i18n::msg('multinewsletter_menu_config') ?></div></header>
 		<div class="panel-body">

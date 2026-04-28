@@ -2,6 +2,7 @@
 	<legend>MultiNewsletter Changelog</legend>
 	<p>3.8.1-DEV</p>
 	<ul>
+		<li>Backend: CSRF-Schutz fuer Import, Einstellungen sowie mutierende Gruppen- und Archivaktionen ergaenzt.</li>
 		<li>Bugfix: Beim geplanten Versand per Cronjob wird ein manuell gesetztes Sendedatum nur noch für den gerade vorbereiteten Newsletter gesetzt und nicht mehr für alle Einträge in der Sendeschleife.</li>
 		<li>Bugfix: Fehler in den Modulen 80-3 und 80-8 bei der Backend-Ausgabe ohne POST-Gruppenauswahl behoben.</li>
 		<li>Verbesserung: BS5-Module 80-6 bis 80-10 mit mehr vertikalem Abstand zwischen den Formularfeldern versehen.</li>
