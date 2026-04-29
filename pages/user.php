@@ -6,6 +6,18 @@ if ('' !== rex_request::request('newsletter_exportusers', 'string')) {
     $func = 'export';
 }
 
+$csrfToken = \TobiasKrais\D2UHelper\BackendHelper::getPageCsrfToken();
+$invalidCsrf = false;
+$hasMutatingPost = 'POST' === rex_request::server('REQUEST_METHOD', 'string', 'GET');
+if ($hasMutatingPost && !$csrfToken->isValid()) {
+    echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
+    $invalidCsrf = true;
+}
+
+// Whitelist orderby and direction to prevent SQL column injection
+$orderbyWhitelist = ['email', 'firstname', 'lastname', 'clang_id', 'createdate', 'updatedate', 'status'];
+$directionWhitelist = ['ASC', 'DESC'];
+
 $newsletter_groups = FriendsOfRedaxo\MultiNewsletter\Group::getAll();
 
 $session_multinewsletter = rex_request::session('multinewsletter', 'array');
@@ -33,6 +45,13 @@ if ('' === $func) {
         $session_multinewsletter['user']['orderby'] = 'email';
     }
     if (!array_key_exists('direction', $session_multinewsletter['user'])) {
+        $session_multinewsletter['user']['direction'] = 'ASC';
+    }
+    // Whitelist sanitize to prevent SQL column injection
+    if (!in_array($session_multinewsletter['user']['orderby'], $orderbyWhitelist, true)) {
+        $session_multinewsletter['user']['orderby'] = 'email';
+    }
+    if (!in_array($session_multinewsletter['user']['direction'], $directionWhitelist, true)) {
         $session_multinewsletter['user']['direction'] = 'ASC';
     }
 
@@ -79,6 +98,10 @@ if ('' === $func) {
     }
     
     $aktion = false;
+    if ($invalidCsrf) {
+        $form_users = [];
+        $selected_users = [];
+    }
     foreach ($form_users as $user_id => $fields) {
         $user = new FriendsOfRedaxo\MultiNewsletter\User($user_id);
 
@@ -137,29 +160,33 @@ if ('' === $func) {
     $result_list = rex_sql::factory();
     $query_where = '';
     $where = [];
+    $params = [];
     if ('' !== $session_multinewsletter['user']['search_query']) {
-        $where[] = "(email LIKE '%". $session_multinewsletter['user']['search_query'] ."%' "
-            ."OR firstname LIKE '%". $session_multinewsletter['user']['search_query'] ."%' "
-            ."OR lastname LIKE '%". $session_multinewsletter['user']['search_query'] ."%')";
+        $like = '%' . addcslashes((string) $session_multinewsletter['user']['search_query'], '\\%_') . '%';
+        $where[] = '(email LIKE :search_email OR firstname LIKE :search_firstname OR lastname LIKE :search_lastname)';
+        $params['search_email'] = $like;
+        $params['search_firstname'] = $like;
+        $params['search_lastname'] = $like;
     }
     if ((int) $session_multinewsletter['user']['showgroup'] > 0) {
+        $sg = (int) $session_multinewsletter['user']['showgroup'];
         $where[] = "
-            (group_ids = '" . $session_multinewsletter['user']['showgroup'] . "' OR
-            group_ids LIKE '" . $session_multinewsletter['user']['showgroup'] . "|%' OR
-            group_ids LIKE '%|" . $session_multinewsletter['user']['showgroup'] . "' OR
-            group_ids LIKE '%|" . $session_multinewsletter['user']['showgroup'] . "|%' OR
-            group_ids LIKE '" . $session_multinewsletter['user']['showgroup'] . ",%' OR
-            group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . "' OR
-            group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . ",%')
+            (group_ids = '" . $sg . "' OR
+            group_ids LIKE '" . $sg . "|%' OR
+            group_ids LIKE '%|" . $sg . "' OR
+            group_ids LIKE '%|" . $sg . "|%' OR
+            group_ids LIKE '" . $sg . ",%' OR
+            group_ids LIKE '%," . $sg . "' OR
+            group_ids LIKE '%," . $sg . ",%')
         ";
     } elseif ('no' === $session_multinewsletter['user']['showgroup']) {
         $where[] = "(group_ids = '' OR group_ids = '||' OR group_ids IS NULL)";
     }
     if ($session_multinewsletter['user']['showstatus'] >= 0) {
-        $where[] = 'status = '. $session_multinewsletter['user']['showstatus'];
+        $where[] = 'status = '. (int) $session_multinewsletter['user']['showstatus'];
     }
     if ($session_multinewsletter['user']['showclang'] >= 0) {
-        $where[] = 'clang_id = '. $session_multinewsletter['user']['showclang'];
+        $where[] = 'clang_id = '. (int) $session_multinewsletter['user']['showclang'];
     }
     if (count($where) > 0) {
         $query_where .= ' WHERE '. implode(' AND ', $where) .' ';
@@ -168,7 +195,7 @@ if ('' === $func) {
         $query_where .= 'ORDER BY '. $session_multinewsletter['user']['orderby'] .' '. $session_multinewsletter['user']['direction'];
     }
     $query_count = 'SELECT COUNT(*) as counter FROM '. rex::getTablePrefix() .'375_user '. $query_where;
-    $result_list->setQuery($query_count);
+    $result_list->setQuery($query_count, $params);
     $count_users = $result_list->getValue('counter');
 
     $start = $session_multinewsletter['user']['pagenumber'] * $session_multinewsletter['user']['itemsperpage'];
@@ -177,8 +204,8 @@ if ('' === $func) {
         $start = 0;
         $session_multinewsletter['user']['pagenumber'] = 0;
     }
-    $query_list = 'SELECT id FROM '. rex::getTablePrefix() .'375_user '. $query_where. ' LIMIT '. $start .','. $session_multinewsletter['user']['itemsperpage'];
-    $result_list->setQuery($query_list);
+    $query_list = 'SELECT id FROM '. rex::getTablePrefix() .'375_user '. $query_where. ' LIMIT '. (int) $start .','. (int) $session_multinewsletter['user']['itemsperpage'];
+    $result_list->setQuery($query_list, $params);
     $num_rows_list = $result_list->getRows();
 
     $user_ids = [];
@@ -195,6 +222,7 @@ if ('' === $func) {
     }
 ?>
 	<form action="<?= rex_url::currentBackendPage() ?>" method="post" name="MULTINEWSLETTER">
+		<?= $csrfToken->getHiddenField() ?>
 		<table class="table table-striped table-hover">
 			<tbody>
 				<tr>
@@ -578,27 +606,31 @@ elseif ('edit' === $func || 'add' === $func) {
     $result_list = rex_sql::factory();
     $query_where = '';
     $where = [];
+    $params = [];
     if ('' !== $session_multinewsletter['user']['search_query']) {
-        $where[] = "(email LIKE '%". $session_multinewsletter['user']['search_query'] ."%' "
-            ."OR firstname LIKE '%". $session_multinewsletter['user']['search_query'] ."%' "
-            ."OR lastname LIKE '%". $session_multinewsletter['user']['search_query'] ."%')";
+        $like = '%' . addcslashes((string) $session_multinewsletter['user']['search_query'], '\\%_') . '%';
+        $where[] = '(email LIKE :search_email OR firstname LIKE :search_firstname OR lastname LIKE :search_lastname)';
+        $params['search_email'] = $like;
+        $params['search_firstname'] = $like;
+        $params['search_lastname'] = $like;
     }
     if (false !== filter_var($session_multinewsletter['user']['showgroup'], FILTER_VALIDATE_INT)) {
+        $sg = (int) $session_multinewsletter['user']['showgroup'];
         $where[] = "
-            group_ids = '" . $session_multinewsletter['user']['showgroup'] . "' OR
-            group_ids LIKE '" . $session_multinewsletter['user']['showgroup'] . "|%' OR
-            group_ids LIKE '%|" . $session_multinewsletter['user']['showgroup'] . "' OR
-            group_ids LIKE '%|" . $session_multinewsletter['user']['showgroup'] . "|%' OR
-            group_ids LIKE '" . $session_multinewsletter['user']['showgroup'] . ",%' OR
-            group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . "' OR
-            group_ids LIKE '%," . $session_multinewsletter['user']['showgroup'] . ",%'
+            group_ids = '" . $sg . "' OR
+            group_ids LIKE '" . $sg . "|%' OR
+            group_ids LIKE '%|" . $sg . "' OR
+            group_ids LIKE '%|" . $sg . "|%' OR
+            group_ids LIKE '" . $sg . ",%' OR
+            group_ids LIKE '%," . $sg . "' OR
+            group_ids LIKE '%," . $sg . ",%'
         ";
     }
     if ($session_multinewsletter['user']['showstatus'] >= 0) {
-        $where[] = 'status = '. $session_multinewsletter['user']['showstatus'];
+        $where[] = 'status = '. (int) $session_multinewsletter['user']['showstatus'];
     }
     if ($session_multinewsletter['user']['showclang'] >= 0) {
-        $where[] = 'clang_id = '. $session_multinewsletter['user']['showclang'];
+        $where[] = 'clang_id = '. (int) $session_multinewsletter['user']['showclang'];
     }
     if (count($where) > 0) {
         $query_where .= ' WHERE '. implode(' AND ', $where) .' ';
@@ -609,7 +641,7 @@ elseif ('edit' === $func || 'add' === $func) {
     $start = $session_multinewsletter['user']['pagenumber'] * $session_multinewsletter['user']['itemsperpage'];
     $query_list = 'SELECT id FROM '. rex::getTablePrefix() .'375_user '. $query_where;
 
-    $result_list->setQuery($query_list);
+    $result_list->setQuery($query_list, $params);
     $num_rows_list = $result_list->getRows();
     $user_ids = [];
     for ($i = 0; $i < $num_rows_list; ++$i) {
