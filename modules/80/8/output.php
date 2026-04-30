@@ -46,7 +46,7 @@ if (null !== filter_input(INPUT_POST, 'submit')) {
         echo '<p><b>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_no_userdata') .'</b></p>';
         echo '<ul>';
         foreach ($messages as $message) {
-            echo '<li><b>'. $message .'</b></li>';
+            echo '<li><b>'. rex_escape($message) .'</b></li>';
         }
         echo '</ul>';
         echo '<br>';
@@ -117,15 +117,15 @@ if ($showform) {
 	<form action="<?= rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId()) ?>" method="post" name="subscribe" class="rex-yform">
 		<div class="form-group yform-element" id="yform-formular-email">
 			<label class="control-label" for="email"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?> *</label>
-			<input class="form-control" name="email" id="email" value="<?= (false !== $email ? $email : '') ?>" type="email" maxlength="100" required>
+			<input class="form-control" name="email" id="email" value="<?= rex_escape((false !== $email ? (string) $email : '')) ?>" type="email" maxlength="100" required>
 		</div>
 		<?php
             if (1 === count($group_ids)) {
                 foreach ($group_ids as $group_id) {
-                    echo '<input type="hidden" name="groups['. $group_id.']" value="'. $group_id .'" />';
+                    echo '<input type="hidden" name="groups['. (int) $group_id.']" value="'. (int) $group_id .'" />';
                 }
             } elseif (count($group_ids) > 1) {
-                echo '<br clear="all"><p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter') .'</p>';
+                echo '<br clear="all"><p>'. rex_escape((string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter')) .'</p>';
 
                 foreach ($group_ids as $group_id) {
                     $group = new FriendsOfRedaxo\MultiNewsletter\Group($group_id);
@@ -135,8 +135,8 @@ if ($showform) {
                         if (in_array($group_id, $group_ids, true)) {
                             $checked = ' checked="checked"';
                         }
-                        echo '<input class="checkbox" name="groups['. $group_id .']" id="yform-formular-'. $group_id .'" value="'. $group_id .'" type="checkbox"'. $checked .'>';
-                        echo '<label class="control-label" for="groups['. $group_id .']">'. $group->name .'</label>';
+                        echo '<input class="checkbox" name="groups['. (int) $group_id .']" id="yform-formular-'. (int) $group_id .'" value="'. (int) $group_id .'" type="checkbox"'. $checked .'>';
+                        echo '<label class="control-label" for="groups['. (int) $group_id .']">'. rex_escape($group->name) .'</label>';
                         echo '</div>';
                     }
                 }

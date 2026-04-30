@@ -337,28 +337,36 @@ class Newsletter
     {
         $error = true;
 
-        $query = \rex::getTablePrefix() .'375_archive SET '
-                    .'article_id = '. $this->article_id .', '
-                    .'clang_id = '. $this->clang_id .', '
-                    ."subject = '". addslashes(htmlspecialchars($this->subject)) ."', "
-                    ."htmlbody = '". base64_encode($this->htmlbody) ."', "
-                    ."attachments = '". implode(',', $this->attachments) ."', "
-                    ."recipients = '". implode(',', $this->recipients) ."', "
-                    ."recipients_failure = '". implode(',', $this->recipients_failure) ."', "
-                    ."group_ids = '|". implode('|', $this->group_ids) ."|', "
-                    ."sender_email = '". trim($this->sender_email) ."', "
-                    ."sender_name = '". addslashes(trim($this->sender_name)) ."', "
-                    ."reply_to_email = '". trim($this->reply_to_email) ."', "
-                    ."setupdate = '". ('' === $this->setupdate ? date('Y-m-d H:i:s') : $this->setupdate) ."', "
-                    ."sentdate = '". $this->sentdate ."', "
-                    ."sentby = '". $this->sentby ."' ";
+        $params = [
+            ':article_id' => $this->article_id,
+            ':clang_id' => $this->clang_id,
+            ':subject' => htmlspecialchars($this->subject),
+            ':htmlbody' => base64_encode($this->htmlbody),
+            ':attachments' => implode(',', $this->attachments),
+            ':recipients' => implode(',', $this->recipients),
+            ':recipients_failure' => implode(',', $this->recipients_failure),
+            ':group_ids' => '|'. implode('|', $this->group_ids) .'|',
+            ':sender_email' => trim($this->sender_email),
+            ':sender_name' => trim($this->sender_name),
+            ':reply_to_email' => trim($this->reply_to_email),
+            ':setupdate' => '' === $this->setupdate ? date('Y-m-d H:i:s') : $this->setupdate,
+            ':sentdate' => $this->sentdate,
+            ':sentby' => $this->sentby,
+        ];
+        $set = 'article_id = :article_id, clang_id = :clang_id, '
+            .'subject = :subject, htmlbody = :htmlbody, attachments = :attachments, '
+            .'recipients = :recipients, recipients_failure = :recipients_failure, '
+            .'group_ids = :group_ids, sender_email = :sender_email, sender_name = :sender_name, '
+            .'reply_to_email = :reply_to_email, setupdate = :setupdate, '
+            .'sentdate = :sentdate, sentby = :sentby';
         if (0 === $this->id) {
-            $query = 'INSERT INTO '. $query;
+            $query = 'INSERT INTO '. \rex::getTablePrefix() .'375_archive SET '. $set;
         } else {
-            $query = 'UPDATE '. $query .' WHERE id = '. $this->id;
+            $query = 'UPDATE '. \rex::getTablePrefix() .'375_archive SET '. $set .' WHERE id = :id';
+            $params[':id'] = $this->id;
         }
         $result = \rex_sql::factory();
-        $result->setQuery($query);
+        $result->setQuery($query, $params);
         if (0 === $this->id) {
             $this->id = (int) $result->getLastId();
             $error = !$result->hasError();

@@ -143,40 +143,40 @@ if ($showform) {
                 <?php
                     $title_ids = [-1, 0, 1, 2];
                     foreach ($title_ids as $title_id) {
-                        echo '<option value="'. $title_id .'" '. ($title_id === filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT) ? ' selected' : '') .'>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_'. $title_id) .'</option>';
+                        echo '<option value="'. (int) $title_id .'" '. ($title_id === filter_input(INPUT_POST, 'anrede', FILTER_VALIDATE_INT) ? ' selected' : '') .'>'. rex_escape($addon->getConfig('lang_'. rex_clang::getCurrentId() .'_title_'. $title_id)) .'</option>';
                     }
                 ?>
 			</select>
 		</div>
 		<div class="form-group yform-element" id="yform-formular-grad">
 			<label class="control-label" for="grad"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_grad') ?></label>
-			<input class="form-control" name="grad" value="<?= filter_input(INPUT_POST, 'grad') ?>" type="text" maxlength="15">
+			<input class="form-control" name="grad" value="<?= rex_escape((string) filter_input(INPUT_POST, 'grad')) ?>" type="text" maxlength="15">
 		</div>
 		<div class="form-group yform-element" id="yform-formular-firstname">
 			<label class="control-label" for="firstname"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_firstname') ?> *</label>
-			<input class="form-control" name="firstname" value="<?= filter_input(INPUT_POST, 'firstname') ?>" type="text" maxlength="30" required>
+			<input class="form-control" name="firstname" value="<?= rex_escape((string) filter_input(INPUT_POST, 'firstname')) ?>" type="text" maxlength="30" required>
 		</div>
 		<div class="form-group yform-element" id="yform-formular-lastname">
 			<label class="control-label" for="lastname"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_lastname') ?> *</label>
-			<input class="form-control" name="lastname" value="<?= filter_input(INPUT_POST, 'lastname') ?>" type="text" maxlength="30" required>
+			<input class="form-control" name="lastname" value="<?= rex_escape((string) filter_input(INPUT_POST, 'lastname')) ?>" type="text" maxlength="30" required>
 		</div>
 		<div class="form-group yform-element" id="yform-formular-email">
 			<label class="control-label" for="email"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_email') ?> *</label>
-			<input class="form-control" name="email" value="<?= filter_input(INPUT_POST, 'email') ?>" type="email" maxlength="100" required>
+			<input class="form-control" name="email" value="<?= rex_escape((string) filter_input(INPUT_POST, 'email')) ?>" type="email" maxlength="100" required>
 		</div>
 		<?php if ('REX_VALUE[2]' === 'true') { /** @phpstan-ignore-line */ ?>
 		<div class="form-group yform-element" id="yform-formular-phone">
 			<label class="control-label" for="phone"><?= (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_phone', 'Telefon') ?></label>
-			<input class="form-control" name="phone" value="<?= filter_input(INPUT_POST, 'phone') ?>" type="tel" maxlength="30">
+			<input class="form-control" name="phone" value="<?= rex_escape((string) filter_input(INPUT_POST, 'phone')) ?>" type="tel" maxlength="30">
 		</div>
 		<?php } ?>
 		<?php
             if (1 === count($group_ids)) {
                 foreach ($group_ids as $group_id) {
-                    echo '<input type="hidden" name="groups['. $group_id.']" value="'. $group_id .'" />';
+                    echo '<input type="hidden" name="groups['. (int) $group_id.']" value="'. (int) $group_id .'" />';
                 }
             } elseif (count($group_ids) > 1) {
-                echo '<br clear="all"><p>'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter') .'</p>';
+                echo '<br clear="all"><p>'. rex_escape((string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter')) .'</p>';
 
                 foreach ($group_ids as $group_id) {
                     $group = new FriendsOfRedaxo\MultiNewsletter\Group($group_id);
@@ -186,8 +186,8 @@ if ($showform) {
                         if (in_array($group_id, $group_ids, true)) {
                             $checked = ' checked="checked"';
                         }
-                        echo '<input class="checkbox" name="groups['. $group_id .']" id="yform-formular-'. $group_id .'" value="'. $group_id .'" type="checkbox"'. $checked .'>';
-                        echo '<label class="checkbox" for="groups['. $group_id .']">'. $group->name .'</label>';
+                        echo '<input class="checkbox" name="groups['. (int) $group_id .']" id="yform-formular-'. (int) $group_id .'" value="'. (int) $group_id .'" type="checkbox"'. $checked .'>';
+                        echo '<label class="checkbox" for="groups['. (int) $group_id .']">'. rex_escape($group->name) .'</label>';
                         echo '</p>';
                     }
                 }

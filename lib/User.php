@@ -268,34 +268,42 @@ class User
     {
         $error = true;
 
-        $query = \rex::getTablePrefix() .'375_user SET '
-                    .'id = '. $this->id .', '
-                    ."email = '". trim($this->email) ."', "
-                    ."grad = '". $this->grad ."', "
-                    ."firstname = '". addslashes($this->firstname) ."', "
-                    ."lastname = '". addslashes($this->lastname) ."', "
-                    ."phone = '". addslashes($this->phone) ."', "
-                    .'title = '. $this->title .', '
-                    .'clang_id = '. $this->clang_id .', '
-                    .'status = '. $this->status .', '
-                    ."group_ids = '|". implode('|', $this->group_ids) ."|', "
-                    ."mailchimp_id = '". $this->mailchimp_id ."', "
-                    ."createdate = '". ('' === $this->createdate ? date('Y-m-d H:i:s') : $this->createdate) ."', "
-                    ."createip = '". ('' === $this->createip ? rex_request::server('REMOTE_ADDR', 'string') : $this->createip) ."', "
-                    ."activationdate = '". $this->activationdate ."', "
-                    ."activationip = '". $this->activationip ."', "
-                    ."activationkey = '". $this->activationkey ."', "
-                    ."updatedate = '". date('Y-m-d H:i:s') ."', "
-                    ."updateip = '". rex_request::server('REMOTE_ADDR', 'string') ."', "
-                    ."subscriptiontype = '". $this->subscriptiontype ."', "
-                    .'privacy_policy_accepted = '. $this->privacy_policy_accepted .' ';
+        $params = [
+            ':email' => trim($this->email),
+            ':grad' => $this->grad,
+            ':firstname' => $this->firstname,
+            ':lastname' => $this->lastname,
+            ':phone' => $this->phone,
+            ':title' => $this->title,
+            ':clang_id' => $this->clang_id,
+            ':status' => $this->status,
+            ':group_ids' => '|'. implode('|', $this->group_ids) .'|',
+            ':mailchimp_id' => $this->mailchimp_id,
+            ':createdate' => '' === $this->createdate ? date('Y-m-d H:i:s') : $this->createdate,
+            ':createip' => '' === $this->createip ? rex_request::server('REMOTE_ADDR', 'string') : $this->createip,
+            ':activationdate' => $this->activationdate,
+            ':activationip' => $this->activationip,
+            ':activationkey' => $this->activationkey,
+            ':updatedate' => date('Y-m-d H:i:s'),
+            ':updateip' => rex_request::server('REMOTE_ADDR', 'string'),
+            ':subscriptiontype' => $this->subscriptiontype,
+            ':privacy_policy_accepted' => $this->privacy_policy_accepted,
+        ];
+        $set = 'email = :email, grad = :grad, firstname = :firstname, lastname = :lastname, '
+            .'phone = :phone, title = :title, clang_id = :clang_id, status = :status, '
+            .'group_ids = :group_ids, mailchimp_id = :mailchimp_id, '
+            .'createdate = :createdate, createip = :createip, '
+            .'activationdate = :activationdate, activationip = :activationip, activationkey = :activationkey, '
+            .'updatedate = :updatedate, updateip = :updateip, '
+            .'subscriptiontype = :subscriptiontype, privacy_policy_accepted = :privacy_policy_accepted';
         if (0 === $this->id) {
-            $query = 'INSERT INTO '. $query;
+            $query = 'INSERT INTO '. \rex::getTablePrefix() .'375_user SET '. $set;
         } else {
-            $query = 'UPDATE '. $query .' WHERE id = '. $this->id;
+            $query = 'UPDATE '. \rex::getTablePrefix() .'375_user SET '. $set .' WHERE id = :id';
+            $params[':id'] = $this->id;
         }
         $result = \rex_sql::factory();
-        $result->setQuery($query);
+        $result->setQuery($query, $params);
         if (0 === $this->id) {
             $this->id = (int) $result->getLastId();
             $error = !$result->hasError();
