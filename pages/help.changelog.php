@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.8.2-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.8.1</p>
 	<ul>
 		<li>Backend: CSRF-Schutz fuer Import, Einstellungen sowie mutierende Gruppen- und Archivaktionen ergaenzt.</li>
