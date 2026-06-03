@@ -7,9 +7,12 @@
 		<li>Sicherheit: Suche und Export der Benutzerverwaltung nutzen jetzt Parameter-Bindung fuer das Suchstichwort und eine Whitelist fuer Sortierfeld und -richtung, damit ueber URL- und Sessionwerte keine SQL-Anfragen manipuliert werden koennen.</li>
 		<li>Bugfix: Beim geplanten Versand per Cronjob wird ein manuell gesetztes Sendedatum nur noch für den gerade vorbereiteten Newsletter gesetzt und nicht mehr für alle Einträge in der Sendeschleife.</li>
 		<li>Bugfix: Fehler in den Modulen 80-3 und 80-8 bei der Backend-Ausgabe ohne POST-Gruppenauswahl behoben.</li>
+		<li>Bugfix: In den Anmeldemodulen 80-1 und 80-6 wird die aus <code>rex_var::toArray()</code> gelesene Gruppen-ID-Liste jetzt gegen <code>null</code> abgesichert, damit ohne gesetzte Gruppen-Auswahl kein <code>TypeError</code> in <code>count()</code>/<code>foreach</code> auftritt.</li>
 		<li>Verbesserung: BS5-Module 80-6 bis 80-10 mit mehr vertikalem Abstand zwischen den Formularfeldern versehen.</li>
 		<li>Sicherheit: Newsletter::save() und User::save() schreiben jetzt mit gebundenen Parametern. Das bisherige addslashes() auf Betreff, Absendername sowie Vor-/Nachname/Telefon entfällt damit.</li>
 		<li>Sicherheit: Anmeldemodule 80-1, 80-3, 80-6 und 80-8 escapen reflektierte POST-Werte (Anrede, Grad, Vorname, Nachname, E-Mail, Telefon), Gruppen-IDs werden in Formularattributen als Integer gecastet und Gruppennamen aus der Datenbank werden vor der Ausgabe escaped.</li>
+		<li>Intern: PHPDoc-Parametertyp von <code>User::factory()</code> für <code>$title</code> auf <code>string</code> korrigiert (entsprach nicht der Methodensignatur; keine Verhaltensänderung).</li>
+		<li>Intern: Typisierung der Mailchimp-Anbindung präzisiert &ndash; <code>Mailchimp::request()</code> deklariert den Rückgabetyp jetzt als <code>array&lt;array-key,mixed&gt;</code>, der Fehlertext castet <code>detail</code> explizit zu <code>string</code>, und <code>Mailchimp::getLists()</code> liefert eine saubere Liste aus <code>id</code>/<code>name</code>-Einträgen (keine Verhaltensänderung für gültige API-Antworten).</li>
 	</ul>
 	<p>3.8.0</p>
 	<ul>

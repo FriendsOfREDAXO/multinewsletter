@@ -2,12 +2,15 @@
 <?php
 // Anzuzeigende Gruppen IDs
 $group_ids = rex_var::toArray('REX_VALUE[1]');
+if (!is_array($group_ids)) {
+    $group_ids = [];
+}
 
 $addon = rex_addon::get('multinewsletter');
 
 $showform = true;
 
-// Deactivate emailobfuscator for POST od GET mail address
+// Deactivate emailobfuscator for POST and GET mail address
 if (rex_addon::get('emailobfuscator')->isAvailable()) {
     if (false !== filter_var(rex_request('email'), FILTER_VALIDATE_EMAIL)) {
         emailobfuscator::whitelistEmail((string) filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));

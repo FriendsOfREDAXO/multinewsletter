@@ -62,10 +62,10 @@ class Mailchimp
         $result = $this->request('/lists');
 
         if(array_key_exists('lists', $result) && is_array($result['lists'])) {
-            $lists = $result['lists'];
-            foreach ($lists as $key => $value) {
+            $lists = [];
+            foreach ($result['lists'] as $value) {
                 if(is_array($value) && array_key_exists('id', $value) && array_key_exists('name', $value)) {
-                    $lists[$key] = [
+                    $lists[] = [
                         'id' => (string) $value['id'],
                         'name' => (string) $value['name'],
                     ];
@@ -128,7 +128,7 @@ class Mailchimp
      * @param string $path
      * @param string $type
      * @param array<string,string|array<string,string>> $fields
-     * @return array<string,mixed> Decoded JSON API response
+     * @return array<array-key,mixed> Decoded JSON API response
      * @throws MailchimpException
      */
     public function request($path, $type = 'GET', $fields = [])
@@ -167,7 +167,7 @@ class Mailchimp
             throw new MailchimpException('Mailchimp: Request Not Found', 1);
         }
         if ('404' === $result['status']) {
-            throw new MailchimpException('Mailchimp: ' . $result['detail'], 2);
+            throw new MailchimpException('Mailchimp: ' . (string) $result['detail'], 2);
         }
         return $result;
     }

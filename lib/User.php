@@ -114,7 +114,7 @@ class User
     /**
      * Create a new user.
      * @param string $email email address
-     * @param int $title title
+     * @param string $title title
      * @param string $grad academic degree
      * @param string $firstname First name
      * @param string $lastname Last name
