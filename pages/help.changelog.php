@@ -1,11 +1,13 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
-	<p>3.8.1-DEV</p>
+	<p>3.8.1</p>
 	<ul>
 		<li>Backend: CSRF-Schutz fuer Import, Einstellungen sowie mutierende Gruppen- und Archivaktionen ergaenzt.</li>
 		<li>Backend: CSRF-Schutz fuer das Multi-Aktions-Formular der Benutzerverwaltung (Loeschen, Statuswechsel, Sprache, Gruppenzuweisung, Export) ergaenzt.</li>
 		<li>Sicherheit: Suche und Export der Benutzerverwaltung nutzen jetzt Parameter-Bindung fuer das Suchstichwort und eine Whitelist fuer Sortierfeld und -richtung, damit ueber URL- und Sessionwerte keine SQL-Anfragen manipuliert werden koennen.</li>
 		<li>Bugfix: Beim geplanten Versand per Cronjob wird ein manuell gesetztes Sendedatum nur noch für den gerade vorbereiteten Newsletter gesetzt und nicht mehr für alle Einträge in der Sendeschleife.</li>
+		<li>Bugfix: Beim manuellen Sofortversand werden auf später geplante (Autosend-)Newsletter nicht mehr mitgesendet und dadurch aus der Sendeliste gelöscht. Der manuelle Versand berücksichtigt jetzt ausschließlich Einträge ohne Autosend.</li>
+		<li>Bugfix: Die Funktion "Alles abbrechen" im manuellen Versand löscht keine geplanten Autosend-Newsletter mehr. Es werden nur noch manuelle Sendeliste-Einträge und verwaiste, ungesendete Archive entfernt.</li>
 		<li>Bugfix: Fehler in den Modulen 80-3 und 80-8 bei der Backend-Ausgabe ohne POST-Gruppenauswahl behoben.</li>
 		<li>Bugfix: In den Anmeldemodulen 80-1 und 80-6 wird die aus <code>rex_var::toArray()</code> gelesene Gruppen-ID-Liste jetzt gegen <code>null</code> abgesichert, damit ohne gesetzte Gruppen-Auswahl kein <code>TypeError</code> in <code>count()</code>/<code>foreach</code> auftritt.</li>
 		<li>Verbesserung: BS5-Module 80-6 bis 80-10 mit mehr vertikalem Abstand zwischen den Formularfeldern versehen.</li>

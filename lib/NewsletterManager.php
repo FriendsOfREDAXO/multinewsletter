@@ -259,7 +259,7 @@ class NewsletterManager
     private function initArchivesToSend(): void
     {
         $query = 'SELECT archive_id FROM '. rex::getTablePrefix() .'375_sendlist '
-            .($this->autosend_only ? 'WHERE autosend = 1 AND (send_startdate IS NULL OR send_startdate <= NOW()) ' : '')
+            .($this->autosend_only ? 'WHERE autosend = 1 AND (send_startdate IS NULL OR send_startdate <= NOW()) ' : 'WHERE autosend = 0 ')
             .'GROUP BY archive_id';
         $result = rex_sql::factory();
         $result->setQuery($query);
@@ -282,7 +282,7 @@ class NewsletterManager
             . 'LEFT JOIN ' . rex::getTablePrefix() . '375_user AS users '
                 . 'ON sendlist.user_id = users.id '
             . 'WHERE id > 0 '
-            .($this->autosend_only ? 'AND autosend = 1 AND (send_startdate IS NULL OR send_startdate <= NOW()) ' : '')
+            .($this->autosend_only ? 'AND autosend = 1 AND (send_startdate IS NULL OR send_startdate <= NOW()) ' : 'AND autosend = 0 ')
             . 'ORDER BY archive_id, email';
         if ($numberMails > 0) {
             $query .= ' LIMIT 0, ' . $numberMails;
@@ -416,15 +416,17 @@ class NewsletterManager
     }
 
     /**
-     * Reset newsletter sendlist. If no archive ID is submitted, the complete
-     * sendlist is deleted. Additionally, alls unsent archives are deleted from
-     * archive table.
+     * Reset newsletter sendlist. If no archive ID is submitted, only the manual
+     * (autosend = 0) sendlist entries are deleted, so scheduled autosend
+     * newsletters are preserved. Afterwards only unsent archives without any
+     * remaining sendlist entries are deleted from the archive table.
      * @param int $archive_id archive id to delete
      */
     public function reset($archive_id = 0): void
     {
-        // Reset users
-        $query_user = 'TRUNCATE ' . rex::getTablePrefix() . '375_sendlist';
+        // Reset users. Without archive id, only manual entries are removed so
+        // scheduled autosend newsletters keep their recipients.
+        $query_user = 'DELETE FROM ' . rex::getTablePrefix() . '375_sendlist WHERE autosend = 0';
         if ($archive_id > 0) {
             $query_user = 'DELETE FROM ' . rex::getTablePrefix() . '375_sendlist WHERE archive_id = '. $archive_id;
         }
@@ -432,8 +434,11 @@ class NewsletterManager
         $result_user->setQuery($query_user);
         $this->recipients = [];
 
-        // Delete unsent archive(s)
-        $query_archive = 'DELETE FROM ' . rex::getTablePrefix() . '375_archive WHERE sentdate = 0'. ($archive_id > 0 ? ' AND id = '. $archive_id : '');
+        // Delete unsent archive(s) that no longer have any sendlist entries, so
+        // scheduled autosend archives (still referenced in the sendlist) survive.
+        $query_archive = 'DELETE FROM ' . rex::getTablePrefix() . '375_archive WHERE sentdate = 0'
+            . ($archive_id > 0 ? ' AND id = '. $archive_id : '')
+            . ' AND id NOT IN (SELECT archive_id FROM ' . rex::getTablePrefix() . '375_sendlist)';
         $result_archive = rex_sql::factory();
         $result_archive->setQuery($query_archive);
         $this->archives = [];
