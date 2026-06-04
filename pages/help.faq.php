@@ -7,9 +7,6 @@
 			<p>MultiNewsletter erhebt speichert personenbezogene Daten. Diese sind: Name,
 				E-Mail-Adresse, Geschlecht, IP Adresse. Daher muss eine Zustimmung des
 				Benutzers eingeholt werden. Im Beispielmodul wird das gemacht.</p>
-			<p>Informationen wie die Zustimmung rechtlich wirksam eingeholt werden kann
-				gibt es hier: <a href="https://www.heise.de/-4023584" target="_blank">
-				https://www.heise.de/-4023584</a>.</p>
 			<p>Bei der Benutzung von MailChimp muss der Benutzer informiert werden, dass
 				seine Daten anden Betreiber von MailChimp weiter gegeben werden.</p>
 			<p><i>Es sollte unbedingt die AutoCleanUp Option in den Einstellungen aktiviert
