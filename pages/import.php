@@ -4,10 +4,10 @@ $messages = [];
 $csrfToken = rex_csrf_token::factory('multinewsletter_import');
 $invalidCsrf = false;
 
-$import_action = filter_input(INPUT_POST, 'import_action');
+$import_action = (string) (filter_input(INPUT_POST, 'import_action') ?? '');
 
 // Wenn Formular schon ausgefüllt wurde
-if (false !== $import_action && '' !== $import_action) {
+if ('' !== $import_action) {
     if (!$csrfToken->isValid()) {
         echo rex_view::error(rex_i18n::msg('csrf_token_invalid'));
         $invalidCsrf = true;

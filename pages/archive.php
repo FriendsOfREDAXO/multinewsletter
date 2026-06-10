@@ -196,10 +196,21 @@ if ('' === $func) {
     $list->setColumnSortable('id');
 
     $list->setColumnLabel('subject', rex_i18n::msg('multinewsletter_archive_subject'));
+    // The subject is stored HTML-encoded in the database; decode it first so rex_list's
+    // own escaping does not double-encode entities (e.g. "l&#039;acier" -> "l'acier").
+    $list->setColumnFormat('subject', 'custom', static function ($params) {
+        $list_params = $params['list'];
+        return rex_escape(html_entity_decode((string) $list_params->getValue('subject'), ENT_QUOTES | ENT_HTML5));
+    });
     $list->setColumnParams('subject', ['func' => 'edit', 'entry_id' => '###id###']);
     $list->setColumnSortable('subject');
 
     $list->setColumnLabel('sender_name', rex_i18n::msg('multinewsletter_group_default_sender_name'));
+    // Decode like the subject to avoid double-encoded entities in the list.
+    $list->setColumnFormat('sender_name', 'custom', static function ($params) {
+        $list_params = $params['list'];
+        return rex_escape(html_entity_decode((string) $list_params->getValue('sender_name'), ENT_QUOTES | ENT_HTML5));
+    });
     $list->setColumnParams('sender_name', ['func' => 'edit', 'entry_id' => '###id###']);
     $list->setColumnSortable('sender_name');
 

@@ -2,7 +2,8 @@
 	<legend>MultiNewsletter Changelog</legend>
 	<p>3.8.2-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>Bugfix: Beim Aufruf des Reiters "Import" wurde faelschlicherweise die Meldung "CSRF-Token ungueltig" angezeigt, obwohl noch kein Formular abgesendet wurde. Die Pruefung greift jetzt nur noch bei einem tatsaechlichen Import.</li>
+		<li>Bugfix: Betreff und Absendername in der Archivliste wurden doppelt HTML-kodiert dargestellt (z. B. "l&amp;#039;acier"). Die Werte werden jetzt korrekt angezeigt.</li>
 	</ul>
 	<p>3.8.1</p>
 	<ul>
