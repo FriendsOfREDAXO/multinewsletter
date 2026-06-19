@@ -49,9 +49,6 @@ if ('Import' === rex_request::request('btn_import', 'string')) {
 ?>
 <form action="<?= rex_url::currentBackendPage() ?>" data-pjax="false" method="post" enctype="multipart/form-data">
     <div class="panel panel-edit">
-        <header class="panel-heading">
-            <div class="panel-title"><?= rex_i18n::msg('multinewsletter_config_settings_import_long') ?></div>
-        </header>
         <div class="panel-body">
             <fieldset>
                 <dl class="rex-form-group form-group">
