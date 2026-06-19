@@ -1,5 +1,9 @@
 <fieldset>
 	<legend>MultiNewsletter Changelog</legend>
+	<p>3.8.3-DEV</p>
+	<ul>
+		<li>...</li>
+	</ul>
 	<p>3.8.2</p>
 	<ul>
 		<li>Bugfix: Beim Aufruf des Reiters "Import" wurde faelschlicherweise die Meldung "CSRF-Token ungueltig" angezeigt, obwohl noch kein Formular abgesendet wurde. Die Pruefung greift jetzt nur noch bei einem tatsaechlichen Import.</li>
