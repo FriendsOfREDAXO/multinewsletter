@@ -95,9 +95,11 @@ if (strlen($activationkey) > 5 && false !== $email) {
         $group_options = [];
         foreach ($group_ids as $group_id) {
             $group = new FriendsOfRedaxo\MultiNewsletter\Group($group_id);
-            $group_options[] = $group->name .'='. $group_id;
+            $group_options[$group->name] = (string) $group_id;
         }
-        $form_data .= 'choice|group_ids|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter', '') .'|'. implode(',', $group_options) .'|1|1|
+        // Use JSON instead of "label=value,label2=value2", otherwise a comma
+        // in a group name would be misinterpreted as a separator between choices
+        $form_data .= 'choice|group_ids|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_select_newsletter', '') .'|'. json_encode($group_options, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) .'|1|1|
 			html||<br><br>'. PHP_EOL;
     }
 

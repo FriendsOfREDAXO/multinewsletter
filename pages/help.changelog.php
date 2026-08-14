@@ -2,7 +2,7 @@
 	<legend>MultiNewsletter Changelog</legend>
 	<p>3.8.5-DEV</p>
 	<ul>
-		<li>...</li>
+		<li>Bugfix: In Modul 80-9 wurde die Gruppenauswahl als kommaseparierte Liste ("Name=ID,Name2=ID2") an YForm übergeben. Enthielt ein Gruppenname selbst ein Komma, wurde er von YForm in mehrere einzelne Checkboxen aufgesplittet. Die Choices werden jetzt als JSON übergeben.</li>
 	</ul>
 	<p>3.8.4</p>
 	<ul>
