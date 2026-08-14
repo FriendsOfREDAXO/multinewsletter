@@ -42,7 +42,9 @@ if (!function_exists('unsubscribe')) {
     }
 }
 
-$unsubscribe_mail = filter_var(rex_request('email', 'unsubscribe'), FILTER_VALIDATE_EMAIL);
+//$unsubscribe_mail = filter_var(rex_request('email', 'unsubscribe'), FILTER_VALIDATE_EMAIL);
+$unsubscribe_mail = filter_var(rex_request('unsubscribe'), FILTER_VALIDATE_EMAIL);
+
 
 // Deactivate emailobfuscator for POST od GET mail address
 if (rex_addon::get('emailobfuscator')->isAvailable() && false !== $unsubscribe_mail) {
