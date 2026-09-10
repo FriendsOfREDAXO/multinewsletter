@@ -224,9 +224,9 @@ class User
      */
     public static function initByMail($email)
     {
-        $query = 'SELECT * FROM '. \rex::getTablePrefix() ."375_user WHERE email = '". trim($email) ."'";
+        $query = 'SELECT * FROM '. \rex::getTablePrefix() .'375_user WHERE email = :email';
         $result = \rex_sql::factory();
-        $result->setQuery($query);
+        $result->setQuery($query, [':email' => trim($email)]);
 
         if ($result->getRows() > 0) {
             return new self((int) $result->getValue('id'));
