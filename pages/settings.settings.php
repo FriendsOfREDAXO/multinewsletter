@@ -22,6 +22,7 @@ $lang_presets = [
         'subscribe' => 'Newsletter abonnieren',
         'action' => 'Möchten Sie regelmäßig informiert werden? Dann abonnieren Sie unseren interessanten Newsletter:',
         'safety' => 'Bei der Newsletterbestellung erhalten Sie aus rechtlichen Gründen eine E-Mail mit einem Bestätigungslink.',
+        'spam_protection' => 'Ihre Anfrage wurde als möglicher Spam eingestuft. Bitte füllen Sie das versteckte Feld nicht aus und lassen Sie sich mindestens {seconds} Sekunden Zeit, bevor Sie das Formular absenden. Bitte warten Sie einen Moment und versuchen Sie es erneut.',
         'status1' => 'Ab sofort erhalten Sie unseren Newsletter.',
         'no_userdata' => 'Die eingegebenen Daten waren ungültig, bitte nochmal prüfen, ob alle Formularfelder korrekt ausgefüllt sind.',
         'invalid_email' => 'Die eingegebene E-Mail-Adresse ist nicht korrekt.',
@@ -73,6 +74,7 @@ I may withdraw your consent at any time from the contact information provided in
         'subscribe' => 'Subscribe newsletter',
         'action' => 'Do you want to be regularly informed? Then subscribe to our interesting newsletter:',
         'safety' => 'For legal reasons, you will receive an e-mail with a confirmation link. Your subscription will be completed after clicking the link.',
+        'spam_protection' => 'Your request was classified as possible spam. Please do not fill in the hidden field and take at least {seconds} seconds before submitting the form. Please wait a moment and try again.',
         'status1' => 'You will receive our newsletter from now on.',
         'no_userdata' => 'The entered data was invalid. Please recheck if all fields are filled in correct.',
         'invalid_email' => 'The e-mail address is invalid.',
@@ -123,6 +125,7 @@ Posso ritirare il tuo consenso in qualsiasi momento dalle informazioni di contat
         'subscribe' => 'Abbonarsi',
         'action' => 'Vuole rimanere informato? Si iscrivi subito al nostro newsletter:',
         'safety' => 'Per motivi legali riceve una email di conferma. Sua registrazione sará completata quando clicca al Link nel email.',
+        'spam_protection' => 'La sua richiesta è stata classificata come possibile spam. Non compili il campo nascosto e attenda almeno {seconds} secondi prima di inviare il modulo. Attenda un momento e riprovi.',
         'status1' => 'Adesso si è abbonato al nostro newsletter.',
         'no_userdata' => 'I seguenti campi non sono stati compilati correttamente.',
         'invalid_email' => 'L\'indirizzo email non è valido.',
@@ -382,6 +385,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
                         BackendHelper::form_input('multinewsletter_config_lang_subscribe', 'settings[lang_'. $rex_clang->getId() .'_subscribe]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_subscribe', ''));
                         BackendHelper::form_input('multinewsletter_config_lang_action', 'settings[lang_'. $rex_clang->getId() .'_action]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_action', ''));
                         BackendHelper::form_input('multinewsletter_config_lang_safety', 'settings[lang_'. $rex_clang->getId() .'_safety]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_safety', ''));
+                        BackendHelper::form_textarea('multinewsletter_config_lang_spam_protection', 'settings[lang_'. $rex_clang->getId() .'_spam_protection]', stripslashes((string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_spam_protection', '')), 3, false, false, false);
                         BackendHelper::form_input('multinewsletter_config_lang_status1', 'settings[lang_'. $rex_clang->getId() .'_status1]', (string) rex_config::get('multinewsletter', 'lang_'. $rex_clang->getId() .'_status1', ''));
                     ?>
 					<hr style="border-top: 1px solid #333">
@@ -525,6 +529,7 @@ foreach (rex_clang::getAll() as $rex_clang) {
 			$('[name="settings[lang_' + curClang + '_already_confirmed]"]').val(langPresets[curLangPresetIndex]['already_confirmed']);
 			$('[name="settings[lang_' + curClang + '_user_not_found]"]').val(langPresets[curLangPresetIndex]['user_not_found']);
 			$('[name="settings[lang_' + curClang + '_safety]"]').val(langPresets[curLangPresetIndex]['safety']);
+			$('[name="settings[lang_' + curClang + '_spam_protection]"]').val(langPresets[curLangPresetIndex]['spam_protection']);
 			$('[name="settings[lang_' + curClang + '_status0]"]').val(langPresets[curLangPresetIndex]['status0']);
 			$('[name="settings[lang_' + curClang + '_status1]"]').val(langPresets[curLangPresetIndex]['status1']);
 			$('[name="settings[lang_' + curClang + '_invalid_key]"]').val(langPresets[curLangPresetIndex]['invalid_key']);

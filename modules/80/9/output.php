@@ -113,23 +113,43 @@ if (strlen($activationkey) > 5 && false !== $email) {
 			validate|empty|lastname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_name', '') . PHP_EOL;
     }
     if (rex_addon::get('yform_spam_protection')->isAvailable()) {
-        // Build a spam protection message that names both possible reasons
-        // (honeypot / time trap) and includes the minimum fill-out time in
-        // seconds configured in yform_spam_protection (higher of both timers).
+        // Spam protection message: editable per language in the addon settings
+        // (lang_<clang>_spam_protection). {seconds} is replaced with the minimum
+        // fill-out time configured in yform_spam_protection (higher of both
+        // timers). A built-in multilingual fallback is used when unconfigured.
         $spam_config = rex_addon::get('yform_spam_protection');
         $spam_seconds = max(
             (int) $spam_config->getConfig('timer_session', 5),
             (int) $spam_config->getConfig('timer_form', 10)
         );
-        $spam_messages = [
-            'de' => 'Ihre Anfrage wurde als möglicher Spam eingestuft. Bitte füllen Sie das versteckte Feld nicht aus und lassen Sie sich mindestens '. $spam_seconds .' Sekunden Zeit, bevor Sie das Formular absenden. Bitte warten Sie einen Moment und versuchen Sie es erneut.',
-            'en' => 'Your request was classified as possible spam. Please do not fill in the hidden field and take at least '. $spam_seconds .' seconds before submitting the form. Please wait a moment and try again.',
-            'nl' => 'Uw aanvraag is aangemerkt als mogelijke spam. Vul het verborgen veld niet in en neem minstens '. $spam_seconds .' seconden de tijd voordat u het formulier verzendt. Wacht een moment en probeer het opnieuw.',
+        $spam_fallbacks = [
+            'de' => 'Ihre Anfrage wurde als möglicher Spam eingestuft. Bitte füllen Sie das versteckte Feld nicht aus und lassen Sie sich mindestens {seconds} Sekunden Zeit, bevor Sie das Formular absenden. Bitte warten Sie einen Moment und versuchen Sie es erneut.',
+            'en' => 'Your request was classified as possible spam. Please do not fill in the hidden field and take at least {seconds} seconds before submitting the form. Please wait a moment and try again.',
+            'nl' => 'Uw aanvraag is aangemerkt als mogelijke spam. Vul het verborgen veld niet in en neem minstens {seconds} seconden de tijd voordat u het formulier verzendt. Wacht een moment en probeer het opnieuw.',
         ];
         $spam_lang = substr((string) rex_clang::getCurrent()->getCode(), 0, 2);
-        $spam_message = $spam_messages[$spam_lang] ?? $spam_messages['en'];
+        $spam_message = (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_spam_protection', '');
+        if ('' === trim($spam_message)) {
+            $spam_message = $spam_fallbacks[$spam_lang] ?? $spam_fallbacks['en'];
+        }
+        // Remove pipes so the value cannot break the YForm pipe syntax.
+        $spam_message = str_replace(['|', "\r", "\n"], [' ', ' ', ' '], $spam_message);
+        $spam_message = str_replace('{seconds}', (string) $spam_seconds, $spam_message);
         $form_data .= '
             spam_protection|honeypot|Bitte nicht ausfüllen|'. $spam_message .'|0';
+    }
+
+    // Optional Altcha field (proof-of-work captcha, part of yform_spam_protection)
+    if ('REX_VALUE[4]' === 'true' && rex_addon::get('yform_spam_protection')->isAvailable()) { /** @phpstan-ignore-line */
+        $altcha_messages = [
+            'de' => 'Die Verifizierung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.',
+            'en' => 'Verification failed. Please reload the page and try again.',
+            'nl' => 'Verificatie mislukt. Herlaad de pagina en probeer het opnieuw.',
+        ];
+        $altcha_lang = substr((string) rex_clang::getCurrent()->getCode(), 0, 2);
+        $altcha_message = $altcha_messages[$altcha_lang] ?? $altcha_messages['en'];
+        $form_data .= '
+            altcha|altcha|'. $altcha_message;
     }
 
     $form_data .= 'validate|empty|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'

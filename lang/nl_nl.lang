@@ -132,6 +132,7 @@ multinewsletter_config_lang_already_subscribed = Al aangemeld
 multinewsletter_config_lang_already_confirmed = Bevestigingslink al gebruikt
 multinewsletter_config_lang_user_not_found = Gebruiker niet gevonden
 multinewsletter_config_lang_safety = Opmerking over bezorging bevestigingsmail
+multinewsletter_config_lang_spam_protection = Foutmelding spambeveiliging ({seconds} = ingestelde wachttijd in seconden)
 multinewsletter_config_lang_status0 = Opmerking succesvolle afmelding
 multinewsletter_config_lang_status1 = Opmerking succesvolle aanmelding
 multinewsletter_config_lang_invalid_key = Ongeldige bevestigingslink

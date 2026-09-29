@@ -132,6 +132,7 @@ multinewsletter_config_lang_already_subscribed = Schon angemeldet
 multinewsletter_config_lang_already_confirmed = Bestätigungslink schon betätigt
 multinewsletter_config_lang_user_not_found = Benutzer nicht gefunden
 multinewsletter_config_lang_safety = Hinweis Zustellung Bestätigungsmail
+multinewsletter_config_lang_spam_protection = Spamschutz-Fehlermeldung ({seconds} = konfigurierte Wartezeit in Sekunden)
 multinewsletter_config_lang_status0 = Hinweis erfolgreiche Abmeldung
 multinewsletter_config_lang_status1 = Hinweis erfolgreiche Anmeldung
 multinewsletter_config_lang_invalid_key = Falscher Bestätigungslink

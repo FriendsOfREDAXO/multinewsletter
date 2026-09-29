@@ -132,6 +132,7 @@ multinewsletter_config_lang_already_subscribed = Already subscribed
 multinewsletter_config_lang_already_confirmed = Activation link already clicked.
 multinewsletter_config_lang_user_not_found = User not found
 multinewsletter_config_lang_safety = Hint activation mail sent
+multinewsletter_config_lang_spam_protection = Spam protection error message ({seconds} = configured wait time in seconds)
 multinewsletter_config_lang_status0 = Message successful unsubscription
 multinewsletter_config_lang_status1 = Message successful subscription
 multinewsletter_config_lang_invalid_key = Wrong activation link

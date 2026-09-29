@@ -3,6 +3,8 @@
 	<p>3.8.5-DEV</p>
 	<ul>
 		<li>Verbesserung: In den YForm-Anmeldemodulen 80-4 (BS4) und 80-9 (BS5) wurde die Fehlermeldung des Spamschutzes (<code>yform_spam_protection</code>) verständlicher und mehrsprachig (DE/EN/NL, anhand der Sprache) formuliert. Statt „Do not fill out." erscheint jetzt ein Hinweis, der beide möglichen Ursachen benennt (Honeypot-Feld und Zeitfalle) und die tatsächlich erforderliche Mindest-Ausfüllzeit in Sekunden aus den Addon-Einstellungen (höherer Wert aus <code>timer_session</code>/<code>timer_form</code>) einsetzt. Hinweis: Das <code>spam_protection</code>-Feld nutzt technisch bedingt eine gemeinsame Meldung für alle Auslöser (Honeypot, Timer, IP-Sperre); die genauen Grenzwerte werden weiterhin unter „YForm → Spamschutz" konfiguriert.</li>
+		<li>Neu: Die Spamschutz-Fehlermeldung ist jetzt wie die übrigen Texte in den MultiNewsletter-Einstellungen je Sprache pflegbar (neues Feld „Spamschutz-Fehlermeldung", inkl. Sprach-Presets DE/EN/IT). Der Platzhalter <code>{seconds}</code> im Text wird zur Laufzeit durch die konfigurierte Mindest-Wartezeit ersetzt. Ist kein Text hinterlegt, greift ein mehrsprachiger Standardtext.</li>
+		<li>Neu: In den Modulen 80-4 und 80-9 lässt sich optional zusätzlich der Altcha-Spamschutz (Proof-of-Work, DSGVO-konform, ohne externen Dienst) aktivieren, sofern das Addon <code>yform_spam_protection</code> installiert ist. Der Schalter erscheint nur bei installiertem Addon.</li>
 		<li>Bugfix: In Modul 80-9 wurde die Gruppenauswahl als kommaseparierte Liste ("Name=ID,Name2=ID2") an YForm übergeben. Enthielt ein Gruppenname selbst ein Komma, wurde er von YForm in mehrere einzelne Checkboxen aufgesplittet. Die Choices werden jetzt als JSON übergeben.</li>
 	</ul>
 	<p>3.8.4</p>
