@@ -105,9 +105,7 @@ if (strlen($activationkey) > 5 && false !== $email) {
 
     $form_data .= 'checkbox|privacy_policy_accepted|'. preg_replace('#\\R+#', '<br>', (string) $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_privacy_policy', '')) .' *<br><br>|0,1|0|{"required":"required"}
 			html||<p>* '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_compulsory', '') .'<br><br></p>
-			html||<p> '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_safety', '') .'<br><br></p>
-
-			submit|submit|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_subscribe', 'Send') .'|no_db'. PHP_EOL;
+			html||<p> '. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_safety', '') .'<br><br></p>'. PHP_EOL;
     if ($ask_name) { /** @phpstan-ignore-line */
         $form_data .= 'validate|empty|firstname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_firstname', '') .'
 			validate|empty|lastname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_name', '') . PHP_EOL;
@@ -149,8 +147,13 @@ if (strlen($activationkey) > 5 && false !== $email) {
         $altcha_lang = substr((string) rex_clang::getCurrent()->getCode(), 0, 2);
         $altcha_message = $altcha_messages[$altcha_lang] ?? $altcha_messages['en'];
         $form_data .= '
-            altcha|altcha|'. $altcha_message;
+            html||<br>
+            altcha|altcha|'. $altcha_message .'
+            html||<br>';
     }
+
+    // Submit button is added last so it always sits below the Altcha widget.
+    $form_data .= PHP_EOL .'submit|submit|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_subscribe', 'Send') .'|no_db'. PHP_EOL;
 
     $form_data .= 'validate|empty|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'
 			validate|type|email|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'
