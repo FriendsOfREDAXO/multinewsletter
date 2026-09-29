@@ -27,7 +27,7 @@ class Module
             12);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-4',
             'MultiNewsletter YForm Anmeldung (BS4, deprecated)',
-            12);
+            13);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-5',
             'MultiNewsletter YForm Abmeldung (BS4, deprecated)',
             6);
@@ -42,7 +42,7 @@ class Module
             2);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-9',
             'MultiNewsletter YForm Anmeldung (BS5)',
-            2);
+            3);
         $d2u_multinewsletter_modules[] = new \TobiasKrais\D2UHelper\Module('80-10',
             'MultiNewsletter YForm Abmeldung (BS5)',
             2);

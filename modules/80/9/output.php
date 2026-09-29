@@ -114,7 +114,7 @@ if (strlen($activationkey) > 5 && false !== $email) {
     }
     if (rex_addon::get('yform_spam_protection')->isAvailable()) {
         $form_data .= '
-            spam_protection|honeypot|Bitte nicht ausfüllen|Do not fill out.|0';
+            spam_protection|honeypot|Bitte nicht ausfüllen|Das Formular wurde zu schnell oder mehrfach abgesendet und daher als Spam eingestuft. Bitte warten Sie einen Moment und senden Sie es erneut.|0';
     }
 
     $form_data .= 'validate|empty|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'
