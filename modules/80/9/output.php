@@ -113,8 +113,23 @@ if (strlen($activationkey) > 5 && false !== $email) {
 			validate|empty|lastname|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_name', '') . PHP_EOL;
     }
     if (rex_addon::get('yform_spam_protection')->isAvailable()) {
+        // Build a spam protection message that names both possible reasons
+        // (honeypot / time trap) and includes the minimum fill-out time in
+        // seconds configured in yform_spam_protection (higher of both timers).
+        $spam_config = rex_addon::get('yform_spam_protection');
+        $spam_seconds = max(
+            (int) $spam_config->getConfig('timer_session', 5),
+            (int) $spam_config->getConfig('timer_form', 10)
+        );
+        $spam_messages = [
+            'de' => 'Ihre Anfrage wurde als möglicher Spam eingestuft. Bitte füllen Sie das versteckte Feld nicht aus und lassen Sie sich mindestens '. $spam_seconds .' Sekunden Zeit, bevor Sie das Formular absenden. Bitte warten Sie einen Moment und versuchen Sie es erneut.',
+            'en' => 'Your request was classified as possible spam. Please do not fill in the hidden field and take at least '. $spam_seconds .' seconds before submitting the form. Please wait a moment and try again.',
+            'nl' => 'Uw aanvraag is aangemerkt als mogelijke spam. Vul het verborgen veld niet in en neem minstens '. $spam_seconds .' seconden de tijd voordat u het formulier verzendt. Wacht een moment en probeer het opnieuw.',
+        ];
+        $spam_lang = substr((string) rex_clang::getCurrent()->getCode(), 0, 2);
+        $spam_message = $spam_messages[$spam_lang] ?? $spam_messages['en'];
         $form_data .= '
-            spam_protection|honeypot|Bitte nicht ausfüllen|Das Formular wurde zu schnell oder mehrfach abgesendet und daher als Spam eingestuft. Bitte warten Sie einen Moment und senden Sie es erneut.|0';
+            spam_protection|honeypot|Bitte nicht ausfüllen|'. $spam_message .'|0';
     }
 
     $form_data .= 'validate|empty|email|'. $addon->getConfig('lang_'. rex_clang::getCurrentId() .'_invalid_email', '') .'
