@@ -145,7 +145,6 @@ if (strlen($activationkey) > 5 && false !== $email) {
         $altcha_lang = substr((string) rex_clang::getCurrent()->getCode(), 0, 2);
         $altcha_message = $altcha_messages[$altcha_lang] ?? $altcha_messages['en'];
         $form_data .= '
-            html||<br>
             altcha|altcha|'. $altcha_message .'
             html||<br>';
     }
